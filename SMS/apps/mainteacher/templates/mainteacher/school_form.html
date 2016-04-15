@@ -1,0 +1,55 @@
+{% if 'school_add' in request.path %}
+  <h3 class="col-md-12 text-center">Додати школу</h3>
+{% else %}
+  <h3 class="col-md-12 text-center">Редагувати школу</h3>
+{% endif %}
+
+<form action="" method="POST" class="col-md-12" role="form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="inputSchoolName">Назва*</label>
+        <input id="inputSchoolName" type="text" class="form-control" name="name"
+        value="{% if school and not errors %}{{ school.name }}{% else %}{{ request.POST.name }}{%endif%}"
+        placeholder="НВК №12">
+        <span class="help-block"></span>
+        <span id="error_message" class="help-block error-message">{{ errors.name }}</span>
+    </div>
+
+    <div class="form-group">
+        <label for="inputNumber">Адресса*</label>
+        <input id="inputNumber" type="text" class="form-control" name="address"
+        value="{%if school and not errors %}{{ school.address }}{% else %}{{ request.POST.address }}{%endif%}"
+        placeholder="вул. Соборна, 33">
+        <span class="help-block">{{ errors.address }}</span>
+    </div>
+
+    {% if 'update' in request.path %}
+    <div class="form-group">
+        <label for="selectDir">Директор</label>
+        <select id="selectDir" class="form-control" name="director">
+            <option value="">Виберіть керівника</option>
+
+            {% for director in school.members %}
+            <option value="{{ director.id }}"
+            {% if school.director_id == director.id and not errors.director %}
+                selected
+            {% elif director.id == request.POST.director|add:0 %}
+                selected{% endif %}>
+            {{ director.name }}
+            </option>
+            {% endfor %}
+
+        </select>
+        <span class="help-block">{{ errors.director }}</span>
+    </div>
+    {% endif %}
+
+    <p class="form-description">&lowast; &mdash; поля обов'язкові для заповнення</p>
+
+    <div class="pull-right">
+        <a href="{% url 'schools_list' %}" class="btn btn-default">Відмінити</a>
+        <button type="submit" id="add_button" class="btn btn-success" name="add_button">
+            Прийняти
+        </button>
+    </div>
+</form>

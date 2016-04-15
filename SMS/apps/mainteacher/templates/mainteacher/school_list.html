@@ -1,0 +1,58 @@
+{% extends "mainteacher/base_mainteacher.html" %}
+
+{% block title %}Навчальні заклади | SMS{% endblock %}
+
+{% block search %}
+    {% include "mainteacher/search_form.html" %}
+{% endblock %}
+
+{% block content %}
+<div id="list" class="table-responsive">
+    <table class="table table-bordered">
+        <colgroup>
+        <colgroup>
+        <colgroup class="colgroup-width">
+        <colgroup class="btn-width">
+        <thead>
+          <tr>
+            <th>Назва</th>
+            <th>Адреса</th>
+            <th>Завуч</th>
+            <th class="text-center">
+                <a href="{% url 'school_add' %}" class="modal-dialog link">+ Додати</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for school in schools %}
+          <tr id="{{ school.id }}">
+            <td>{{ school.name }}</td>
+            <td>{{ school.address }}</td>
+            <td>
+                <select class="form-control school_dir_sel ajax-select" id="director-selector">
+                    <option value="">Відсутній</option>
+                    {% for director in school.members %}
+                    <option value="{{ director.id }}"
+                    {% if director.id == school.director.id %}
+                        selected="1"
+                    {% endif %}>{{ director.name }}
+                    </option>
+                {% endfor %}
+                </select>
+            </td>
+
+            <td class="text-center">
+                <a href="{% url 'school_update' school.id %}" class="modal-dialog">
+                    <span class='glyphicon glyphicon-pencil action'></span>
+                </a>
+                <a href="{% url 'school_delete' school.id %}" class="modal-dialog">
+                    <span class='glyphicon glyphicon-trash'></span>
+                </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

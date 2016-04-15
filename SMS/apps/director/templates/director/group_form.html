@@ -1,0 +1,44 @@
+{% if 'group_add' in request.path %}
+  <h3 class="col-md-12 text-center">Додати клас</h3>
+{% else %}
+  <h3 class="col-md-12 text-center">Редагувати клас</h3>
+{% endif %}
+
+<form action="" method="POST" class="col-md-12" role="form">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="inputName">Назва*</label>
+        <input id="inputName" type="text" class="form-control" name="name"
+        value="{% if group and not errors %}{{ group.name }}{% else %}{{ request.POST.name }}{%endif%}"
+        placeholder="11A">
+        <span class="help-block"></span>
+        <span id="error_message" class="help-block error-message"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="selectTeacher">Керівник</label>
+        <select id="selectTeacher" class="form-control" name="teacher">
+            <option value="">Виберіть керівника</option>
+            {% for teacher in teachers %}
+                <option value="{{ teacher.id }}"
+                    {% if group.teacher_id == teacher.id %}
+                        selected
+                    {% elif teacher.id == request.POST.group|add:0 %}
+                        selected{% endif %}>
+                        {{ teacher.name }}
+                </option>
+            {% endfor%}
+        </select>
+        <span class="help-block"></span>
+    </div>
+
+    <p class="form-description">&lowast; &mdash; поля обов'язкові для заповнення</p>
+
+    <div class="pull-right">
+        <a href="{% url 'group_list' %}" class="btn btn-default">Відмінити</a>
+        <button type="submit" id="add_button" class="btn btn-success" name="add_button">Прийняти</button>
+    </div>
+
+</form>
+

@@ -1,0 +1,26 @@
+<h3 class="col-md-12 text-center">Редагувати профіль</h3>
+
+<form action="" method="POST" class="col-md-12" role="form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="inputName">ПІБ*</label>
+        <input id="inputName" type="text" class="form-control" name="name"
+        value="{% if teacher and not errors %}{{ teacher.name }}{% else %}{{ request.POST.name }}{%endif%}">
+        <span class="help-block">{{ errors.name }}</span>
+    </div>
+
+    <div class="form-group">
+        <label for="inputEmail">Електронна пошта*</label>
+        <input id="inputEmail" type="text" class="form-control" name="email"
+        value="{% if teacher and not errors %}{{ teacher.email }}{% else %}{{ request.POST.email }}{%endif%}">
+        <span class="help-block">{{ errors.email }}</span>
+    </div>
+
+    <p class="form-description">&lowast; &mdash; поля обов'язкові для заповнення</p>
+
+    <div class="pull-right">
+        <a href="{% url 'profile' %}" class="btn btn-default">Відмінити</a>
+        <button type="submit" class="btn btn-success" name="confirm_button">Прийняти</button>
+    </div>
+
+</form>

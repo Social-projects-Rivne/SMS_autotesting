@@ -1,0 +1,197 @@
+{% extends "director/base_director.html" %}
+
+{% block title %}Класи | SMS{% endblock %}
+
+{% block content %}
+
+<div class="group group--small">
+
+    <div class="tabs">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs margin-md">
+            <li class="active"><a href="#1" data-toggle="tab">1 класи</a></li>
+            <li><a href="#2" data-toggle="tab">2 класи</a></li>
+            <li><a href="#3" data-toggle="tab">3 класи</a></li>
+            <li><a href="#4" data-toggle="tab">4 класи</a></li>
+            <li><a href="#5" data-toggle="tab">5 класи</a></li>
+            <li><a href="#6" data-toggle="tab">6 класи</a></li>
+            <li><a href="#7" data-toggle="tab">7 класи</a></li>
+            <li><a href="#8" data-toggle="tab">8 класи</a></li>
+            <li><a href="#9" data-toggle="tab">9 класи</a></li>
+            <li><a href="#10" data-toggle="tab">10 класи</a></li>
+            <li><a href="#11" data-toggle="tab">11 класи</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="1">
+                {% for group in groups %}
+                    {% if '1' in group.name and not '10' in group.name and not '11' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="2">
+                {% for group in groups %}
+                    {% if '2' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="3">
+                {% for group in groups %}
+                    {% if '3' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="4">
+                {% for group in groups %}
+                    {% if '4' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="5">
+                {% for group in groups %}
+                    {% if '5' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="6">
+                {% for group in groups %}
+                    {% if '6' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="7">
+                {% for group in groups %}
+                    {% if '7' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="8">
+                {% for group in groups %}
+                    {% if '8' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="9">
+                {% for group in groups %}
+                    {% if '9' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="10">
+                {% for group in groups %}
+                    {% if '10' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+            <div class="tab-pane" id="11">
+                {% for group in groups %}
+                    {% if '11' in group.name %}
+                    <div class="group__item-holder">
+                        <a href="{% url 'student_list' group.id %}" class="group__item">
+                        {{ group.name }} клас</a>
+                        <a href="{% url 'group_edit' group.id %}" class="modal-dialog glyphicon glyphicon-pencil"></a>
+                        <a href="{% url 'group_delete' group.id %}" class="modal-dialog glyphicon glyphicon-trash"></a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url 'group_add' %}" class="modal-dialog group__item group__item--invert">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

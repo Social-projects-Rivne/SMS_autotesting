@@ -1,0 +1,11 @@
+<!--search form-->
+<form id="search" action="" method="GET" role="form">
+    {% csrf_token %}
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" name="search_text">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="button">Пошук</button>
+        </div>
+    </div>
+</form>
+<!--end search form-->

@@ -1,0 +1,23 @@
+{% if 'delete' in request.path %}
+  <h3 class="col-md-12 text-center">Підтвердити видалення</h3>
+{% else %}
+  <h3 class="col-md-12 text-center">Підтвердити зміни</h3>
+{% endif %}
+
+<div class="col-md-12" id="form">
+    <form action="" method="POST" role="form" class="text-center">
+        {% csrf_token %}
+
+        <div class="margin-sm"></div>
+        {% if 'delete' in request.path %}
+        <p class="inline">Ви дійсно хочете видалити "<b>{{ instance.name }}</b>"?</p>
+        {% elif 'update' in request.path %}
+        <p class="inline">Ви дійсно хочете редагувати "<b>{{ instance.name }}</b>"?</p>
+        {% endif %}
+        <br>
+        <div class="margin-sm"></div>
+
+        <input type="submit" value="Ні" name="cancel_button" class="btn btn-default">
+        <input type="submit" value="Так" name="confirm_button" class="btn btn-success">
+    </form>
+</div>

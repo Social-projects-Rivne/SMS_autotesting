@@ -1,0 +1,33 @@
+{% extends "core/base_core.html" %}
+
+{% block content %}
+<div class="login-holder ">
+
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <h1 class="col-sm-8">
+                    <a href="/" class="link">School management system</a>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container ">
+        <div class="card card-container">
+            <form action="{% url 'login' %}" method="POST" class="form-signin">
+                {% csrf_token %}
+                <input type="text" name="inputUsername" class="form-control" placeholder="Логін" required autofocus>
+                <input type="password" name="inputPassword" class="form-control" placeholder="Пароль" required>
+                {%if correct%}
+                    <span class="help-block"></span>
+                {%else%}
+                    <span class="help-block">Невірно вказаний <b>пароль</b> або <b>логін.</b></span>
+                {%endif%}
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Увійти</button>
+            </form><!-- /form -->
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+
+</div>
+{% endblock %}

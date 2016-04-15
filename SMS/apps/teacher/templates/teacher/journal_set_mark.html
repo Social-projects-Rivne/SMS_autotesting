@@ -1,0 +1,45 @@
+<h3 class="col-md-12 text-center">Поставити оцінку</h3>
+
+<form action="" method="POST" class="col-md-12" role="form" data-toggle="validator">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="inputMark" class="control-label">Оцінка*</label>
+        <input id="inputMark" type="number" class="form-control" name="mark"
+        placeholder="1-12" max="12" min="1" value="{{ journal.mark }}"
+        {% if editable == False and not is_control or is_control and journal.mark and editable == False %}disabled{% endif %}>
+        <div class="help-block with-errors"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="selectDir" class="control-label">Тип оцінки*</label>
+        <select id="selectDir" class="form-control" name="mark_type"
+        {% if editable == False %}disabled{% endif %}>
+
+            {% for mark_type in mark_types %}
+            <option value="{{ mark_type.id }}"
+            {% if journal.marktype_id == mark_type.id %}selected{% endif %}>
+                {{ mark_type.character }}
+            </option>
+            {% endfor %}
+
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="inputComment" class="control-label">Коментарі</label>
+        <input id="inputComment" type="text" class="form-control" name="comment"
+        value="{{ journal.comment }}"
+        {% if editable == False %}disabled{% endif %}>
+    </div>
+
+    <p class="form-description">&lowast; &mdash; поля обов'язкові для заповнення</p>
+
+    <div class="pull-right">
+        <a href="" class="btn btn-default">Відмінити</a>
+        <button type="submit" class="btn btn-success" name="add_button"
+        {% if editable == False and not is_control or is_control and journal.mark and editable == False %}disabled{% endif %}>
+            Прийняти
+        </button>
+    </div>
+</form>

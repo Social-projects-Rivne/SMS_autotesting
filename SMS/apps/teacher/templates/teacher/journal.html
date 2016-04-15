@@ -1,0 +1,67 @@
+{% extends "teacher/base_teacher.html" %}
+
+{% block title %}Журнал | SMS{% endblock %}
+
+{% block content %}
+<div class="journal">
+    <h5 class="inline">Класс: <b>{{ current_teacher_group.group.name }}</b> Предмет:</h5>
+    <select class="inline" onchange="location = this.options[this.selectedIndex].value;">
+        {% for group_subject in group_subjects %}
+        <option
+            {%if group_subject.id == current_teacher_group.id%}
+            selected = 1
+            {%endif%}
+            value="{% url 'class_journal' group_subject.id %}">
+                {{ group_subject.teacher_subject.subject.name }}
+        </option>
+        {% endfor %}
+    </select>
+    <div class="table-responsive">
+        <table class="table table-bordered table-condensed">
+            <colgroup class="journal__student">
+            {% for lesson in lessons %}
+                {% if lesson.lesson_type.id == 2 %}
+                <colgroup class="journal__mark journal__mark--test">
+                {% elif lesson.lesson_type.id == 3 %}
+                <colgroup class="journal__mark journal__mark--control">
+                {% else %}
+                <colgroup class="journal__mark">
+                {% endif %}
+            {% endfor %}
+            <colgroup class="journal__add">
+            <thead>
+                <tr>
+                    <th>Учень</th>
+                    {% for lesson in lessons %}
+                    <th>
+                        <a href="{% url 'class_journal_update_lesson' current_teacher_group.id lesson.id %}" class="journal__mark modal-dialog link vertical">{{ lesson.date|date:"d.m" }}</a>
+                    </th>
+                    {%endfor%}
+                    <th>
+                        <a href="{% url 'class_journal_add_lesson' current_teacher_group.id %}" class="modal-dialog link">+ Add</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    {% for lesson in lessons %}
+                        <td href="{% url 'class_journal_set_mark' current_teacher_group.id lesson.id student.id %}" class="journal__mark modal-dialog">
+                        {% for journal in journals %}
+                                {% if journal.lesson.id == lesson.id and journal.student.id == student.id %}
+                                    {% if lesson.is_control and journal.mark and journal.marktype_id > 1 %}Н/{{ journal.mark }}
+                                    {% elif journal.mark == None and journal.marktype_id == 2 %}Н
+                                    {% elif journal.marktype_id == 3 %}Н/П
+                                    {% elif journal.mark == None %}{% else %}{{ journal.mark }}{% endif %}
+                                {% endif %}
+                        {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

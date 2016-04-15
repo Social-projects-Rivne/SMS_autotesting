@@ -1,0 +1,27 @@
+<h3 class="col-md-12 text-center">Підтвердити видалення</h3>
+
+    <div class="col-md-12" id="form">
+        <form action="" method="POST" role="form" class="text-center">
+            {% if not removable_error %}
+                {% csrf_token %}
+                <div class="margin-sm"></div>
+                {% if 'delete_teacher_subject_group/' in request.path %}
+                    <p class="inline">Ви дійсно хочете видалити клас "<b>{{ teacher_subject_group.group.name }}</b>"?</p>
+                {% elif 'delete_teacher_subject' in request.path %}
+                    <p class="inline">Ви дійсно хочете видалити предмет "<b>{{ teacher_subject.subject.name }}</b>"?</p>
+                {% endif %}
+
+                <br>
+                <div class="margin-sm"></div>
+
+                <a href="{% url 'manage_teachers' %}" class="btn btn-default">Ні</a>
+                <input type="submit" value="Так" name="confirm_button" class="btn btn-success">
+            {% else %}
+                <div class="alert alert-warning">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    До даного предмету прив’язано щонайменше одну групу.
+                </div>
+                <a href="{% url 'manage_teachers' %}" class="btn btn-success">Добре</a>
+            {% endif %}
+        </form>
+    </div>

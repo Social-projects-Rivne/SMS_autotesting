@@ -1,0 +1,26 @@
+<h3 class="col-md-12 text-center">Підтвердити видалення</h3>
+
+<div class="col-md-12" id="form">
+    <form action="" method="POST" role="form" class="text-center">
+        {% csrf_token %}
+
+        {% if errors.students %}
+        <div class="alert alert-warning">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            {{ errors.students }}
+        </div>
+        <input type="submit" value="Добре" class="btn btn-success">
+        {% endif %}
+
+        {% if not errors.students %}
+        <div class="margin-sm"></div>
+        <p class="inline">Ви дійсно хочете видалити "<b>{{ instance.name }}</b>"?</p>
+        <br>
+        <div class="margin-sm"></div>
+
+        <input type="submit" value="Ні" name="cancel_button" class="btn btn-default">
+        <input type="submit" value="Так" name="confirm_button" class="btn btn-success">
+        {% endif %}
+
+    </form>
+</div>

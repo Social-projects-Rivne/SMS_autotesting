@@ -1,0 +1,56 @@
+{% if 'student_add' in request.path %}
+  <h3 class="col-md-12 text-center">Додати учня</h3>
+{% else %}
+  <h3 class="col-md-12 text-center">Редагувати учня</h3>
+{% endif %}
+
+<form action="" method="POST" class="col-md-12" role="form">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="inputName">ПІБ*</label>
+        <input id="inputName" type="text" class="form-control" name="name"
+        value="{% if student and not errors %}{{ student.name }}{% else %}{{ request.POST.name }}{%endif%}"
+        placeholder="Пупкін Василь Іванович">
+        <span class="help-block"></span>
+    </div>
+
+    {% if 'edit' in request.path %}
+    <div class="form-group">
+        <label for="selectGroup">Виберіть клас*</label>
+        <select id="selectGroup" class="form-control" name="group">
+            {% for group in groups %}
+                <option value="{{ group.id }}"
+                    {% if student.group_id == group.id %}
+                        selected
+                    {% elif group.id == request.POST.group|add:0 %}
+                        selected{% endif %}>
+                        {{ group.name }}
+                </option>
+            {% endfor%}
+        </select>
+        <span class="help-block"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="selectState">Виберіть cтатус*</label>
+        <select id="selectState" class="form-control" name="state">
+            <option value='0'>Відрахований</option>
+            <option value='1' selected>Учень</option>
+            {% if '9' in student.group.name or '11' in student.group.name %}
+            <option value='2'>Випускник</option>
+            {% endif %}
+        </select>
+        <span class="help-block"></span>
+    </div>
+    {% endif %}
+
+    <p class="form-description">&lowast; &mdash; поля обов'язкові для заповнення</p>
+
+    <div class="pull-right">
+        <a href="{% url 'student_list' group_id %}" class="btn btn-default">Відмінити</a>
+        <button type="submit" class="btn btn-success" name="add_button">Прийняти</button>
+    </div>
+
+</form>
+

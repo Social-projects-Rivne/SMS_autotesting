@@ -1,0 +1,53 @@
+{% extends base_template_variable %}
+
+{% block title %}Профіль | SMS{% endblock %}
+
+{% block content %}
+
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-sm-11">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12 lead">Профіль<hr></div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 ">
+
+              {% if teacher.avatar %}
+              <img class="img-responsive profile__avatar" src="{{ teacher.avatar.url }}" >
+              {% else %}
+              <img class="img-responsive profile__avatar" src="/media/user_avatars/default_avatar.png" >
+              {% endif %}
+             <a href="{%url 'img_upload'%}" class="modal-dialog">Редагувати</a>
+            </div>
+            <div class="col-md-8">
+              <blockquote>
+                  <h3 class="only-bottom-margin">{{ teacher.name }}</h3>
+                  <small>
+                    <cite>{{ teacher.school.name }}</cite>
+                  </small>
+              </blockquote>
+              <span class="text-muted">Email:</span> {{ teacher.email }}<br>
+              <span class="text-muted">Логін:</span> {{ teacher.login }}<br>{{ some}}
+              <br><br>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <hr>
+              <div class="pull-right">
+                <a href="{% url 'profile_edit'%}" class="btn btn-default modal-dialog"><i class="glyphicon glyphicon-pencil"></i> Редагувати</a>
+                <a href="{% url 'profile_edit_password' %}" class="btn btn-default"><i class="glyphicon glyphicon-lock"></i> Змінити пароль</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

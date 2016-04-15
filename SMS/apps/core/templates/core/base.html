@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>{%block title%}{%endblock%}</title>
+
+        <link href="/static/css/style.css" rel="stylesheet">
+        {% block extra_css %}{% endblock %}
+    </head>
+
+    <body {% block body-class %}class="mainteacher"{% endblock %}>
+
+    {% block body-wrapper %}
+        <!--header-->
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <h1 class="col-sm-8 col-md-7">
+                        <a
+                        {% if LOGGED_USER.role.id == 1 %}
+                         href="{% url 'schools_list' %}"
+                        {% elif LOGGED_USER.role.id == 2 %}
+                         href="{% url 'group_list' %}"
+                        {% elif LOGGED_USER.role.id == 3 %}
+                         href="{% url 'subject_group_list' %}"
+                        {% else %}
+                         href="#"
+                        {% endif %}
+                         class="link">School management system</a>
+                    </h1>
+                    <div class="welcome pull-right">
+                        <h5 class="inline">Ви увійшли в систему як "{{ LOGGED_USER.role.role_name }}"</h5>
+                        <form action="" method="POST" class="inline">
+                            <select class="selectpicker btn btn-default">
+                                <option data-icon="/media/ua.png">ua</option>
+                                <option>en</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end header-->
+
+        <!--content-->
+        <div class="container wrapper">
+
+            <div class="row">
+                <!--sidebar-->
+                <div class="sidebar col-md-3">
+                    {% block sidebar-profile %}
+                    <div class="profile">
+                        {% if LOGGED_USER.avatar %}
+                            <img class="col-xs-6 img-responsive profile__avatar" src="{{ LOGGED_USER.avatar.url }}">
+                        {% else %}
+                            <img class="col-xs-6 img-responsive profile__avatar" src="/media/user_avatars/default_avatar.png">
+                        {% endif %}
+                        <div class="col-xs-6">
+                            <form action="{% url 'logout' %}" class="form-group profile__name-holder">
+                                <p class="profile__name">{{ LOGGED_USER.name }}</p>
+                                <p class="profile__login">{{ LOGGED_USER.login }}</p>
+                                <input type="submit" class="btn btn-default" id = "logout" value="Вийти">
+                            </form>
+                        </div>
+                    </div>
+                    {% endblock %}
+
+                    {% block sidebar-menu %}{% endblock %}
+
+                </div>
+                <!--end sidebar-->
+                <div class="col-md-9 content">
+
+                    {% block search %}{% endblock %}
+
+                    {% block content %}{% endblock %}
+
+                </div>
+
+            </div>
+        </div>
+        <!--end content-->
+    {% endblock body-wrapper %}
+
+        <!--javascript-->
+        <script type="text/javascript" src="/static/external/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/external/jquery/jquery.form.min.js"></script>
+        <script type="text/javascript" src="/static/external/bootstrap/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="/static/external/moment/moment.min.js"></script>
+        <script type="text/javascript" src="/static/external/moment/moment-with-locales.js"></script>
+        <script type="text/javascript" src="/static/external/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+
+        <script src="/static/external/jasny-bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/external/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="/static/js/ajax_request.js"></script>
+        <script type="text/javascript" src="/static/js/modal.js"></script>
+        <script type="text/javascript" src="/static/js/modal_validation.js"></script>
+        <script type="text/javascript" src="/static/js/main.js"></script>
+    {% block script %}{% endblock %}
+
+    </body>
+</html>

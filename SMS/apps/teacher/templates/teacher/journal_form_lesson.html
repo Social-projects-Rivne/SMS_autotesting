@@ -1,0 +1,75 @@
+{% if lesson %}
+    <h3 class="col-md-12 text-center">Редагувати урок</h3>
+{% else %}
+    <h3 class="col-md-12 text-center">Додати урок</h3>
+{% endif %}
+
+<form action="" method="POST" class="col-md-12" role="form">
+    {% csrf_token %}
+
+    <div class="form-group {% if errors.date %}has-error{% endif %}">
+        <label for="date" class="control-label">Дата уроку*</label>
+        <div class="form-group">
+            <div class="input-group date" {% if not lesson.date %}id="datetimepicker"{% endif %}>
+                <input type="text" class="form-control" placeholder="2015-06-18"
+                id="date" name="date" value="{{ lesson.date|date:'DATE_FORMAT' }}"
+                {% if lesson.date %}disabled{% endif %}>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+
+
+        <span class="help-block">{{ errors.date }}</span>
+    </div>
+
+    <div class="form-group">
+        <label for="selectDir" class="control-label">Тип уроку*</label>
+        <select id="selectDir" class="form-control" name="lesson_type"
+        {% if editable == False %}disabled{% endif %} required>
+
+            {% for lesson_type in lesson_types %}
+            <option value="{{ lesson_type.id }}"
+                {% if lesson.lesson_type.id == lesson_type.id %}selected{% endif %}>
+                {{ lesson_type.character }}
+            </option>
+            {% endfor %}
+
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="inputTopic">Тема уроку*</label>
+        <input id="inputTopic" type="text" class="form-control" name="topic"
+        {% if lesson %}
+            value = "{{ lesson.topic }}"
+        {% endif %}
+        {% if editable == False %}disabled{% endif %} required>
+        <span class="help-block">{{ errors.lesson }}</span>
+    </div>
+
+    <div class="form-group">
+        <label for="inputHomework">Домашня робота*</label>
+        <input id="inputHomework" type="text" class="form-control" name="homework"
+        {% if lesson %}
+            value = "{{ lesson.homework }}"
+        {% endif %}
+        {% if editable == False %}disabled{% endif %} required>
+        <span class="help-block">{{ errors.homework }}</span>
+    </div>
+
+    <p class="form-description">&lowast; &mdash; поля обов'язкові для заповнення</p>
+
+    <div class="pull-right">
+        <a href="" class="btn btn-default">Відмінити</a>
+        <button type="submit" class = "btn btn-success" name="add_button"
+        {% if editable == False %}disabled{% endif %}>
+            Прийняти
+        </button>
+    </div>
+</form>
+
+{% block script %}
+    <script type="text/javascript" src="/static/js/datetimepicker.js"></script>
+{% endblock %}

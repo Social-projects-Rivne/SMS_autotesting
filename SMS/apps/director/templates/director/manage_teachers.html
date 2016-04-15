@@ -1,0 +1,52 @@
+{% extends "director/base_director.html" %}
+
+{% block title %}Керування викладачами | SMS{% endblock %}
+
+{% block search %}{% endblock %}
+
+{% block content %}
+
+<div class="director_manage">
+    <h4>Керування навчальним процесом {{ school_name }}</h4>
+
+    {% if teachers %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>ПІБ</th>
+                    <th>Предмети</th>
+                    <th>Класи</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr id="{{ teacher.id }}">
+
+                    <td rowspan="{{ teacher.subjects|length|add:"2" }}">{{ forloop.counter }}</td>
+                    <td rowspan="{{ teacher.subjects|length|add:"2" }}" class="nowrap-col">{{ teacher.name }}</td>
+                        {% for subject in teacher.subjects %}
+                            <td class="text-center nowrap-col">
+                                <div class="subject-group-item">{{ subject.subject }}<a href="{% url 'delete_teacher_subject' subject.id %}" class="modal-dialog"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                            </td>
+                            <td>
+                                {% for group in subject.groups %}
+                                    <div class="subject-group-item">{{ group.group.name }}<a href="{% url 'delete_teacher_subject_group' group.id %}" class="modal-dialog"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                                {% endfor %}
+                                <a class="modal-dialog right-side-link" href="{% url 'add_teacher_subject_group' subject.id %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                            </td>
+                        </tr>
+                        <tr id="{{ teacher.id }}">
+                        {% endfor %}
+                        </tr>
+                        <tr><td class="text-center"><a class="modal-dialog" href="{% url 'add_teacher_subject' teacher.id %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></a></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <h3>Немає даних</h3>
+    {% endif %}
+</div>
+{% endblock %}

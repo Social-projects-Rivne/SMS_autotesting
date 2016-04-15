@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+
+{% block body-class %}class="director"{% endblock %}
+
+{% block sidebar-menu %}
+    <!--nav-->
+    <ul class = "nav nav-pills nav-stacked">
+        <li>
+            <a {% if 'group' in request.path or 'student' in request.path or '/director/' == request.path %}class="active"{% endif %} href="{% url 'group_list' %}">Класи</a>
+        </li>
+        <li>
+            <a {% if 'schedule' in request.path %}class="active"{%endif%} href="#">Розклад</a>
+        </li>
+        <li>
+            <a {% if 'teachers' in request.path %}class="active"{% endif %} href="{% url 'manage_teachers' %}">Керування предметами</a>
+        </li>
+        <li>
+            <a {% if 'core/profile' in request.path %}class="active"{% endif %}  href="{% url 'profile' %}">Мій профіль</a>
+        </li>
+    </ul>
+    <!--end nav-->
+{% endblock %}
+
+{% block search %}{% endblock %}
+
+{% block content %}{% endblock %}

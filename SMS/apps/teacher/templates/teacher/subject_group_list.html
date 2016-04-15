@@ -1,0 +1,40 @@
+{% extends "teacher/base_teacher.html" %}
+
+{% block title %}Класи | SMS{% endblock %}
+
+{% block content %}
+
+<div class="group">
+
+    <div class="tabs">
+        <!-- add holder for tabs captions -->
+        <ul class="nav nav-tabs margin-sm"></ul>
+        <!-- add holder for tabs content -->
+        <div class="tab-content"></div>
+
+        <!-- retrieve data for tabs -->
+        {% for teacher_subject in teacher_subjects %}
+            <li>
+                <a href="#" data-toggle="tab">{{ teacher_subject.subject.name }}</a>
+            </li>
+            <div class="tab-pane">
+            {% for teacher_subject_group in teacher_subject_groups %}
+                {% if teacher_subject_group.teacher_subject_id == teacher_subject.id %}
+                    <a href="{%url 'class_journal' teacher_subject_group.id %}" class="group__item">{{ teacher_subject_group.group.name }} клас</a>
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $( document ).ready(function() {
+        init_Tabs()
+    });
+</script>
+{% endblock %}

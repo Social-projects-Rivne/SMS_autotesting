@@ -1,0 +1,419 @@
+// header
+.header {
+    padding: 10px;
+    background: @primary;
+    color: white;
+}
+
+.welcome { margin-top: 20px; }
+
+.selectpicker { padding: 3px 5px; }
+
+// sidebar
+.sidebar {
+    min-height: 350px;
+    padding: 0px;
+}
+
+// profile
+.profile {
+    display: inline-block;
+    text-align: center;
+}
+
+.profile__avatar {
+    max-width: 150px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.profile__name-holder { margin-left: -15px; }
+
+.profile__name {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+.profile__login {
+    font-size: 12px;
+    color: @primary;
+}
+
+#logout { margin-top: 0; }
+
+// navigation
+.nav-pills {
+    li {
+        border-bottom: 1px solid @primary;
+
+        &:first-child { border-top: 1px solid @primary; }
+    }
+
+    a {
+        color: black;
+        .transition(500ms, ease);
+    }
+
+    .active {
+        position: relative;
+        .rounded(0);
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            display: block;
+            width: 0;
+            height: 0;
+            margin-top: -6px;
+            border-style: solid;
+            border-width: 7px 0 7px 13px;
+            border-color: transparent transparent transparent @primary;
+        }
+    }
+}
+
+.form-group {
+    .btn {
+        width: 100%;
+        margin-top: 30px;
+        border: 1px solid @primary;
+        .rounded(0);
+    }
+}
+
+.form-control,
+.input-group-btn>button {
+    border: 1px solid @primary;
+    .rounded(0);
+}
+
+.form-description {
+  font-size: 10px;
+  color: #9E9696;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.form-control { .box-shadow(inset 0 1px 1px rgba(0,0,0,.0)); }
+
+.school_dir_sel { border: 0; }
+
+.nav-stacked>li+li { margin: 0; }
+
+.input-group-btn>button {
+    background: @primary;
+    color: white;
+}
+
+// content
+#search {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.wrapper {
+    border: 1px solid @primary;
+    border-top: 0;
+}
+
+.content {
+    min-height: 400px;
+    margin-left: -1px;
+    border-left: 1px solid @primary;
+}
+
+.btn-success {
+    background: @primary;
+    border-color: @primary;
+
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: @primary;
+        background: darken(@primary, 5%);
+    }
+}
+
+.btn-success[disabled] {
+    background: @primary;
+    border-color: @primary;
+    cursor: pointer;
+    opacity: 1;
+    pointer-events: auto;
+
+    &:hover,
+    &:focus,
+    &:active { background: darken(@primary, 5%) }
+}
+
+.btn-success[disabled].active,
+.btn-success[disabled]:active { .box-shadow(0 3px 5px rgba(0, 0, 0, 0.125) inset); }
+
+.table {
+    thead {
+        background: @primary;
+        color: white;
+    }
+}
+
+.colgroup-width { min-width: 120px; }
+
+.btn-width { width: 84px; }
+
+.confirm-div { margin: 50px 0; }
+
+.glyphicon-pencil { color: black; }
+
+.glyphicon-trash { color: red; }
+
+.ajax-select {
+    display: inline-block;
+    height: 3ex;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.ajax-select select {
+    width: 130%;
+    padding: 5px 8px;
+    border: none;
+    background: transparent;
+    background-image: none;
+    .box-shadow(none);
+    -webkit-appearance: none;
+}
+
+.ajax_select select:focus { outline: none; }
+
+// modal styles
+.modal-dialog { width: auto; }
+
+.popup_modal_box {
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    display: none;
+    height: auto;
+    width: 300px;
+    padding: 15px;
+    padding-bottom: 30px;
+    margin-left: -150px;
+    border: 1px solid @primary;
+    .rounded(0);
+    .box-shadow(0px 2px 7px #292929);
+    background: #f2f2f2;
+    z-index: 50;
+}
+
+.popup_modal_close {
+    position: absolute;
+    content: "\00D7";
+    display: block;
+    top: 15px;
+    right: 5px;
+    height: 35px;
+    width: 35px;
+    font-size: 35px;
+    font-weight: normal;
+    line-height: 40px;
+    color: @primary;
+
+    &:hover { color: @primary; }
+}
+
+.popup_block_page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 10;
+}
+
+.popup_inner_modal_box {
+    padding: 15px;
+    text-align: left;
+}
+
+// group list styles
+.group__item {
+    display: inline-block;
+    min-width: 140px;
+    padding: 15px 25px;
+    margin: 15px;
+    border: 1px solid @primary-teacher;
+    font-size: 20px;
+    text-align: center;
+    color: @primary-teacher;
+    .transition(500ms, ease);
+
+    &:focus { color: @primary-teacher;}
+
+    &:hover {
+        color: #fff;
+        background: @primary-teacher;
+    }
+
+    .glyphicon-plus { font-size: 17px; }
+}
+
+.nav-tabs {
+    padding-left: 10px;
+    border-color: @primary-teacher;
+}
+
+.nav-tabs a { color: #555; }
+
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a:hover {
+    border-color: transparent transparent @primary-teacher;
+    background-color: lighten(@primary-teacher, 25%);
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover { border-color: @primary-teacher @primary-teacher transparent; }
+
+.tab-content { padding-top: 15px; }
+
+// journal table styles
+.vertical {
+    display: inline-block;
+    margin: 0px;
+    .rotation(-45deg);
+}
+
+.journal .table {
+  position: relative;
+  z-index: 1;
+  width: auto;
+}
+
+.journal th { height: 45px; }
+
+.journal td { white-space: nowrap; }
+
+.journal__student { min-width: 230px; }
+
+.journal__mark {
+    width: 32px;
+    text-align: center;
+}
+
+.journal__add { width: 51px; }
+
+
+.journal .table-responsive>.fixed-column {
+    position: absolute;
+    display: inline-block;
+    width: auto;
+    background: #fff;
+    border-width: 1px 0 0 0;
+    z-index: 10;
+}
+
+.error-message { margin-top: -5px; }
+
+//Director set subjects/groups page
+.director_manage {
+    a { color: @primary-director; }
+
+    .glyphicon-trash{ font-size: 11px; }
+
+    .glyphicon-plus{ font-size: 12px; }
+
+    .table td { vertical-align: middle !important; }
+
+    .subject-group-item {
+        display: inline-block;
+        padding: 2px 3px;
+        border: 1px solid #ddd;
+        border-color: @primary-director;
+        .box-shadow(0px 1px 3px #292929);
+        .transition(500ms, ease);
+
+        &:focus { color: @primary-director;}
+
+        &:hover {
+            color: #fff;
+            background: @primary-director;
+        }
+    }
+
+    .nowrap-col { white-space: nowrap; }
+
+    .right-side-link {
+        display: inline;
+        float: right;
+        top: 50%;
+        margin: 0;
+        margin-left: 3px;
+    }
+}
+
+//Login
+.card-container.card { padding: 40px 40px; }
+
+.card {
+    background-color: #F7F7F7;
+    margin: 10% auto;
+    margin-top: 50px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.form-signin #inputEmail,
+.form-signin #inputPassword {
+    direction: ltr;
+    height: 44px;
+    font-size: 16px;
+}
+
+.form-signin input[type=email],
+.form-signin input[type=password],
+.form-signin input[type=text],
+.form-signin button {
+    margin-bottom: 10px;
+    border-color: @login-form;
+}
+
+.form-signin .form-control:focus {
+    border-color: rgb(104, 145, 162);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+}
+
+.btn.btn-signin {
+    background-color: @login-form;
+    border-radius: 0;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background: darken(@login-form, 5%);
+        border-color: darken(@login-form, 5%);
+    }
+}
+
+.card-container { width: 290px; }
+
+.login-holder {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url('../../media/login_bg.jpg');
+    background-size: cover;
+    z-index: 10;
+}
+
+.login-holder .header { background: @login-form; }

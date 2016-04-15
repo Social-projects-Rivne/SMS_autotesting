@@ -1,0 +1,18 @@
+<form action="{%url 'img_upload'%}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <p>
+
+  <div class="fileinput fileinput-new" data-provides="fileinput">
+    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 300px; height: 200px;"></div>
+    <div>
+      <span class="btn btn-default btn-file"><span class="fileinput-new">Завантажити зображення</span><span class="fileinput-exists">Змінити</span><input type="file" name="img_file">  </span>
+      <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Видалити</a>
+    </div>
+  </div>
+
+  </p>
+  <hr>
+  <div class="pull-right">
+      <button type="submit" class="btn btn-default">Зберегти</button>
+  </div>
+</form>

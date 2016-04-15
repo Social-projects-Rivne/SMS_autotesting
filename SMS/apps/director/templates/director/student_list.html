@@ -1,0 +1,64 @@
+{% extends "director/base_director.html" %}
+
+{% block title %}{{ group_name }} клас | SMS{% endblock %}
+
+{% block content %}
+
+<h4>Керування учнями {{ group_name }} класу</h3>
+
+<div id="list" class="table-responsive">
+    <table class="table table-bordered">
+        <colgroup>
+        <colgroup class="colgroup-width">
+        <colgroup class="colgroup-width">
+        <colgroup class="btn-width">
+        <thead>
+            <tr>
+                <th>ПІБ</th>
+                <th>Клас</th>
+                <th>Статус</th>
+                <th class="text-center">
+                    <a href="{% url 'student_add' group_id %}" class="modal-dialog link">+ Додати</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr id="{{ student.id }}">
+                <td>{{ student.name }}</td>
+                <td>
+                    <select class="form-control group_select ajax-select">
+                    {% for group in groups %}
+                        <option value='{{ group.id }}'
+                        {% if student.group.id == group.id %}
+                        selected = '1'
+                        {% endif %}>
+                            {{ group.name }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control state_select ajax-select">
+                        <option value='0'>Відрахований</option>
+                        <option value='1' selected>Учень</option>
+                        {% if '9' in student.group.name or '11' in student.group.name %}
+                        <option value='2'>Випускник</option>
+                        {% endif %}
+                    </select>
+                </td>
+                <td class="text-center">
+                    <a href="{% url 'student_edit' group_id student.id %}" class="modal-dialog">
+                        <span class='glyphicon glyphicon-pencil action'></span>
+                    </a>
+                    <a href="{% url 'student_delete' group_id student.id %}" class="modal-dialog">
+                        <span class='glyphicon glyphicon-trash'></span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "mainteacher/base_mainteacher.html" %}
+
+{% block title %}Викладачі | SMS{% endblock %}
+
+{% block search %}
+    {% include "mainteacher/search_form.html" %}
+{% endblock %}
+
+{% block content %}
+<div id="list" class="table-responsive">
+    <table class="table table-bordered">
+        <colgroup>
+        <colgroup>
+        <colgroup class="colgroup-width">
+        <colgroup class="colgroup-width">
+        <colgroup class="btn-width">
+        <thead>
+            <tr>
+                <th>ПІБ</th>
+                <th>Електронна пошта</th>
+                <th>Права</th>
+                <th>Школа</th>
+                <th class="text-center">
+                    <a href="{% url 'teacher_add' %}" class="modal-dialog link">+ Додати</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for teacher in teachers%}
+            <tr id="{{ teacher.id }}">
+                <td>{{ teacher.name }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>
+                    <select class="form-control role_select ajax-select">
+                    {% for role in roles %}
+                        <option value='{{role.id}}'
+                        {%if teacher.role.id == role.id %}
+                        selected = '1'
+                        {% endif %}>
+                            {{role.role_name}}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control school_select ajax-select">
+                        <option value="0">Немає</option>
+                        {% for school in schools %}
+                        <option value="{{ school.id }}"
+                          {% if teacher.school.id == school.id %}
+                          selected = "1"
+                          {% endif %}>{{ school.name }}
+                       </option>
+                       {% endfor %}
+                    </select>
+                </td>
+                <td class="text-center">
+                    <a href="{% url 'teacher_update' teacher.id %}" class="modal-dialog">
+                        <span class='glyphicon glyphicon-pencil action'></span>
+                    </a>
+                    <a href="{% url 'teacher_delete' teacher.id %}" class="modal-dialog">
+                        <span class='glyphicon glyphicon-trash'></span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

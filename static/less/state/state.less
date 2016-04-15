@@ -1,0 +1,197 @@
+// groups tabs
+.group--small {
+
+    .nav-tabs {
+        padding-left: 30px;
+        margin-right: -16px;
+        margin-left: -15px;
+    }
+
+    .nav-tabs > li > a {
+        padding: 3px 5px;
+        margin-right: -1px;
+        font-size: 12px;
+        color: @primary-director;
+        border-color: @primary-director;
+        .rounded(0);
+        .transition(250ms, ease);
+    }
+
+    .nav-tabs > li.active { margin-top: -1px; }
+
+    .nav-tabs > li.active > a {
+        background: @primary-director;
+        font-weight: bold;
+        color: #fff;
+        .transform(scaleY(1.1));
+    }
+
+    .nav-tabs > li > a:focus,
+    .nav-tabs > li > a:hover {
+        color: #fff;
+        border-color: @primary-director;
+        background-color: @primary-director;
+    }
+
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:focus,
+    .nav-tabs > li.active > a:hover { border-color: @primary-director; }
+
+    .group__item-holder {
+        position: relative;
+        display: inline-block;
+        margin: 15px;
+
+        .glyphicon {
+            position: absolute;
+            top: 7px;
+            right: 5px;
+            display: none;
+            margin: 0;
+            font-size: 12px;
+            color: @primary-director;
+            .transition(500ms, ease);
+        }
+
+        .glyphicon-pencil { right: 21px; }
+
+        .group__item { margin: 0; }
+
+        &:focus,
+        &:hover {
+            .group__item {
+                color: #fff;
+                background: @primary-director;
+            }
+
+            .glyphicon {
+                display: inline;
+                color: #fff;
+            }
+        }
+    }
+}
+
+//journal
+.journal__mark--test { background: #f9f9d1; }
+
+.journal__mark--control { background: #E9E6FF; }
+
+// teacher
+.teacher {
+    .header { background: @primary-teacher; }
+
+    .wrapper { border-color: @primary-teacher; }
+
+    .content { border-color: @primary-teacher; }
+
+    .profile__login { color: @primary-teacher; }
+
+    .nav-pills li:first-child { border-color: @primary-teacher; }
+
+    .nav-pills li { border-color: @primary-teacher; }
+
+    .nav-pills .active:after { border-color: transparent transparent transparent @primary-teacher; }
+
+    .form-group .btn { border-color: @primary-teacher; }
+
+    .form-control, .input-group-btn > button { border-color: @primary-teacher; }
+
+    .input-group-btn>button { background: @primary-teacher; }
+
+    .table thead { background: @primary-teacher; }
+
+    .btn-success {
+        background-color: @primary-teacher;
+        border-color: @primary-teacher;
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: @primary-teacher;
+            background: darken(@primary-teacher, 5%)
+        }
+    }
+
+    .btn-success[disabled] {
+        background: @primary-teacher;
+        border-color: @primary-teacher;
+
+        &:hover,
+        &:focus,
+        &:active { background: darken(@primary-teacher, 5%) }
+    }
+
+    .popup_modal_box { border-color: @primary-teacher; }
+
+    .popup_modal_close { color: @primary-teacher; }
+}
+
+// director
+.director {
+    .header { background: @primary-director; }
+
+    .wrapper { border-color: @primary-director; }
+
+    .content { border-color: @primary-director; }
+
+    .profile__login { color: @primary-director; }
+
+    .nav-pills li:first-child { border-color: @primary-director; }
+
+    .nav-pills li { border-color: @primary-director; }
+
+    .nav-pills .active:after { border-color: transparent transparent transparent @primary-director; }
+
+    .form-group .btn { border-color: @primary-director; }
+
+    .form-control, .input-group-btn > button { border-color: @primary-director; }
+
+    .input-group-btn>button { background: @primary-director; }
+
+    .table thead { background: @primary-director; }
+
+    .btn-success {
+        background-color: @primary-director;
+        border-color: @primary-director;
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: @primary-director;
+            background: darken(@primary-director, 5%)
+        }
+    }
+
+    .btn-success[disabled] {
+        background: @primary-director;
+        border-color: @primary-director;
+
+        &:hover,
+        &:focus,
+        &:active { background: darken(@primary-director, 5%) }
+    }
+
+    .popup_modal_box { border-color: @primary-director; }
+
+    .popup_modal_close { color: @primary-director; }
+
+    .group__item {
+        border-color: @primary-director;
+        color: @primary-director;
+    }
+
+    .group__item--invert {
+        background: @primary-director;
+        color: #fff;
+
+        &:focus { color: #fff;}
+
+        &:hover {
+            color: @primary-director;
+            background: #fff;
+        }
+    }
+
+    .nav-tabs { border-color: @primary-director; }
+}
