@@ -1,8 +1,8 @@
 *** Settings ***
 Library           Selenium2Library
 Test Setup        Test_Setup_Steps
-Test Teardown     Close Browser
 Suite Teardown    Close Browser
+Test Teardown     Close Browser
 
 *** Keywords ***
 Test_Setup_Steps
@@ -23,12 +23,19 @@ ${login incorrect}    loginloginlogin
 ${password incorrect}    passwordpasswordpassword
 
 *** Testcases ***
+Login page contains fields for login and password and buttons ***
+    [Tags]    ValidTest
+    Page Should Contain Element    name=inputUsername
+    Page Should Contain Element    name=inputPassword
+    Page Should Contain Element    tag=button
+
 Login Should Succeed for main teacher when the correct Username and Password are entered ***
     [Tags]    ValidTest
     Input Text    inputUsername    ${login main}
     Input Text    inputPassword    ${password main}
     Click Button    tag=button
     Page Should Contain    Головний
+    Close Browser
 
 Login Should Succeed for school director when the correct Username and Password are entered ***
     [Tags]    ValidTest
@@ -36,19 +43,22 @@ Login Should Succeed for school director when the correct Username and Password 
     Input Text    inputPassword    ${password director}
     Click Button    tag=button
     Page Should Contain    Завуч
+    Close Browser
 
-Login Should Succeed for teacher when the crrect Username and Password are entered ***
+Login Should Succeed for teacher when the correct Username and Password are entered ***
     [Tags]    ValidTest
     Input Text    inputUsername    ${login teacher}
     Input Text    inputPassword    ${password teacher}
     Click Button    tag=button
     Page Should Contain    Викладач
+    Close Browser
 
 Warning Message Should appear for user when the Username and Password left empty ***
     [Tags]    InvalidTest
     Click Button    tag=button
     ${title}    Get Title
     Should Be True    '${title}' == 'Авторизація | SMS'
+    Close Browser
 
 Warning Message Should appear for user when the Password left empty ***
     [Tags]    InvalidTest
@@ -56,6 +66,7 @@ Warning Message Should appear for user when the Password left empty ***
     Click Button    tag=button
     ${title}    Get Title
     Should Be True    '${title}' == 'Авторизація | SMS'
+    Close Browser
 
 Warning Message Should appear for user when the Username left empty ***
     [Tags]    InvalidTest
@@ -63,13 +74,15 @@ Warning Message Should appear for user when the Username left empty ***
     Click Button    tag=button
     ${title}    Get Title
     Should Be True    '${title}' == 'Авторизація | SMS'
+    Close Browser
 
-Warning Message Should appear for user when the incorrect Username and Password are Entered ***
+Warning Message Should appear for user when the incorrect Username and incorrect Password are Entered ***
     [Tags]    InvalidTest
     Input Text    inputUsername    ${login incorrect}
     Input Text    inputPassword    ${password incorrect}
     Click Button    tag=button
     Page Should Contain    Невірно вказаний пароль або логін
+    Close Browser
 
 Warning Message Should appear for user when the correct Username and incorrect Password are Entered ***
     [Tags]    InvalidTest
@@ -77,6 +90,7 @@ Warning Message Should appear for user when the correct Username and incorrect P
     Input Text    inputPassword    ${password incorrect}
     Click Button    tag=button
     Page Should Contain    Невірно вказаний пароль або логін
+    Close Browser
 
 Warning Message Should appear for user when the incorrect Username and correct Password are Entered ***
     [Tags]    InvalidTest
@@ -87,3 +101,4 @@ Warning Message Should appear for user when the incorrect Username and correct P
     Input Text    inputPassword    ${password main}
     Click Button    tag=button
     Page Should Contain    Невірно вказаний пароль або логін
+    Close Browser
