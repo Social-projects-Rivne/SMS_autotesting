@@ -1,0 +1,89 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test_Setup_Steps
+Test Teardown     Close Browser
+Suite Teardown    Close Browser
+
+*** Keywords ***
+Test_Setup_Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}
+    Maximize Browser Window
+
+*** Variables ***
+${login address}    http://sms-rv016atqc.rhcloud.com/
+${login address-local}    http://127.0.0.1:8000/
+${login main}     semuschenko
+${password main}    pDk7jf
+${login director}    zoshch
+${password director}    df5sFdf
+${login teacher}    maximus
+${password teacher}    LKuJf3y
+${login incorrect}    loginloginlogin
+${password incorrect}    passwordpasswordpassword
+
+*** Testcases ***
+Login Should Succeed for main teacher when the correct Username and Password are entered ***
+    [Tags]    ValidTest
+    Input Text    inputUsername    ${login main}
+    Input Text    inputPassword    ${password main}
+    Click Button    tag=button
+    Page Should Contain    Головний
+
+Login Should Succeed for school director when the correct Username and Password are entered ***
+    [Tags]    ValidTest
+    Input Text    inputUsername    ${login director}
+    Input Text    inputPassword    ${password director}
+    Click Button    tag=button
+    Page Should Contain    Завуч
+
+Login Should Succeed for teacher when the crrect Username and Password are entered ***
+    [Tags]    ValidTest
+    Input Text    inputUsername    ${login teacher}
+    Input Text    inputPassword    ${password teacher}
+    Click Button    tag=button
+    Page Should Contain    Викладач
+
+Warning Message Should appear for user when the Username and Password left empty ***
+    [Tags]    InvalidTest
+    Click Button    tag=button
+    ${title}    Get Title
+    Should Be True    '${title}' == 'Авторизація | SMS'
+
+Warning Message Should appear for user when the Password left empty ***
+    [Tags]    InvalidTest
+    Input Text    inputUsername    ${login incorrect}
+    Click Button    tag=button
+    ${title}    Get Title
+    Should Be True    '${title}' == 'Авторизація | SMS'
+
+Warning Message Should appear for user when the Username left empty ***
+    [Tags]    InvalidTest
+    Input Text    inputPassword    ${password incorrect}
+    Click Button    tag=button
+    ${title}    Get Title
+    Should Be True    '${title}' == 'Авторизація | SMS'
+
+Warning Message Should appear for user when the incorrect Username and Password are Entered ***
+    [Tags]    InvalidTest
+    Input Text    inputUsername    ${login incorrect}
+    Input Text    inputPassword    ${password incorrect}
+    Click Button    tag=button
+    Page Should Contain    Невірно вказаний пароль або логін
+
+Warning Message Should appear for user when the correct Username and incorrect Password are Entered ***
+    [Tags]    InvalidTest
+    Input Text    inputUsername    ${login main}
+    Input Text    inputPassword    ${password incorrect}
+    Click Button    tag=button
+    Page Should Contain    Невірно вказаний пароль або логін
+
+Warning Message Should appear for user when the incorrect Username and correct Password are Entered ***
+    [Tags]    InvalidTest
+    Open Browser    ${login address}
+    Maximize Browser Window
+    Maximize Browser Window
+    Input Text    inputUsername    ${login incorrect}
+    Input Text    inputPassword    ${password main}
+    Click Button    tag=button
+    Page Should Contain    Невірно вказаний пароль або логін
