@@ -1,0 +1,31 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Test Cases ***
+Test that checks whether button "Мій профіль" show profile for "Головний вчитель"
+    Open browser    http://127.0.0.1:8000
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Page Should Contain    semuschenko@gmail.com
+    Close Browser
+
+Test that checks whether button "Мій профіль" show profile for "Завуч"
+    Open browser    http://127.0.0.1:8000
+    Input Text    inputUsername    zoshch
+    Input Text    inputPassword    df5sFdf
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Page Should Contain    zoshch@gmail.com
+    Page Should Contain    НВК №7
+    Close Browser
+
+Test that checks whether button "Мій профіль" show profile for "Викладач"
+    Open browser    http://127.0.0.1:8000
+    Input Text    inputUsername    maximus
+    Input Text    inputPassword    LKuJf3y
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Page Should Contain    maximus@gmail.com
+    Close Browser

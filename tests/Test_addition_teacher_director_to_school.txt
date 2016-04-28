@@ -1,0 +1,121 @@
+*** Settings ***
+Suite Setup       Set Selenium speed    0.5s
+Suite Teardown    Close Browser
+Test Teardown     Close Browser
+Library           Selenium2Library
+
+*** Test Cases ***
+Test 1 for Changing Role From Завуч to Викладач of the same school
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Click Element    xpath=//*[@id='9']/td[3]/select/option[@value="3"]
+    ${result}    Get Value    xpath= //*[@id='10']/td[3]/select
+    Should Be Equal    ${result}    3
+    Click Link    /mainteacher/schools_list/
+    List Selection Should Be    xpath= html/body/div[2]/div/div[2]/div/table/tbody/tr[6]/td[3]/select    Відсутній
+    Close Browser
+
+Test 2 for Changing Role From Викладач to Завуч of the same school
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Click Element    xpath=//*[@id='10']/td[3]/select/option[@value="2"]
+    ${result}    Get Value    xpath= //*[@id='9']/td[3]/select
+    Should Be Equal    ${result}    3
+    Click Link    /mainteacher/schools_list/
+    List Selection Should Be    xpath= html/body/div[2]/div/div[2]/div/table/tbody/tr[6]/td[3]/select    Григорук Олег Степанович
+    Close Browser
+
+Test 3 for Changing Role From Викладач to Завуч of the same school when there exist another Завуч (teachers_list)
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Click Element    xpath=//*[@id='10']/td[3]/select/option[@value="2"]
+    ${result}    Get Value    xpath= //*[@id='9']/td[3]/select
+    Should Be Equal    ${result}    3
+    Click Link    /mainteacher/schools_list/
+    List Selection Should Be    xpath= html/body/div[2]/div/div[2]/div/table/tbody/tr[6]/td[3]/select    Григорук Олег Степанович
+    Close Browser
+
+Test 4 for Changing Role to Завуч of the school when there exist another Завуч (schools_list page)
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Element    xpath=//*[@id='5']/td[3]/select/option[@value="11"]
+    Click Link    /mainteacher/teachers_list/
+    ${result}    Get Value    xpath= //*[@id='12']/td[3]/select
+    Should Be Equal    ${result}    3
+    ${result}    Get Value    xpath= //*[@id='11']/td[3]/select
+    Should Be Equal    ${result}    2
+    Close Browser
+
+Test 5 for Adding teacher to school when he wasn't connected to any school
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    # Set Variable    xpath=//*[@id='14']/td[4]/select    0
+    #Execute JavaScript    window.scrollTo(0, document.body.scrollHeight)
+    Click Element    xpath=//*[@id='7']/td[4]/select/option[@value="1"]
+    Reload Page
+    Click Link    /mainteacher/schools_list/
+    Element Should Contain    xpath= //*[@id='1']/td[3]    Панасюк Ігор Микитович
+    Close Browser
+
+Test 6 for changing role to the director when the school is not connected
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Click Element    xpath=//*[@id='7']/td[4]/select/option[@value="0"]
+    Reload Page
+    Click Element    //*[@id='7']/td[3]/select/option[@value="2"]
+    Reload Page
+    ${result}    Get Value    xpath= //*[@id='7']/td[3]/select
+    Should Be Equal    ${result}    2
+    Close Browser
+
+Test 7 for changing school when he was the director in another
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    ${result}    Get Value    xpath= //*[@id='8']/td[3]/select
+    Should Be Equal    ${result}    2
+    #Click Element    //*[@id='8']/td[4]/select
+    #Select From List by Value    //*[@id='8']/td[4]/select    5
+    Click Element    xpath=//*[@id='8']/td[4]/select/option[@value="5"]
+    Reload Page
+    Click Link    /mainteacher/schools_list/
+    Element Should Contain    xpath= //*[@id='5']/td[3]    Балашов Юрій Васильович
+    Close Browser
+
+Test 8 for changing role from the director to Відсутній
+    Open browser    http://127.0.0.1:8000
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Element    xpath=//*[@id='4']/td[3]/select/option[@value=""]
+    Click Link    /mainteacher/teachers_list/
+    ${result}    Get Value    xpath= //*[@id='13']/td[3]/select
+    Should Be Equal    ${result}    3
+    Close Browser
