@@ -1,0 +1,83 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test_Setup_Steps
+Test Teardown     Close Browser
+
+*** Keywords ***
+Test_Setup_Steps
+    Set Selenium Speed  0
+    Open Browser  ${login address}
+    Maximize Browser Window
+    Input Text  inputUsername  ${login}
+    Input Text  inputPassword  ${password}
+    Click Button  tag=button
+
+*** Variables ***
+${login address}  https://smsauto-dvatqc.rhcloud.com
+${login address-local}  http://127.0.0.1:8000/
+${login}  semuschenko
+${password}  pDk7jf
+${correct address}  вул. Євгена Коновальця, 19
+${another possible address}  майдан Просвіти, 2  
+${correct name}  Школа №28
+${correct name2}  Школа №45
+${correct name3}  Рівненська гуманітарна гімназія
+${name already exists}  НВК "Колегіум"
+${incorrect address}  Адрес 200
+${incorrect school name}  Школа 100
+*** Testcases ***
+1. New school should be added with correct credentials 
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${correct name}
+  Input Text  inputNumber  ${correct address}
+  Click Button  name=add_button
+  Reload Page
+  Page Should Contain  ${correct name}
+
+2. New school should be added with correct address 'майдан Просвіти, 2'
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputNumber  ${another possible address}
+  Input Text  inputSchoolName  ${correct name}
+  Page Should Not Contain Element  add_button
+
+3. New school should be added with the credentials already exists 
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${name already exists}
+  Input Text  inputNumber  ${correct address}
+  Click Button  name=add_button
+  Page Should Contain  Школа з такою назвою вже існує.
+
+4. New school should be added with incorrect name 
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${incorrect school name}
+  Input Text  inputNumber  ${correct address}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено назву.
+
+5. New school should be added with incorrect address 'Адрес 200'
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${correct name2}
+  Input Text  inputNumber  ${incorrect address}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
+
+6. New school should be added with different correct name 
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${correct name3}
+  Input Text  inputNumber  ${correct address}
+  Click Button  name=add_button
+  Page Should Not Contain  Некоректно введено назву.
+
+
+
+
+
+
+
+
