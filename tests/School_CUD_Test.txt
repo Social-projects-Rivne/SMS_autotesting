@@ -6,7 +6,7 @@ Test Teardown     Close Browser
 *** Keywords ***
 Test_Setup_Steps
     Set Selenium Speed  0
-    Open Browser  ${login address}
+    Open Browser  ${login address-local}
     Maximize Browser Window
     Input Text  inputUsername  ${login}
     Input Text  inputPassword  ${password}
@@ -17,16 +17,37 @@ ${login address}  https://smsauto-dvatqc.rhcloud.com
 ${login address-local}  http://127.0.0.1:8000/
 ${login}  semuschenko
 ${password}  pDk7jf
+
 ${correct address}  вул. Євгена Коновальця, 19
-${another possible address}  майдан Просвіти, 2  
 ${correct name}  Школа №28
-${correct name2}  Школа №45
-${correct name3}  Рівненська гуманітарна гімназія
-${name already exists}  НВК "Колегіум"
-${incorrect address}  Адрес 200
-${incorrect school name}  Школа 100
+${name roman}  School #28
+${address roman}  Verbova Street, 35
+${name already exists}  НВК №7
+${cyrrilic address wrong}  Адреса 200
+${cyrrilic name wrong}  Школа 100
+${correct address for edit}  вул. Мельника, 67
+${correct name for edit}  Школа №25
+${message}  ${EMPTY}
+
 *** Testcases ***
-1. New school should be added with correct credentials 
+1. Pop-up window for add school onclick the button "Add"
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName 
+  Page Should Contain  Назва*
+  Page Should Contain  Адресса*
+
+2. Fields to enter credentials should be empty after cancel and retry
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName 
+  Input Text  inputSchoolName  ${correct name}
+  Input Text  inputNumber  ${correct address}
+  Reload page
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName 
+  ${result}  Get Value  inputSchoolName
+  Should Be Equal  ${result}  ${EMPTY}    
+
+3. New school should be added with correct credentials 
   Click Link  /mainteacher/school_add/
   Wait Until Page Contains Element  inputSchoolName
   Input Text  inputSchoolName  ${correct name}
@@ -35,49 +56,175 @@ ${incorrect school name}  Школа 100
   Reload Page
   Page Should Contain  ${correct name}
 
-2. New school should be added with correct address 'майдан Просвіти, 2'
+4. Add with name using roman alphabet
   Click Link  /mainteacher/school_add/
   Wait Until Page Contains Element  inputSchoolName
-  Input Text  inputNumber  ${another possible address}
-  Input Text  inputSchoolName  ${correct name}
-  Page Should Not Contain Element  add_button
-
-3. New school should be added with the credentials already exists 
-  Click Link  /mainteacher/school_add/
-  Wait Until Page Contains Element  inputSchoolName
-  Input Text  inputSchoolName  ${name already exists}
-  Input Text  inputNumber  ${correct address}
+  Input Text  inputSchoolName  ${name roman}
   Click Button  name=add_button
-  Page Should Contain  Школа з такою назвою вже існує.
+  Page Should Contain  Некоректно введено назву.
 
-4. New school should be added with incorrect name 
+5. Add with address using roman alphabet
   Click Link  /mainteacher/school_add/
   Wait Until Page Contains Element  inputSchoolName
-  Input Text  inputSchoolName  ${incorrect school name}
+  Input Text  inputNumber  ${address roman}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
+
+6. Add with empty name 
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
   Input Text  inputNumber  ${correct address}
   Click Button  name=add_button
   Page Should Contain  Некоректно введено назву.
 
-5. New school should be added with incorrect address 'Адрес 200'
+7. Add with empty address
   Click Link  /mainteacher/school_add/
   Wait Until Page Contains Element  inputSchoolName
-  Input Text  inputSchoolName  ${correct name2}
-  Input Text  inputNumber  ${incorrect address}
+  Input Text  inputNumber  ${correct name}
   Click Button  name=add_button
   Page Should Contain  Некоректно введено адресу.
 
-6. New school should be added with different correct name 
+8. Add with wrong cyrrilic school name
   Click Link  /mainteacher/school_add/
   Wait Until Page Contains Element  inputSchoolName
-  Input Text  inputSchoolName  ${correct name3}
-  Input Text  inputNumber  ${correct address}
+  Input Text  inputSchoolName  ${cyrrilic name wrong}
   Click Button  name=add_button
-  Page Should Not Contain  Некоректно введено назву.
+  Page Should Contain  Некоректно введено назву.
 
+9. Add with wrong cyrrilic address
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputNumber  ${cyrrilic address wrong}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
 
+10. Add with already exists name for school
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${name already exists}
+  Click Button  name=add_button
+  Page Should Contain  Школа з такою назвою вже існує.
 
+11. Add with name starting lower case 
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  нвк "веселка"
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено назву.
 
+12. Add with address starting upper case 
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputNumber  ВУЛ. Макарова, 19
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
 
+13. Pop-up window for edit school onclick the button "Edit"
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName 
+  Page Should Contain  Назва*
+  Page Should Contain  Адресса*
+  Page Should Contain  Директор
+
+14. Fields to enter credentials should save previous credentials after cancel and retry
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName 
+  ${result1}  Get Value  inputSchoolName
+  Input Text  inputSchoolName  ${correct name}
+  Input Text  inputNumber  ${correct address}
+  Reload page
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName 
+  ${result2}  Get Value  inputSchoolName
+  Should Be Equal  ${result2}  ${result1}
+
+15. Edit with correct credentials  
+  Click Link  /mainteacher/school_update/5
+  Wait Until Page Contains Element  inputSchoolName 
+  Input Text  inputSchoolName  ${correct name for edit}
+  Input Text  inputNumber  ${correct address for edit}
+  Click Element  selectDir
+  Select From List by Value  selectDir  12
+  Click Button  name=add_button
+  Choose Ok On Next Confirmation
+  Confirm Action
+  Page Should Contain  Галай Людмила Архипівна
+
+16. Edit with name using roman alphabet
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${name roman}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено назву.
+
+17. Edit with address using roman alphabet
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputNumber  ${address roman}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
+
+18. Edit with empty name
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${EMPTY}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено назву.
+
+19. Edit with empty address
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputNumber  ${EMPTY}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
+
+20. Edit with wrong cyrrilic school name
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${cyrrilic name wrong}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено назву.
+
+21. Edit with wrong cyrrilic school address
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputNumber  ${cyrrilic address wrong}
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
+
+22. Edit with already exists name for school
+  Click Link  /mainteacher/school_update/4
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  ${name already exists}
+  Sleep  1s
+  Click Button  name=add_button
+  Page Should Contain  Школа з такою назвою вже існує.
+
+23. Edit with name starting lower case
+  Click Link  /mainteacher/school_update/2
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputSchoolName  нвк "веселка"
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено назву.
+
+24. Edit with address starting upper case
+  Click Link  /mainteacher/school_add/
+  Wait Until Page Contains Element  inputSchoolName
+  Input Text  inputNumber  ВУЛ. Макарова, 19
+  Click Button  name=add_button
+  Page Should Contain  Некоректно введено адресу.
+
+25. Edit school director with option 'no director'
+  Click Link  /mainteacher/school_update/5
+  Wait Until Page Contains Element  inputSchoolName 
+  Input Text  inputSchoolName  ${correct name for edit}
+  Input Text  inputNumber  ${correct address for edit}
+  Click Element  selectDir   
+  Select From List by Value  selectDir  ${message}
+  Click Button  name=add_button
+  Choose Ok On Next Confirmation
+  Confirm Action
+  Page Should Not Contain  Галай Людмила Архипівна
 
 
 

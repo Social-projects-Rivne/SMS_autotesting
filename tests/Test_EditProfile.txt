@@ -1,40 +1,74 @@
 *** Settings ***
 Library           Selenium2Library
-Test Setup        Test_Setup_Steps
-Test Teardown     Close Browser
-Suite Teardown    Close Browser
+Test Setup        Test Setup Steps
+Test Teardown     Close All Browsers
+Suite Teardown    Close All Browsers
+Force Tags        FunctionalTest
+Default Tags      EditProfile
+
 
 *** Keywords ***
-Test_Setup_Steps
+Test Setup Steps
     Set Selenium Speed    0
-    Open Browser    ${login address}
+    Open Browser    ${login address}    ${browser}
     Maximize Browser Window
     Input Text    inputUsername    ${login test}
     Input Text    inputPassword    ${password test}
-    Click Button    tag=button
+    Click Button    Увійти
     Click Link    /core/profile/
+
+Test Steps Both   [Arguments]  ${name}  ${email}
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains Element    id=inputName
+    Input Text    inputName    ${name}
+    Input Text    inputEmail    ${email}
+    Press Key    inputEmail    \\09
+    Click Button    name=confirm_button
+
+Confirm Changes   [Arguments]  ${name}  ${email}
+    Page Should Contain    ${name}
+    Page Should Contain    ${email}
+
+Test Steps Name   [Arguments]  ${name}
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains Element    id=inputName
+    Input Text    inputName    ${name}
+    Press Key    inputEmail    \\09
+    Click Button    name=confirm_button
+
+Check Warning Name
+    Page Should Contain    Некоректно введено ім'я.
+    Page Should Contain    Редагувати профіль
+
+Test Steps Email   [Arguments]  ${email}
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains Element    id=inputName
+    Input Text    inputEmail    ${email}
+    Press Key    inputEmail    \\09
+    Click Button    name=confirm_button
+
+Check Warning Email
+    Page Should Contain    Некоректно введено email.
+    Page Should Contain    Редагувати профіль
+
 
 *** Variables ***
 ${login address}    http://sms-rv016atqc.rhcloud.com/
 ${login address-local}    http://127.0.0.1:8000/
+${browser}   firefox
+
 ${login test}     semuschenko
 ${password test}    pDk7jf
 
-${login test}     first
-${password test}    first
-
 ${original name}    Семищенко Христофор Онуфрійович
 ${original email}    semuschenko@gmail.com
-
-${original name}    Борис Олексій Олексійович
-${original email}    bo-a@yandex.ru
 
 ${correct name 1}    Іванов Петро Степанович
 ${correct email 1}    email@domain.com
 ${correct name 2}    Стець Мар'яна Іванівна
 ${correct email 2}    marjana.stetc@gmail.com
 ${correct name 3}    Ворон-Розумна Анна-Марія Степанівна
-${correct email 3}    voron-rozumna.anna-marija@many-many.domail.levels.gmail.com
+${correct email 3}    voron-rozumna.anna-marija@many-many.domain.levels.gmail.com
 
 ${incorrect name 1}    Мадонна
 ${incorrect name 2}    Мурзік Васильович
@@ -55,24 +89,25 @@ ${incorrect email 2}   address@.com
 ${incorrect email 3}   address@gmail
 ${incorrect email 4}   address@gmail@com
 
+
 *** Testcases ***
-Check, that user profile page is opened ***
-    [Tags]    ValidTest    EditProfile
+01. Check, that user profile page is opened
+    [Tags]    ValidTest     SmokeTest
     Page Should Contain    Профіль
     Page Should Contain    ${login test}
 
-Check, that user profile page contains button(link) to edit profile ***
-    [Tags]    ValidTest    EditProfile
+02. Check, that user profile page contains button(link) to edit profile
+    [Tags]    ValidTest     SmokeTest
     Page Should Contain Link    /core/profile_edit/
 
-Check, that clicking on the link to edit profile opens the frame to edit profile opened ***
-    [Tags]    ValidTest    EditProfile
-    Set Selenium Speed    1
+03. Check, that clicking on the link to edit profile opens the frame to edit profile opened
+    [Tags]    ValidTest     SmokeTest
     Click Link    /core/profile_edit/
+    Wait Until Page Contains    Редагувати профіль
     Page Should Contain    Редагувати профіль
 
-Check, that the frame to edit profile contains fields and buttons ***
-    [Tags]    ValidTest    EditProfile
+04. Check, that the frame to edit profile contains fields and buttons
+    [Tags]    ValidTest     SmokeTest
     Click Link    /core/profile_edit/
     Wait Until Page Contains Element    id=inputName
     Page Should Contain Textfield    inputName
@@ -81,198 +116,117 @@ Check, that the frame to edit profile contains fields and buttons ***
     Page Should Contain    Відмінити
     Page Should Contain Button    name=confirm_button
 
-Edit profile with correct data (first case) ***
-    [Tags]    ValidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${correct name 1}
-    Input Text    inputEmail    ${correct email 1}
-    Press Key    inputEmail    \\09
-    Click Button    name=confirm_button
-    Page Should Contain    ${correct name 1}
-    Page Should Contain    ${correct email 1}
+05. Edit profile with correct data (first case)
+    [Tags]    ValidTest
+    Test Steps Both    ${correct name 1}   ${correct email 1}
+    Confirm Changes    ${correct name 1}   ${correct email 1}
 
-Edit profile with correct data (second case) ***
-    [Tags]    ValidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${correct name 2}
-    Input Text    inputEmail    ${correct email 2}
-    Press Key    inputEmail    \\09
-    Click Button    name=confirm_button
-    Page Should Contain    ${correct name 2}
-    Page Should Contain    ${correct email 2}
+06. Edit profile with correct data (second case)
+    [Tags]    ValidTest
+    Test Steps Both    ${correct name 2}   ${correct email 2}
+    Confirm Changes    ${correct name 2}   ${correct email 2}
 
-Edit profile with correct data (third case) ***
-    [Tags]    ValidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${correct name 3}
-    Input Text    inputEmail    ${correct email 3}
-    Press Key    inputEmail    \\09
-    Click Button    name=confirm_button
-    Page Should Contain    ${correct name 3}
-    Page Should Contain    ${correct email 3}
+07. Edit profile with correct data (third case)
+    [Tags]    ValidTest
+    Test Steps Both    ${correct name 3}   ${correct email 3}
+    Confirm Changes    ${correct name 3}   ${correct email 3}
 
-Edit profile with empty name ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Clear Element Text    inputName
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+08. Edit profile with empty name
+    [Tags]    InvalidTest
+    Test Steps Name    ${empty}
+    Check Warning Name
 
-Edit profile with incorrect name (first case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 1}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+09. Edit profile with incorrect name (first case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 1}
+    Check Warning Name
 
-Edit profile with incorrect name (second case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 2}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+10. Edit profile with incorrect name (second case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 2}
+    Check Warning Name
 
-Edit profile with incorrect name (third case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 3}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+11. Edit profile with incorrect name (third case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 3}
+    Check Warning Name
 
-Edit profile with incorrect name (fourth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 4}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+12. Edit profile with incorrect name (fourth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 4}
+    Check Warning Name
 
-Edit profile with incorrect name (fifth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 5}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+13. Edit profile with incorrect name (fifth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 5}
+    Check Warning Name
 
-Edit profile with incorrect name (sixth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 6}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+14. Edit profile with incorrect name (sixth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 6}
+    Check Warning Name
 
-Edit profile with incorrect name (seventh case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 7}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+15. Edit profile with incorrect name (seventh case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 7}
+    Check Warning Name
 
-Edit profile with incorrect name (eigth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 8}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+16. Edit profile with incorrect name (eigth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 8}
+    Check Warning Name
 
-Edit profile with incorrect name (nineth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 9}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+17. Edit profile with incorrect name (nineth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 9}
+    Check Warning Name
 
-Edit profile with incorrect name (tenth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 10}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+18. Edit profile with incorrect name (tenth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 10}
+    Check Warning Name
 
-Edit profile with incorrect name (eleventh case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 11}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+19. Edit profile with incorrect name (eleventh case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 11}
+    Check Warning Name
 
-Edit profile with incorrect name (twelwth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 12}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+20. Edit profile with incorrect name (twelwth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 12}
+    Check Warning Name
 
-Edit profile with incorrect name (thirteenth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${incorrect name 13}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено ім'я.
+21. Edit profile with incorrect name (thirteenth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 13}
+    Check Warning Name
 
-Edit profile with empty email ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Clear Element Text    inputEmail
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено email.
+22. Edit profile with empty email
+    [Tags]    InvalidTest
+    Test Steps Email    ${empty}
+    Check Warning Email
 
-Edit profile with incorrect email (first case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputEmail    ${incorrect email 1}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено email.
+23. Edit profile with incorrect email (first case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 1}
+    Check Warning Email
 
-Edit profile with incorrect email (second case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputEmail    ${incorrect email 2}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено email.
+24. Edit profile with incorrect email (second case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 2}
+    Check Warning Email
 
-Edit profile with incorrect email (third case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputEmail    ${incorrect email 3}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено email.
+25. Edit profile with incorrect email (third case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 3}
+    Check Warning Email
 
-Edit profile with incorrect email (fourth case) ***
-    [Tags]    InvalidTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputEmail    ${incorrect email 4}
-    Press Key    inputEmail    \\09
-    Page Should Contain    Некоректно введено email.
+26. Edit profile with incorrect email (fourth case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 4}
+    Check Warning Email
 
-Restore previous state for profile ***
-    [Tags]    RestoreTest    EditProfile
-    Click Link    /core/profile_edit/
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${original name}
-    Input Text    inputEmail    ${original email}
-    Press Key    inputEmail    \\09
-    Click Button    name=confirm_button
-    Page Should Contain    ${original name}
-    Page Should Contain    ${original email}
+27. Restore previous state for profile
+    [Tags]    RestoreTest
+    Test Steps Both     ${original name}   ${original email}
+    Confirm Changes     ${original name}   ${original email}

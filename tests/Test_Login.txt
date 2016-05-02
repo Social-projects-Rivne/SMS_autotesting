@@ -1,18 +1,36 @@
 *** Settings ***
 Library           Selenium2Library
-Test Setup        Test_Setup_Steps
-Test Teardown     Close Browser
-Suite Teardown    Close Browser
+Test Setup        Test Setup Steps
+Test Teardown     Close All Browsers
+Suite Teardown    Close All Browsers
+Force Tags        FunctionalTest
+Default Tags      Login
+
 
 *** Keywords ***
-Test_Setup_Steps
+Test Setup Steps
     Set Selenium Speed    0
-    Open Browser    ${login address}
+    Open Browser    ${login address}    ${browser}
     Maximize Browser Window
+
+Test Steps    [Arguments]  ${login}  ${password}
+    Input Text    inputUsername    ${login}
+    Input Text    inputPassword    ${password}
+    Click Button    Увійти
+    
+Check Warning & Page Unchanged
+    ${title}    Get Title
+    Should Be True    '${title}' == 'Авторизація | SMS'
+    
+Check Warning Message
+    Page Should Contain    Невірно вказаний пароль або логін
+
 
 *** Variables ***
 ${login address}    http://sms-rv016atqc.rhcloud.com/
 ${login address-local}    http://127.0.0.1:8000/
+${browser}   firefox
+
 ${login main}     semuschenko
 ${password main}    pDk7jf
 ${login main camel}     sEmUsChEnKo
@@ -39,155 +57,118 @@ ${login incorrect11}    <semuschenko>
 
 
 *** Testcases ***
-01. Login Should Succeed for main teacher when the correct Username and Password are entered ***
-    [Tags]    ValidTest    Login
-    Input Text    inputUsername    ${login main}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Головний
+01. Check, that login page contains fields and buttons
+    [Tags]    ValidTest     SmokeTest
+    Page Should Contain Element     name=inputUsername
+    Page Should Contain Element     name=inputPassword
+    Page Should Contain Button       Увійти
 
-02. Login Should Succeed for main teacher when the correct Username (different case) and Password are entered ***
-    [Tags]    ValidTest    Login
-    Input Text    inputUsername    ${login main camel}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Головний
+02. Login Should Succeed for main teacher when the correct Username and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login main}    ${password main}
+    Page Should Contain    Головний вчитель
 
-03. Login Should Succeed for main teacher when the correct Username and Password (different case) are entered ***
-    [Tags]    ValidTest    Login
-    Input Text    inputUsername    ${login main}
-    Input Text    inputPassword    ${password main camel}
-    Click Button    tag=button
-    Page Should Contain    Головний
-
-04. Login Should Succeed for school director when the correct Username and Password are entered ***
-    [Tags]    ValidTest    Login
-    Input Text    inputUsername    ${login director}
-    Input Text    inputPassword    ${password director}
-    Click Button    tag=button
+03. Login Should Succeed for school director when the correct Username and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login director}    ${password director}
     Page Should Contain    Завуч
 
-05. Login Should Succeed for teacher when the correct Username and Password are entered ***
-    [Tags]    ValidTest    Login
-    Input Text    inputUsername    ${login teacher}
-    Input Text    inputPassword    ${password teacher}
-    Click Button    tag=button
+04. Login Should Succeed for teacher when the correct Username and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login teacher}    ${password teacher}
     Page Should Contain    Викладач
 
-06. Warning Message Should appear for user when the Pasword->Username and Username->Password ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername    ${password main}
-    Input Text    inputPassword    ${login main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+05. Login Should Succeed for main teacher when the correct Username (different case) and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login main camel}    ${password main}
+    Page Should Contain    Головний
 
-07. Warning Message Should appear for user when the Username and Password left empty ***
-    [Tags]    InValidTest    Login
-    Click Button    tag=button
-    ${title}    Get Title
-    Should Be True    '${title}' == 'Авторизація | SMS'
+06. Warning Message Should appear for user when the correct Username and Password (different case) are entered
+    [Tags]    InValidTest     Failed
+    Test Steps     ${login main}      ${password main camel}
+    Check Warning Message
 
-08. Warning Message Should appear for user when the Password left empty ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername    ${login incorrect1}
-    Click Button    tag=button
-    ${title}    Get Title
-    Should Be True    '${title}' == 'Авторизація | SMS'
+07. Warning Message Should appear for user when the Pasword->Username and Username->Password
+    [Tags]    InValidTest
+    Test Steps    ${password main}    ${login main}
+    Check Warning Message
 
-09. Warning Message Should appear for user when the Username left empty ***
-    [Tags]    InValidTest    Login
-    Input Text    inputPassword    ${password incorrect1}
-    Click Button    tag=button
-    ${title}    Get Title
-    Should Be True    '${title}' == 'Авторизація | SMS'
+08. Warning Message Should appear for user when the Username and Password left empty
+    [Tags]    InValidTest
+    Test Steps    ${empty}    ${empty}
+    Check Warning & Page Unchanged
 
-10. Warning Message Should appear for user when the incorrect Username and Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername    ${login incorrect1}
-    Input Text    inputPassword    ${password incorrect1}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+09. Warning Message Should appear for user when the Password left empty
+    [Tags]    InValidTest
+    Test Steps    ${login incorrect1}    ${empty}
+    Check Warning & Page Unchanged
 
-11. Warning Message Should appear for user when the correct Username and incorrect Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername    ${login main}
-    Input Text    inputPassword    ${password incorrect1}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+10. Warning Message Should appear for user when the Username left empty
+    [Tags]    InValidTest
+    Test Steps    ${empty}    ${password incorrect1}
+    Check Warning & Page Unchanged
 
-12. Warning Message Should appear for user when the incorrect Username and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername    ${login incorrect1}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+11. Warning Message Should appear for user when the incorrect Username and Password are Entered
+    [Tags]    InValidTest
+    Test Steps    ${login incorrect1}    ${password incorrect1}
+    Check Warning Message
 
-13. Warning Message Should appear for user when the injection1 -> Username and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect2}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+12. Warning Message Should appear for user when the correct Username and incorrect Password are Entered
+    [Tags]    InValidTest
+    Test Steps    ${login main}    ${password incorrect1}
+    Check Warning Message
 
-14. Warning Message Should appear for user when the injection2 -> Username and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect3}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+13. Warning Message Should appear for user when the incorrect Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps    ${login incorrect1}    ${password main}
+    Check Warning Message
 
-15. Warning Message Should appear for user when the injection3 -> Username and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect4}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+14. Warning Message Should appear for user when the injection1 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect2}    ${password main}
+    Check Warning Message
 
-16. Warning Message Should appear for user when the injection4 -> Username and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect5}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+15. Warning Message Should appear for user when the injection2 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect3}    ${password main}
+    Check Warning Message
 
-17. Warning Message Should appear for user when the wrong Username and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect6}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+16. Warning Message Should appear for user when the injection3 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect4}    ${password main}
+    Check Warning Message
 
-18. Warning Message Should appear for user when the wrong Username only with spaces and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect7}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+17. Warning Message Should appear for user when the injection4 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect5}    ${password main}
+    Check Warning Message
 
-19. Warning Message Should appear for user when the correct Username with spaces at beginning and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect8}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+18. Warning Message Should appear for user when the wrong Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect6}    ${password main}
+    Check Warning Message
 
-20. Warning Message Should appear for user when the correct Username with spaces on the end and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect9}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+19. Warning Message Should appear for user when the wrong Username only with spaces and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect7}    ${password main}
+    Check Warning Message
 
-21. Warning Message Should appear for user when the Username Password (both cyrillyc) are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect10}
-    Input Text    inputPassword    ${password incorrect10}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+20. Warning Message Should appear for user when the correct Username with spaces at beginning and correct Password are Entered
+    [Tags]    InValidTest     Failed
+    Test Steps     ${login incorrect8}    ${password main}
+    Check Warning Message
 
-22. Warning Message Should appear for user when the incorrect Username with <> and correct Password are Entered ***
-    [Tags]    InValidTest    Login
-    Input Text    inputUsername     ${login incorrect11}
-    Input Text    inputPassword    ${password main}
-    Click Button    tag=button
-    Page Should Contain    Невірно вказаний пароль або логін
+21. Warning Message Should appear for user when the correct Username with spaces on the end and correct Password are Entered
+    [Tags]    InValidTest     Failed
+    Test Steps     ${login incorrect9}    ${password main}
+    Check Warning Message
+
+22. Warning Message Should appear for user when the Username Password (both cyrillic) are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect10}    ${password incorrect10}
+    Check Warning Message
+
+23. Warning Message Should appear for user when the incorrect Username with <> and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect11}    ${password main}
+    Check Warning Message
