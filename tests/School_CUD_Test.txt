@@ -6,7 +6,7 @@ Test Teardown     Close Browser
 *** Keywords ***
 Test_Setup_Steps
     Set Selenium Speed    0
-    Open Browser    ${login address-local}
+    Open Browser    ${login address}
     Maximize Browser Window
     Input Text    inputUsername    ${login}
     Input Text    inputPassword    ${password}
