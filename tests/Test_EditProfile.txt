@@ -246,7 +246,7 @@ ${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.so
     Check Warning Email
 
 28. Edit profile with incorrect email (fourth case)
-    [Tags]    InvalidTest     Failed
+    [Tags]    InvalidTest
     Test Steps Email    ${incorrect email 5}
     Check Warning Email
 
