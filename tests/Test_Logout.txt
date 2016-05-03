@@ -1,0 +1,46 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test_Setup_Steps
+Suite Teardown    Close Browser
+Test Teardown     Close Browser
+
+*** Keywords ***
+Test_Setup_Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}
+    Maximize Browser Window
+
+*** Variables ***
+${login address}    http://ss-alexeyvasiluk.rhcloud.com/
+${login address-local}    http://127.0.0.1:8000/
+${login main}     semuschenko
+${password main}    pDk7jf
+${login head}    zoshch
+${password head}    df5sFdf
+${login teacher}    maximus
+${password teacher}    LKuJf3y
+
+*** Testcases ***
+Logout Should Succeed for main teacher 
+  Input Text    inputUsername   ${login main}
+  Input Text    inputPassword   ${password main}
+  Click Button    tag=button
+  Click Button    id=logout
+  Page Should Contain    Увійти
+
+Logout Should Succeed for head teacher
+  Input Text    inputUsername   ${login head}
+  Input Text    inputPassword   ${password head}
+  Click Button    tag=button
+  Click Button    id=logout
+  Page Should Contain    Увійти
+
+Logout Should Succeed for teacher
+  Input Text    inputUsername   ${login teacher}
+  Input Text    inputPassword   ${password teacher}
+  Click Button    tag=button
+  Click Button    id=logout
+  Page Should Contain    Увійти
+
+
+

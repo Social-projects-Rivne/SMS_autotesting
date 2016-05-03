@@ -1,0 +1,256 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test Setup Steps
+Test Teardown     Close All Browsers
+Suite Teardown    Close All Browsers
+Force Tags        FunctionalTest
+Default Tags      EditProfile
+
+
+*** Keywords ***
+Test Setup Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}    ${browser}
+    Maximize Browser Window
+    Input Text    inputUsername    ${login test}
+    Input Text    inputPassword    ${password test}
+    Click Button    Увійти
+    Click Link    /core/profile/
+
+Test Steps Both   [Arguments]  ${name}  ${email}
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains Element    id=inputName
+    Input Text    inputName    ${name}
+    Input Text    inputEmail    ${email}
+    Press Key    inputEmail    \\09
+    Click Button    name=confirm_button
+
+Confirm Changes   [Arguments]  ${name}  ${email}
+    Page Should Contain    ${name}
+    Page Should Contain    ${email}
+
+Test Steps Name   [Arguments]  ${name}
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains Element    id=inputName
+    Input Text    inputName    ${name}
+    Press Key    inputEmail    \\09
+    Click Button    name=confirm_button
+
+Check Warning Name
+    Page Should Contain    Некоректно введено ім'я.
+    Page Should Contain    Редагувати профіль
+
+Test Steps Email   [Arguments]  ${email}
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains Element    id=inputName
+    Input Text    inputEmail    ${email}
+    Press Key    inputEmail    \\09
+    Click Button    name=confirm_button
+
+Check Warning Email
+    Page Should Contain    Некоректно введено email.
+    Page Should Contain    Редагувати профіль
+
+
+*** Variables ***
+${login address}    http://sms-rv016atqc.rhcloud.com/
+${login address-local}    http://127.0.0.1:8000/
+${browser}   firefox
+
+${login test}     semuschenko
+${password test}    pDk7jf
+
+${original name}    Семищенко Христофор Онуфрійович
+${original email}    semuschenko@gmail.com
+
+${correct name 1}    Іванов Петро Степанович
+${correct email 1}    email@domain.com
+${correct name 2}    Стець Мар'яна Іванівна
+${correct email 2}    marjana.stetc@gmail.com
+${correct name 3-1}    Ворон-Розумна Анна-Марія Степанівна
+${correct name 3-2}    Ворон-Розумна Анна Степанівна
+${correct name 3-3}    Ворон Анна-Марія Степанівна
+${correct email 3}    voron-rozumna.anna-marija@many-many.domain.levels.gmail.com
+
+${incorrect name 1}    Мадонна
+${incorrect name 2}    Мурзік Васильович
+${incorrect name 3}    Василь Перебійніс
+${incorrect name 4}    John
+${incorrect name 5}    John Smith
+${incorrect name 6}    John Alexander Smith
+${incorrect name 7}    John A. Smith
+${incorrect name 8}    бОРИС бОРИС бОРИСОВИЧ
+${incorrect name 9}    Борис Борис Борисович Молодший
+${incorrect name 10}    Cемищенко Xристофор Oнуфрійович
+${incorrect name 11}    Семищенко_Христофор_Онуфрійович
+${incorrect name 12}    Семищенко Христофор Онуфр1йович
+${incorrect name 13}    Семищенко Христофор О.
+${incorrect name 14}    Семищенкомищенко Христофористофор Онуфрійовичуфрійовичуфрійович
+
+${incorrect email 1}    @gmail.com
+${incorrect email 2}   address@.com
+${incorrect email 3}   address@gmail
+${incorrect email 4}   address@gmail@com
+${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.some.more.domain.levels.for.email.testing.gmail.com
+
+
+*** Testcases ***
+01. Check, that user profile page is opened
+    [Tags]    ValidTest     SmokeTest
+    Page Should Contain    Профіль
+    Page Should Contain    ${login test}
+
+02. Check, that user profile page contains button(link) to edit profile
+    [Tags]    ValidTest     SmokeTest
+    Page Should Contain Link    /core/profile_edit/
+
+03. Check, that clicking on the link to edit profile opens the frame to edit profile opened
+    [Tags]    ValidTest     SmokeTest
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains    Редагувати профіль
+    Page Should Contain    Редагувати профіль
+
+04. Check, that the frame to edit profile contains fields and buttons
+    [Tags]    ValidTest     SmokeTest
+    Click Link    /core/profile_edit/
+    Wait Until Page Contains Element    id=inputName
+    Page Should Contain Textfield    inputName
+    Page Should Contain Textfield    inputEmail
+    Page Should Contain Link    /core/profile/
+    Page Should Contain    Відмінити
+    Page Should Contain Button    name=confirm_button
+
+05. Edit profile with correct data (first case)
+    [Tags]    ValidTest
+    Test Steps Both    ${correct name 1}   ${correct email 1}
+    Confirm Changes    ${correct name 1}   ${correct email 1}
+
+06. Edit profile with correct data (second case)
+    [Tags]    ValidTest
+    Test Steps Both    ${correct name 2}   ${correct email 2}
+    Confirm Changes    ${correct name 2}   ${correct email 2}
+
+07-1. Edit profile with correct data (third case)
+    [Tags]    ValidTest     Failed
+    Test Steps Both    ${correct name 3-1}   ${correct email 3}
+    Confirm Changes    ${correct name 3-1}   ${correct email 3}
+
+07-2. Edit profile with correct data (third case)
+    [Tags]    ValidTest     Failed
+    Test Steps Both    ${correct name 3-2}   ${correct email 3}
+    Confirm Changes    ${correct name 3-2}   ${correct email 3}
+
+07-3. Edit profile with correct data (third case)
+    [Tags]    ValidTest     Failed
+    Test Steps Both    ${correct name 3-3}   ${correct email 3}
+    Confirm Changes    ${correct name 3-3}   ${correct email 3}
+
+08. Edit profile with empty name
+    [Tags]    InvalidTest
+    Test Steps Name    ${empty}
+    Check Warning Name
+
+09. Edit profile with incorrect name (first case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 1}
+    Check Warning Name
+
+10. Edit profile with incorrect name (second case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 2}
+    Check Warning Name
+
+11. Edit profile with incorrect name (third case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 3}
+    Check Warning Name
+
+12. Edit profile with incorrect name (fourth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 4}
+    Check Warning Name
+
+13. Edit profile with incorrect name (fifth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 5}
+    Check Warning Name
+
+14. Edit profile with incorrect name (sixth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 6}
+    Check Warning Name
+
+15. Edit profile with incorrect name (seventh case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 7}
+    Check Warning Name
+
+16. Edit profile with incorrect name (eigth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 8}
+    Check Warning Name
+
+17. Edit profile with incorrect name (nineth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 9}
+    Check Warning Name
+
+18. Edit profile with incorrect name (tenth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 10}
+    Check Warning Name
+
+19. Edit profile with incorrect name (eleventh case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 11}
+    Check Warning Name
+
+20. Edit profile with incorrect name (twelwth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 12}
+    Check Warning Name
+
+21. Edit profile with incorrect name (thirteenth case)
+    [Tags]    InvalidTest
+    Test Steps Name    ${incorrect name 13}
+    Check Warning Name
+
+22. Edit profile with incorrect name (fourteenth case)
+    [Tags]    InvalidTest     Failed
+    Test Steps Name    ${incorrect name 14}
+    Check Warning Name
+
+23. Edit profile with empty email
+    [Tags]    InvalidTest
+    Test Steps Email    ${empty}
+    Check Warning Email
+
+24. Edit profile with incorrect email (first case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 1}
+    Check Warning Email
+
+25. Edit profile with incorrect email (second case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 2}
+    Check Warning Email
+
+26. Edit profile with incorrect email (third case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 3}
+    Check Warning Email
+
+27. Edit profile with incorrect email (fourth case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 4}
+    Check Warning Email
+
+28. Edit profile with incorrect email (fourth case)
+    [Tags]    InvalidTest
+    Test Steps Email    ${incorrect email 5}
+    Check Warning Email
+
+29. Restore previous state for profile
+    [Tags]    RestoreTest
+    Test Steps Both     ${original name}   ${original email}
+    Confirm Changes     ${original name}   ${original email}

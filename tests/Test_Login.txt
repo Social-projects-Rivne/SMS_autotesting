@@ -1,0 +1,206 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test Setup Steps
+Test Teardown     Close All Browsers
+Suite Teardown    Close All Browsers
+Force Tags        FunctionalTest
+Default Tags      Login
+
+
+*** Keywords ***
+Test Setup Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}    ${browser}
+    Maximize Browser Window
+
+Test Steps    [Arguments]  ${login}  ${password}
+    Input Text    inputUsername    ${login}
+    Input Text    inputPassword    ${password}
+    Click Button    Увійти
+    
+Check Warning & Page Unchanged
+    ${title}    Get Title
+    Should Be True    '${title}' == 'Авторизація | SMS'
+    
+Check Warning Message
+    Page Should Contain    Невірно вказаний пароль або логін
+
+
+*** Variables ***
+${login address}    http://sms-rv016atqc.rhcloud.com/
+${login address-local}    http://127.0.0.1:8000/
+${browser}   firefox
+
+${login main}     semuschenko
+${password main}    pDk7jf
+${login main camel}     sEmUsChEnKo
+${password main camel}    PdK7Jf
+${login director}    zoshch
+${password director}    df5sFdf
+${login teacher}    maximus
+${password teacher}    LKuJf3y
+
+${login incorrect1}     loginloginlogin
+${password incorrect1}    passwordpasswordpassword
+${login injection1}     <script>alert(123)</script>
+${login injection2}     (‘ or ‘a’ = ‘a’; DROP TABLE teachers; SELECT * FROM teachers;)
+${login injection3}     ‘ or ‘a’ = ‘a’; DROP TABLE teachers; SELECT * FROM teachers;
+${login injection4}     (<script>alert(“Hello, world!”)</alert>, <script>document.getElementByID(“…”).disabled=true</script>)
+${login injection5}     <script>alert(“Hello, world!”)</alert>, <script>document.getElementByID(“…”).disabled=true</script>
+${login injection6}     (<form action=”http://sms-rv016atqc.rhcloud.com/”><input type=”submit”></form>)
+${login injection7}     <form action=”http://sms-rv016atqc.rhcloud.com/”><input type=”submit”></form>
+#'“♣☺♂” , “”‘~!@#$%^&*()?>,./\<][ /*<!–“”, “${code}”;–>'
+${login incorrect2}     \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
+${login incorrect3}     \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+${login incorrect4}    \x20\x20\x20\x20semuschenko
+${login incorrect5}    semuschenko\x20\x20\x20\x20
+${login incorrect6}    логін
+${password incorrect6}    пароль123!?%&
+${login incorrect7}    <semuschenko>
+
+
+*** Testcases ***
+01. Check, that login page contains fields and buttons
+    [Tags]    ValidTest     SmokeTest
+    Page Should Contain Element     name=inputUsername
+    Page Should Contain Element     name=inputPassword
+    Page Should Contain Button       Увійти
+
+02. Login Should Succeed for main teacher when the correct Username and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login main}    ${password main}
+    Page Should Contain    Головний вчитель
+
+03. Login Should Succeed for school director when the correct Username and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login director}    ${password director}
+    Page Should Contain    Завуч
+
+04. Login Should Succeed for teacher when the correct Username and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login teacher}    ${password teacher}
+    Page Should Contain    Викладач
+
+05. Login Should Succeed for main teacher when the correct Username (different case) and Password are entered
+    [Tags]    ValidTest
+    Test Steps    ${login main camel}    ${password main}
+    Page Should Contain    Головний
+
+06. Warning Message Should appear for user when the correct Username and Password (different case) are entered
+    [Tags]    InValidTest     Failed
+    Test Steps     ${login main}      ${password main camel}
+    Check Warning Message
+
+07. Warning Message Should appear for user when the Pasword->Username and Username->Password
+    [Tags]    InValidTest
+    Test Steps    ${password main}    ${login main}
+    Check Warning Message
+
+08. Warning Message Should appear for user when the Username and Password left empty
+    [Tags]    InValidTest
+    Test Steps    ${empty}    ${empty}
+    Check Warning & Page Unchanged
+
+09. Warning Message Should appear for user when the Password left empty
+    [Tags]    InValidTest
+    Test Steps    ${login incorrect1}    ${empty}
+    Check Warning & Page Unchanged
+
+10. Warning Message Should appear for user when the Username left empty
+    [Tags]    InValidTest
+    Test Steps    ${empty}    ${password incorrect1}
+    Check Warning & Page Unchanged
+
+11. Warning Message Should appear for user when the incorrect Username and Password are Entered
+    [Tags]    InValidTest
+    Test Steps    ${login incorrect1}    ${password incorrect1}
+    Check Warning Message
+
+12. Warning Message Should appear for user when the correct Username and incorrect Password are Entered
+    [Tags]    InValidTest
+    Test Steps    ${login main}    ${password incorrect1}
+    Check Warning Message
+
+13. Warning Message Should appear for user when the incorrect Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps    ${login incorrect1}    ${password main}
+    Check Warning Message
+
+14. Warning Message Should appear for user when the injection1 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login injection1}    ${password main}
+    Check Warning Message
+
+15. Warning Message Should appear for user when the injection2 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login injection2}    ${password main}
+    Check Warning Message
+
+16. Warning Message Should appear for user when the injection3 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login injection3}    ${password main}
+    Check Warning Message
+
+17. Warning Message Should appear for user when the injection4 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login injection4}    ${password main}
+    Check Warning Message
+
+18. Warning Message Should appear for user when the injection5 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login injection5}    ${password main}
+    Check Warning Message
+
+19. Warning Message Should appear for user when the injection6 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login injection6}    ${password main}
+    Check Warning Message
+
+20. Warning Message Should appear for user when the injection7 -> Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login injection7}    ${password main}
+    Check Warning Message
+
+21. Warning Message Should appear for user when the wrong Username and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect2}    ${password main}
+    Check Warning Message
+
+22. Warning Message Should appear for user when the wrong Username only with spaces and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect3}    ${password main}
+    Check Warning Message
+
+23. Warning Message Should appear for user when the correct Username with spaces at beginning and correct Password are Entered
+    [Tags]    InValidTest     Failed
+    Test Steps     ${login incorrect4}    ${password main}
+    Check Warning Message
+
+24. Warning Message Should appear for user when the correct Username with spaces on the end and correct Password are Entered
+    [Tags]    InValidTest     Failed
+    Test Steps     ${login incorrect5}    ${password main}
+    Check Warning Message
+
+25. Warning Message Should appear for user when the Username Password (both cyrillic) are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect6}    ${password incorrect6}
+    Check Warning Message
+
+26. Warning Message Should appear for user when the incorrect Username with <> and correct Password are Entered
+    [Tags]    InValidTest
+    Test Steps     ${login incorrect7}    ${password main}
+    Check Warning Message
+
+27. Test whether login/close/reopen browser shows an login page with empty fields
+    [Tags]    ValidTest
+    Test Steps    ${login main}    ${password main}
+    Page Should Contain    Головний вчитель
+    Close Browser
+    Open Browser    ${login address}
+    Page Should Contain Element     name=inputUsername
+    Page Should Contain Element     name=inputPassword
+    Page Should Contain Button       Увійти
+    ${login}    Get Value    name=inputUsername
+    Should Be Equal    ${login}    ${empty}
+    ${password}    Get Value    name=inputPassword
+    Should Be Equal    ${password}    ${empty}
