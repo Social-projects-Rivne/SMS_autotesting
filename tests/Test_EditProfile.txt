@@ -67,7 +67,9 @@ ${correct name 1}    Іванов Петро Степанович
 ${correct email 1}    email@domain.com
 ${correct name 2}    Стець Мар'яна Іванівна
 ${correct email 2}    marjana.stetc@gmail.com
-${correct name 3}    Ворон-Розумна Анна-Марія Степанівна
+${correct name 3-1}    Ворон-Розумна Анна-Марія Степанівна
+${correct name 3-2}    Ворон-Розумна Анна Степанівна
+${correct name 3-3}    Ворон Анна-Марія Степанівна
 ${correct email 3}    voron-rozumna.anna-marija@many-many.domain.levels.gmail.com
 
 ${incorrect name 1}    Мадонна
@@ -83,11 +85,13 @@ ${incorrect name 10}    Cемищенко Xристофор Oнуфрійови�
 ${incorrect name 11}    Семищенко_Христофор_Онуфрійович
 ${incorrect name 12}    Семищенко Христофор Онуфр1йович
 ${incorrect name 13}    Семищенко Христофор О.
+${incorrect name 14}    Семищенкомищенко Христофористофор Онуфрійовичуфрійовичуфрійович
 
 ${incorrect email 1}    @gmail.com
 ${incorrect email 2}   address@.com
 ${incorrect email 3}   address@gmail
 ${incorrect email 4}   address@gmail@com
+${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.some.more.domain.levels.for.email.testing.gmail.com
 
 
 *** Testcases ***
@@ -126,10 +130,20 @@ ${incorrect email 4}   address@gmail@com
     Test Steps Both    ${correct name 2}   ${correct email 2}
     Confirm Changes    ${correct name 2}   ${correct email 2}
 
-07. Edit profile with correct data (third case)
-    [Tags]    ValidTest
-    Test Steps Both    ${correct name 3}   ${correct email 3}
-    Confirm Changes    ${correct name 3}   ${correct email 3}
+07-1. Edit profile with correct data (third case)
+    [Tags]    ValidTest     Failed
+    Test Steps Both    ${correct name 3-1}   ${correct email 3}
+    Confirm Changes    ${correct name 3-1}   ${correct email 3}
+
+07-2. Edit profile with correct data (third case)
+    [Tags]    ValidTest     Failed
+    Test Steps Both    ${correct name 3-2}   ${correct email 3}
+    Confirm Changes    ${correct name 3-2}   ${correct email 3}
+
+07-3. Edit profile with correct data (third case)
+    [Tags]    ValidTest     Failed
+    Test Steps Both    ${correct name 3-3}   ${correct email 3}
+    Confirm Changes    ${correct name 3-3}   ${correct email 3}
 
 08. Edit profile with empty name
     [Tags]    InvalidTest
@@ -201,32 +215,42 @@ ${incorrect email 4}   address@gmail@com
     Test Steps Name    ${incorrect name 13}
     Check Warning Name
 
-22. Edit profile with empty email
+22. Edit profile with incorrect name (fourteenth case)
+    [Tags]    InvalidTest     Failed
+    Test Steps Name    ${incorrect name 14}
+    Check Warning Name
+
+23. Edit profile with empty email
     [Tags]    InvalidTest
     Test Steps Email    ${empty}
     Check Warning Email
 
-23. Edit profile with incorrect email (first case)
+24. Edit profile with incorrect email (first case)
     [Tags]    InvalidTest
     Test Steps Email    ${incorrect email 1}
     Check Warning Email
 
-24. Edit profile with incorrect email (second case)
+25. Edit profile with incorrect email (second case)
     [Tags]    InvalidTest
     Test Steps Email    ${incorrect email 2}
     Check Warning Email
 
-25. Edit profile with incorrect email (third case)
+26. Edit profile with incorrect email (third case)
     [Tags]    InvalidTest
     Test Steps Email    ${incorrect email 3}
     Check Warning Email
 
-26. Edit profile with incorrect email (fourth case)
+27. Edit profile with incorrect email (fourth case)
     [Tags]    InvalidTest
     Test Steps Email    ${incorrect email 4}
     Check Warning Email
 
-27. Restore previous state for profile
+28. Edit profile with incorrect email (fourth case)
+    [Tags]    InvalidTest     Failed
+    Test Steps Email    ${incorrect email 5}
+    Check Warning Email
+
+29. Restore previous state for profile
     [Tags]    RestoreTest
     Test Steps Both     ${original name}   ${original email}
     Confirm Changes     ${original name}   ${original email}
