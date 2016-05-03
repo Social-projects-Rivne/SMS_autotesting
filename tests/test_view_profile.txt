@@ -1,31 +1,76 @@
 *** Settings ***
 Library           Selenium2Library
+Test Teardown     Close Browser
 
 *** Test Cases ***
-Test that checks whether button "Мій профіль" show profile for "Головний вчитель"
-    Open browser    http://127.0.0.1:8000
+1. Button "Мій профіль" show profile for "Головний вчитель" (click link)
+    Open browser    http://django-farinhate.rhcloud.com
+    Maximize Browser Window
     Input Text    inputUsername    semuschenko
     Input Text    inputPassword    pDk7jf
     Click Button    Увійти
     Click Link    /core/profile/
+    Page Should Contain Element    xpath=//html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img
     Page Should Contain    semuschenko@gmail.com
+    Page Should Contain    Логін: semuschenko
     Close Browser
 
-Test that checks whether button "Мій профіль" show profile for "Завуч"
-    Open browser    http://127.0.0.1:8000
+2. Button "Мій профіль" show profile for "Головний вчитель" (click element)
+    Open browser    http://django-farinhate.rhcloud.com
+    Maximize Browser Window
+    Input Text    inputUsername    semuschenko
+    Input Text    inputPassword    pDk7jf
+    Click Button    Увійти
+    Click Element    xpath=//html/body/div[2]/div/div[1]/ul/li[4]/a
+    Page Should Contain Element    xpath=//html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img
+    Page Should Contain    semuschenko@gmail.com
+    Page Should Contain    Логін: semuschenko
+    Close Browser
+
+3. Button "Мій профіль" show profile for "Завуч" (click link)
+    Open browser    http://django-farinhate.rhcloud.com
+    Maximize Browser Window
     Input Text    inputUsername    zoshch
     Input Text    inputPassword    df5sFdf
     Click Button    Увійти
     Click Link    /core/profile/
+    Page Should Contain Element    xpath=//html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img
     Page Should Contain    zoshch@gmail.com
     Page Should Contain    НВК №7
     Close Browser
 
-Test that checks whether button "Мій профіль" show profile for "Викладач"
-    Open browser    http://127.0.0.1:8000
+4. Button "Мій профіль" show profile for "Завуч" (click element)
+    Open browser    http://django-farinhate.rhcloud.com
+    Maximize Browser Window
+    Input Text    inputUsername    zoshch
+    Input Text    inputPassword    df5sFdf
+    Click Button    Увійти
+    Click Element    xpath=//html/body/div[2]/div/div[1]/ul/li[4]/a
+    Page Should Contain Element    xpath=//html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img
+    Page Should Contain    zoshch@gmail.com
+    Page Should Contain    НВК №7
+    Close Browser
+
+5. Button "Мій профіль" show profile for "Викладач" (click link)
+    Open browser    http://django-farinhate.rhcloud.com
+    Maximize Browser Window
     Input Text    inputUsername    maximus
     Input Text    inputPassword    LKuJf3y
     Click Button    Увійти
     Click Link    /core/profile/
+    Page Should Contain Element    xpath=//html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img
     Page Should Contain    maximus@gmail.com
+    Page Should Contain    НВК №7
+    Close Browser
+
+6. Button "Мій профіль" show profile for "Викладач" (click element)
+    Open browser    http://django-farinhate.rhcloud.com
+    Maximize Browser Window
+    Input Text    inputUsername    maximus
+    Input Text    inputPassword    LKuJf3y
+    Click Button    Увійти
+    Click Element    xpath=//html/body/div[2]/div/div[1]/ul/li[4]/a
+    Page Should Contain Element    xpath=//html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img
+    Page Should Contain    maximus@gmail.com
+    Page Should Contain    НВК №7
     Close Browser
