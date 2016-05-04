@@ -20,7 +20,7 @@ Test Click Link    [Arguments]  ${view}  ${email}  ${photo}
     Page Should Contain    ${email}
     Page Should Contain    ${view}
     
-Test Click Element    [Arguments]  ${ view}  ${email}  ${photo}
+Test Click Element    [Arguments]  ${view}  ${email}  ${photo}
     Click Element    ${profile-button}
     Page Should Contain Element    ${photo}
     Page Should Contain    ${email}
