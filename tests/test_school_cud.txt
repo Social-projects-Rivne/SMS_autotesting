@@ -25,6 +25,7 @@ Insert Credentials Edit    [Arguments]  ${name}  ${address}
     Input Text    inputSchoolName    ${name}
     Input Text    inputNumber    ${address}
     Click Button    name=add_button
+
 *** Variables ***
 ${login address}  https://smsauto-dvatqc.rhcloud.com
 ${login address-local}  http://127.0.0.1:8000/
@@ -134,7 +135,7 @@ ${address starting upper}  ВУЛ. Макарова, 19
 
 16. Edit with name using roman alphabet
   Insert Credentials Edit  ${name roman}  ${empty}
-  Page Should Contain  Некоректно введено назву.
+  Page Should Contain    Некоректно введено назву.
 
 17. Edit with address using roman alphabet
   Insert Credentials Edit  ${empty}  ${address roman}
@@ -145,52 +146,45 @@ ${address starting upper}  ВУЛ. Макарова, 19
   Wait Until Page Contains Element  inputSchoolName
   Input Text  inputSchoolName  ${EMPTY}
   Click Button  name=add_button
-  Page Should Contain  Некоректно введено назву.
+  Page Should Contain    Некоректно введено назву.
 
 19. Edit with empty address
   Click Link  /mainteacher/school_update/2
   Wait Until Page Contains Element  inputSchoolName
   Input Text  inputNumber  ${EMPTY}
   Click Button  name=add_button
-  Page Should Contain  Некоректно введено адресу.
+  Page Should Contain    Некоректно введено адресу.
 
 20. Edit with wrong cyrrilic school name
   Insert Credentials Edit    ${cyrrilic name wrong}  ${empty}
-  Page Should Contain  Некоректно введено назву.
+  Page Should Contain    Некоректно введено назву.
 
 21. Edit with wrong cyrrilic school address
   Insert Credentials Edit    ${cyrrilic address wrong}  ${empty}
-  Page Should Contain  Некоректно введено адресу.
+  Page Should Contain    Некоректно введено адресу.
 
 22. Edit with already exists name for school
   Insert Credentials Edit    ${correct name}  ${empty}
-  Page Should Contain  Школа з такою назвою вже існує.
+  Page Should Contain    Школа з такою назвою вже існує.
 
 23. Edit with name starting lower case
   Insert Credentials Edit    ${name starting lower}  ${empty}
-  Page Should Contain  Некоректно введено назву.
+  Page Should Contain    Некоректно введено назву.
 
 24. Edit with address starting upper case
   Insert Credentials Edit    ${address starting upper}  ${empty}
-  Page Should Contain  Некоректно введено адресу.
+  Page Should Contain    Некоректно введено адресу.
 
-25. Edit school director with option 'no director'
-  Click Link  /mainteacher/school_update/5
-  Wait Until Page Contains Element  inputSchoolName 
-  Click Element  selectDir
-  Select From List By Index  selectDir  0
-  Press Key  selectDir  \\13
-  Click Button  name=add_button
-  Choose Ok On Next Confirmation
-  Confirm Action
-  Click Link  /mainteacher/school_update/5
-  Page Should Not Contain  Галай Людмила Архипівна
-
-26. Edit school director from the main page
+25. Edit school director from the main page
   #Click Element    xpath=//*[@id='3']/td[3]/director-selector
   Select From List By Index    director-selector    1
   Press Key    director-selector    \\13
   Reload Page 
   Page Should Contain    Бондаренко Юлія Олександрівна
   
+26. Delete school
+  Click Link    /mainteacher/school_delete/2
+  Wait Until Page Contains Element  confirm_button
+  Click Element    confirm_button
+  Page Should Not Contain  НВК №7
 

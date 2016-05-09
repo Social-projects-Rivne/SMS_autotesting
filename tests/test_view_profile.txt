@@ -1,31 +1,84 @@
 *** Settings ***
 Library           Selenium2Library
+Test Setup        Test Setup Steps
+Test Teardown     Close Browser
+
+*** Keywords ***
+Test Setup Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}    ${browser}
+    Maximize Browser Window
+
+Test Steps    [Arguments]  ${login}  ${password}
+    Input Text    inputUsername    ${login}
+    Input Text    inputPassword    ${password}
+    Click Button    Увійти
+
+Test Click Link    [Arguments]  ${view}  ${email}  ${photo}
+    Click Link    /core/profile/
+    Page Should Contain Element    ${photo}
+    Page Should Contain    ${email}
+    Page Should Contain    ${view}
+    
+Test Click Element    [Arguments]  ${view}  ${email}  ${photo}
+    Click Element    ${profile-button}
+    Page Should Contain Element    ${photo}
+    Page Should Contain    ${email}
+    Page Should Contain    ${view}
+
+*** Variables ***
+${login address}    http://django-farinhate.rhcloud.com/
+${browser}    firefox
+${login main}    semuschenko
+${password main}    pDk7jf
+${login director}    zoshch
+${password director}    df5sFdf
+${login teacher}    maximus
+${password teacher}    LKuJf3y    
+
+${email main}    semuschenko@gmail.com
+${email director}    zoshch@gmail.com
+${email teacher}    maximus@gmail.com
+
+${view main}    Логін: semuschenko
+${view director}    Логін: zoshch
+${view teacher}    Логін: maximus
+${school director}    НВК №7
+${school teacher}    НВК №7
+${photo}    xpath=//html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img
+${profile-button}    xpath=//html/body/div[2]/div/div[1]/ul/li[4]/a
 
 *** Test Cases ***
-Test that checks whether button "Мій профіль" show profile for "Головний вчитель"
-    Open browser    http://127.0.0.1:8000
-    Input Text    inputUsername    semuschenko
-    Input Text    inputPassword    pDk7jf
-    Click Button    Увійти
-    Click Link    /core/profile/
-    Page Should Contain    semuschenko@gmail.com
+1. Button "Мій профіль" show profile for "Головний вчитель" (click link)
+    Test Steps    ${login main}    ${password main}
+    Test Click Link    ${view main}    ${email main}    ${photo}
     Close Browser
 
-Test that checks whether button "Мій профіль" show profile for "Завуч"
-    Open browser    http://127.0.0.1:8000
-    Input Text    inputUsername    zoshch
-    Input Text    inputPassword    df5sFdf
-    Click Button    Увійти
-    Click Link    /core/profile/
-    Page Should Contain    zoshch@gmail.com
-    Page Should Contain    НВК №7
+2. Button "Мій профіль" show profile for "Головний вчитель" (click element)
+    Test Steps    ${login main}    ${password main}
+    Test Click Element    ${view main}    ${email main}    ${photo}
     Close Browser
 
-Test that checks whether button "Мій профіль" show profile for "Викладач"
-    Open browser    http://127.0.0.1:8000
-    Input Text    inputUsername    maximus
-    Input Text    inputPassword    LKuJf3y
-    Click Button    Увійти
-    Click Link    /core/profile/
-    Page Should Contain    maximus@gmail.com
+3. Button "Мій профіль" show profile for "Завуч" (click link)
+    Test Steps    ${login director}    ${password director}
+    Test Click Link    ${view director}    ${email director}    ${photo}
+    Page Should Contain    ${school director}
+    Close Browser
+
+4. Button "Мій профіль" show profile for "Завуч" (click element)
+    Test Steps    ${login director}    ${password director}
+    Test Click Element    ${view director}    ${email director}    ${photo}
+    Page Should Contain    ${school director}
+    Close Browser
+
+5. Button "Мій профіль" show profile for "Викладач" (click link)
+    Test Steps    ${login teacher}    ${password teacher}
+    Test Click Link    ${view teacher}    ${email teacher}    ${photo}
+    Page Should Contain    ${school teacher}
+    Close Browser
+
+6. Button "Мій профіль" show profile for "Викладач" (click element)
+    Test Steps    ${login teacher}    ${password teacher}
+    Test Click Element    ${view teacher}    ${email teacher}    ${photo}
+    Page Should Contain    ${school teacher}
     Close Browser
