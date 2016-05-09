@@ -1,0 +1,67 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test Setup Steps
+Test Teardown     Close All Browsers
+Suite Teardown    Close All Browsers
+Force Tags        FunctionalTest
+Default Tags      Login
+
+
+*** Keywords ***
+Test Setup Steps
+    Set Selenium Speed    1
+    Open Browser    ${login address}    ${browser}
+    Maximize Browser Window
+    Input Text    inputUsername    ${login teacher}
+    Input Text    inputPassword    ${password teacher}
+    Click Button    Увійти
+
+
+*** Variables ***
+${login address}    http://sms-rv016atqc.rhcloud.com/
+${login address-local}    http://127.0.0.1:8000/
+${browser}   firefox
+
+${login teacher}    yulia
+${password teacher}    Lhkj4Gh
+
+
+*** Testcases ***
+01. Check, that login page contains fields and buttons
+    [Tags]    ValidTest     SmokeTest
+    Location Should Contain    teacher/subject_group_list
+    Click Element   link = Українська література
+    #//a[contains(.,'Українська література')]
+    Click Element   link = Українська мова
+    Click Element   link = 8А клас
+    #//a[contains(.,'8А клас')]
+    Click Element   link = Класи
+    Click Element   link = 8Б клас
+    Click Element   link = Класи
+    Click Element   link = 8В клас
+    Click Element   link = Класи
+    Click Element   link = 9A клас
+    Click Element   link = Класи
+    Click Element   link = Українська література
+    Click Element   link = 9А клас
+    Click Element   link = Класи
+    Click Element   link = 9Б клас
+    Click Element   link = Класи
+
+
+    Click Element   xpath = html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element   xpath = /html/body/div[2]/div/div[2]/div/div/ul/li[1]/a
+    Click Element   8А клас
+    Click Element   Класи
+    Click Element   8Б клас
+    Click Element   Класи
+    Click Element   8В клас
+    Click Element   Класи
+    Click Element   9А клас
+    Click Element   Класи
+    Click Element   xpath = html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element   9A клас
+    Click Element   Класи
+    Click Element   9Б клас
+    Click Element   Класи
+/html/body/div[2]/div/div[2]/div/div/div/div[2]/a[1]
