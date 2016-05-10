@@ -9,7 +9,7 @@ Default Tags      Login
 
 *** Keywords ***
 Test Setup Steps
-    Set Selenium Speed    1
+    Set Selenium Speed    0
     Open Browser    ${login address}    ${browser}
     Maximize Browser Window
     Input Text    inputUsername    ${login teacher}
@@ -21,47 +21,45 @@ Test Setup Steps
 ${login address}    http://sms-rv016atqc.rhcloud.com/
 ${login address-local}    http://127.0.0.1:8000/
 ${browser}   firefox
-
+    
 ${login teacher}    yulia
 ${password teacher}    Lhkj4Gh
 
+@{subjects}     Українська мова     Українська література
+@{classes literature}   9Б клас     9A клас
+@{classes language}   8А клас     8Б клас    8В клас     9A клас
+@{students8A}     Кулаковський Іван Орестович     Обліпиха Володимир Володимирович     Панасюк Ігор Олександрович     Петрук Тамара Миколаївна     Порох Євген Леонідович     Савчук Олена Петрівна     Сорока Ірина Ігорівна     Степанюк Володимир Григорович     Щеба Андрій Назарович
+
 
 *** Testcases ***
-01. Check, that login page contains fields and buttons
+01. Check, that the page to view classes opened
     [Tags]    ValidTest     SmokeTest
     Location Should Contain    teacher/subject_group_list
-    Click Element   link = Українська література
-    #//a[contains(.,'Українська література')]
-    Click Element   link = Українська мова
-    Click Element   link = 8А клас
-    #//a[contains(.,'8А клас')]
-    Click Element   link = Класи
-    Click Element   link = 8Б клас
-    Click Element   link = Класи
-    Click Element   link = 8В клас
-    Click Element   link = Класи
-    Click Element   link = 9A клас
-    Click Element   link = Класи
-    Click Element   link = Українська література
-    Click Element   link = 9А клас
-    Click Element   link = Класи
-    Click Element   link = 9Б клас
-    Click Element   link = Класи
 
+02. Check, that the tabs for subjects exists and shown
+    [Tags]    ValidTest     SmokeTest
+    :FOR    ${subject}   IN    @{subjects}
+    \   Page Should Contain     ${subject}
 
-    Click Element   xpath = html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
-    Click Element   xpath = /html/body/div[2]/div/div[2]/div/div/ul/li[1]/a
-    Click Element   8А клас
-    Click Element   Класи
-    Click Element   8Б клас
-    Click Element   Класи
-    Click Element   8В клас
-    Click Element   Класи
-    Click Element   9А клас
-    Click Element   Класи
-    Click Element   xpath = html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
-    Click Element   9A клас
-    Click Element   Класи
-    Click Element   9Б клас
-    Click Element   Класи
-/html/body/div[2]/div/div[2]/div/div/div/div[2]/a[1]
+03. Check, that the appropriate classes is present on the subjects pages
+    [Tags]    ValidTest
+    Click Element   xpath = //a[contains(.,'@{subjects}[1]')]
+    :FOR    ${class}    IN    @{classes literature}
+    \   Page Should Contain     ${class}
+    Click Element   xpath = //a[contains(.,'@{subjects}[0]')]
+    :FOR    ${class}    IN    @{classes language}
+    \   Page Should Contain     ${class}
+
+04. Check, that the page for class opened
+    [Tags]    ValidTest     SmokeTest   Fail
+    Click Element   xpath = //a[contains(.,'@{classes language}[0]')]
+    Location Should Contain     class_journal
+    Page Should Contain     Класс: 8А Предмет:
+    Page Should Contain     @{subjects}[0]
+
+05. Check, that the list of students contains full and exact list for students in the class
+    [Tags]    ValidTest
+    Click Element   xpath = //a[contains(.,'@{classes language}[0]')]
+    :FOR    ${student}    IN    @{students8A}
+    \   Page Should Contain     ${student}
+
