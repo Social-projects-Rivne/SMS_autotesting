@@ -21,7 +21,7 @@ Test Setup Steps
 ${login address}    http://sms-rv016atqc.rhcloud.com/
 ${login address-local}    http://127.0.0.1:8000/
 ${browser}   firefox
-    
+
 ${login teacher}    yulia
 ${password teacher}    Lhkj4Gh
 
