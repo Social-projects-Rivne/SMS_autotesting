@@ -43,12 +43,12 @@ ${password teacher}    LKuJf3y
 ${login incorrect1}     loginloginlogin
 ${password incorrect1}    passwordpasswordpassword
 ${login injection1}     <script>alert(123)</script>
-${login injection2}     (‘ or ‘a’ = ‘a’; DROP TABLE teachers; SELECT * FROM teachers;)
-${login injection3}     ‘ or ‘a’ = ‘a’; DROP TABLE teachers; SELECT * FROM teachers;
-${login injection4}     (<script>alert(“Hello, world!”)</alert>, <script>document.getElementByID(“…”).disabled=true</script>)
-${login injection5}     <script>alert(“Hello, world!”)</alert>, <script>document.getElementByID(“…”).disabled=true</script>
-${login injection6}     (<form action=”http://sms-rv016atqc.rhcloud.com/”><input type=”submit”></form>)
-${login injection7}     <form action=”http://sms-rv016atqc.rhcloud.com/”><input type=”submit”></form>
+${login injection2}     (' or 'a' = 'a'; DROP TABLE teachers; SELECT * FROM teachers;)
+${login injection3}     ' or 'a' = 'a'; DROP TABLE teachers; SELECT * FROM teachers;
+${login injection4}     (<script>alert("Hello, world!")</alert>, <script>document.getElementByID("…").disabled=true</script>)
+${login injection5}     <script>alert("Hello, world!")</alert>, <script>document.getElementByID("…").disabled=true</script>
+${login injection6}     (<form action="http://sms-rv016atqc.rhcloud.com/"><input type="submit"></form>)
+${login injection7}     <form action="http://sms-rv016atqc.rhcloud.com/"><input type="submit"></form>
 #'“♣☺♂” , “”‘~!@#$%^&*()?>,./\<][ /*<!–“”, “${code}”;–>'
 ${login incorrect2}     \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
 ${login incorrect3}     \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
@@ -91,7 +91,7 @@ ${login incorrect7}    <semuschenko>
     Test Steps     ${login main}      ${password main camel}
     Check Warning Message
 
-07. Warning Message Should appear for user when the Pasword->Username and Username->Password
+07. Warning Message Should appear for user when the Password->Username and Username->Password
     [Tags]    InValidTest
     Test Steps    ${password main}    ${login main}
     Check Warning Message
@@ -181,7 +181,7 @@ ${login incorrect7}    <semuschenko>
     Test Steps     ${login incorrect5}    ${password main}
     Check Warning Message
 
-25. Warning Message Should appear for user when the Username Password (both cyrillic) are Entered
+25. Warning Message Should appear for user when the Username and Password (both cyrillic) are Entered
     [Tags]    InValidTest
     Test Steps     ${login incorrect6}    ${password incorrect6}
     Check Warning Message

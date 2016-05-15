@@ -1,4 +1,4 @@
-*** Settings ***
+﻿*** Settings ***
 Library           Selenium2Library
 Test Setup        Test Setup Steps
 Test Teardown     Close All Browsers
@@ -254,3 +254,4 @@ ${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.so
     [Tags]    RestoreTest
     Test Steps Both     ${original name}   ${original email}
     Confirm Changes     ${original name}   ${original email}
+
