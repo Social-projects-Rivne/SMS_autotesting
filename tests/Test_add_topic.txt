@@ -62,22 +62,7 @@ Test 7 Checks if the frame contains buttons and fields
     Wait Until Page Contains    Класс: 8А
     Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[10]/a
     Wait Until Page Contains Element    id=date
-    Wait Until Page Contains Element  Test 23 Checks lesson addition with symbols code
-    [Tags]    ValidTest    AddTopic
-    Click Element    //*[@id='1']/a[3]
-    Wait Until Page Contains    Класс: 8В
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[8]/a
-    Wait Until Page Contains    Додати урок
-    Input Text    inputTopic    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
-    Input Text    inputHomework    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
-    Click Button    Прийняти
-    Page Should Contain    Класс: 8В
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[8]/a
-    Wait Until Page Contains    Редагувати урок
-    ${result}    Get Value    xpath=//*[@id='inputTopic']
-    Should Be Equal    ${result}    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
-    ${result}    Get Value    xpath=//*[@id='inputHomework']
-    Should Be Equal    ${result}    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20  id=selectDir
+    Wait Until Page Contains Element    id=selectDir
     Page Should Contain Textfield    inputTopic
     Page Should Contain Textfield    inputHomework
     Page Should Contain List    selectDir
@@ -85,22 +70,7 @@ Test 7 Checks if the frame contains buttons and fields
     Page Should Contain    Прийняти
     Page Should Contain Button    name=add_button
 
-Test 8 Checks lesson addition with empTest 23 Checks lesson addition with symbols code
-    [Tags]    ValidTest    AddTopic
-    Click Element    //*[@id='1']/a[3]
-    Wait Until Page Contains    Класс: 8В
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[8]/a
-    Wait Until Page Contains    Додати урок
-    Input Text    inputTopic    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
-    Input Text    inputHomework    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
-    Click Button    Прийняти
-    Page Should Contain    Класс: 8В
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[8]/a
-    Wait Until Page Contains    Редагувати урок
-    ${result}    Get Value    xpath=//*[@id='inputTopic']
-    Should Be Equal    ${result}    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
-    ${result}    Get Value    xpath=//*[@id='inputHomework']
-    Should Be Equal    ${result}    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20ty fields
+Test 8 Checks lesson addition with empty fields
     [Tags]    ValidTest    AddTopic
     Click Element    //*[@id='1']/a[1]
     Wait Until Page Contains    Класс: 8А
@@ -111,9 +81,10 @@ Test 8 Checks lesson addition with empTest 23 Checks lesson addition with symbol
     Clear Element Text    inputHomework
     Click Button    Прийняти
     #Element Should Be Visible    xpath=//*[contains(.,'Please fill out this field.')]
-    ${result}    Get Element Attribute    //*[@id='inputTopic']@required
+    #${result}    Get Element Attribute    //*[@id='inputTopic']@required
     #log    ${result}
-    Should Be Equal   ${result}    true 
+    #Should Be Equal   ${result}    true 
+    Page Should Contain    Класс: 8А
 
 Test 9 Checks lesson addition with max symbols length
     [Tags]    ValidTest    AddTopic
@@ -200,22 +171,7 @@ Test 15 Checks lesson addition with small letters
     [Tags]    ValidTest    AddTopic
     Click Element    //*[@id='1']/a[2]
     Wait Until Page Contains    Класс: 8Б
-    Click Link    xpath=html/body/div[Test 23 Checks lesson addition with symbols code
-    [Tags]    ValidTest    AddTopic
-    Click Element    //*[@id='1']/a[3]
-    Wait Until Page Contains    Класс: 8В
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[8]/a
-    Wait Until Page Contains    Додати урок
-    Input Text    inputTopic    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
-    Input Text    inputHomework    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
-    Click Button    Прийняти
-    Page Should Contain    Класс: 8В
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[8]/a
-    Wait Until Page Contains    Редагувати урок
-    ${result}    Get Value    xpath=//*[@id='inputTopic']
-    Should Be Equal    ${result}    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
-    ${result}    Get Value    xpath=//*[@id='inputHomework']
-    Should Be Equal    ${result}    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x202]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
     Wait Until Page Contains    Додати урок
     Input Text    inputTopic    small letter topic
     Input Text    inputHomework    small letter hometask
@@ -345,3 +301,188 @@ Test 23 Checks lesson addition with symbols code
     Should Be Equal    ${result}    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25\x5E\x26*\x28\x29\x3F\x3E\x2C./\x3C\x5D\x5B\x20/*\x3C\x21\xu2013\xu201C\xu201D\x2C\x20\xu201C\x24\x7Bcode\x7D\xu201D\x3B\xu2013\x3E\x27
     ${result}    Get Value    xpath=//*[@id='inputHomework']
     Should Be Equal    ${result}    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+
+Test 24 Checks lesson addition with yesterday's date if there was no lessons of the subject today
+    [Tags]    ValidTest    AddTopic
+    Click Element    //*[@id='1']/a[3]
+    Wait Until Page Contains    Класс: 8В
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-12
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 8В
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a    12.05
+
+Test 25 Checks lesson addition with tomorrow's date
+    [Tags]    ValidTest    AddTopic
+    Click Element    //*[@id='1']/a[3]
+    Wait Until Page Contains    Класс: 8В
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[10]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-14
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 8В
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[10]/a    14.05
+
+Test 26 Checks lesson addition with yesterday's date if today's lesson was added
+    [Tags]    InvalidTest    AddTopic
+    Click Element    //*[@id='1']/a[3]
+    Wait Until Page Contains    Класс: 8В
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[12]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-13
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 8В
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[11]/a    13.05
+
+Test 27 Checks lesson addition with previous year
+    [Tags]    InvalidTest    AddTopic
+    Click Element    //*[@id='1']/a[3]
+    Wait Until Page Contains    Класс: 8В
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[13]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2015-05-13
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 8В
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[2]/a    13.05
+
+Test 28 Checks lesson addition with inversed position of day and month
+    [Tags]    InvalidTest    AddTopic
+    Click Element    //*[@id='1']/a[3]
+    Wait Until Page Contains    Класс: 8В
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[14]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2015-22-05
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 8В
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[14]/a    22.05
+
+Test 29 Checks lesson addition with date format dd-mm-yyyy
+    [Tags]    InvalidTest    AddTopic
+    Click Element    //*[@id='1']/a[3]
+    Wait Until Page Contains    Класс: 8В
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[16]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    22-05-2016
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 8В
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[16]/a    22.05
+
+Test 30 Checks lesson addition with slash instead of dash in date
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[3]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016/05/15
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[3]/a    15.05
+
+Test 31 Checks lesson addition with dot instead of dash in date
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[4]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016.05.15
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[4]/a    15.05
+
+Test 32 Checks lesson addition with float numbers in date
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[5]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    20.160515
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Додати урок
+
+Test 33 Checks lesson addition with 1859 year in date
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[6]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    1859-05-22
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    #Page Should Contain    Додати урок
+    Page Should Contain    Класс: 9Б
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[3]/a    22.05
+
+Test 34 Checks lesson addition with lesson type as Lab
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-23
+    Click Element    xpath=//*[@id='selectDir']/option[@value="2"]
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
+    Wait Until Page Contains    Редагувати урок
+    List Selection Should Be    xpath=//*[@id='selectDir']    Самостійна/Лабораторна робота
+
+Test 35 Checks lesson addition with lesson type as Control Work
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[10]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-24
+    Click Element    xpath=//*[@id='selectDir']/option[@value="3"]
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[10]/a
+    Wait Until Page Contains    Редагувати урок
+    List Selection Should Be    xpath=//*[@id='selectDir']    Контрольна робота
+
+Test 36 Checks lesson addition with lesson type as Usual Lesson (default setting)
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[11]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-24
+    #Click Element    xpath=//*[@id='selectDir']/option[@value="1"]
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[11]/a
+    Wait Until Page Contains    Редагувати урок
+    List Selection Should Be    xpath=//*[@id='selectDir']    Звичайний
