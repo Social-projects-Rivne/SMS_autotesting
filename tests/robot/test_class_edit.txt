@@ -1,0 +1,169 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test_Setup_Steps
+Test Teardown     Close Browser
+Suite Teardown    Close Browser
+
+*** Keywords ***
+Test_Setup_Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}
+    Maximize Browser Window
+    Input Text    inputUsername    ${login test}
+    Input Text    inputPassword    ${password test}
+    Click Button    tag=button
+    Click Link    /director/group_list/
+
+Change preparations
+    Mouse Over    css=div.group__item-holder
+    Click link    /director/group_edit/${classNumber}
+    Wait Until Element Is Visible     id=inputName
+
+*** Variables ***
+${login address}    http://ss-alexeyvasiluk.rhcloud.com/
+${login test}     zoshch
+${password test}    df5sFdf
+${classNumber}    21
+${capital cyrillic}    1Б
+${small cyrillic}    1б
+${capital latin}    1D
+${small latin}    1s
+${relocated}    W2
+${symbol}    1-S
+${one letter}    Д        
+${many letter}    1DS        
+${one digit}    1    
+${many digit}    123Д    
+${all many}    123АБВ  
+
+*** Testcases ***
+1. Checks that the class profile is exist
+    Page Should Contain Element   css=div.group__item-holder
+
+2. Checks that the class profile is open to edit
+    Change preparations
+    Page Should Contain    Редагувати клас
+
+3. Checks that the class profile have active fields for edit
+    Change preparations
+    Page Should Contain    Назва*
+    Page Should Contain    Керівник
+
+4. Checks that the class profile have active buttons for edit
+    Change preparations
+    Page Should Contain Button    name=add_button
+
+5. Checks that the class profile have active buttons for out
+    Change preparations
+    Page Should Contain Link    /director/group_list/
+
+6. Checks that the class profile have active buttons for disable
+    Change preparations
+    Page Should Contain Link    xpath=//a[@href='#']
+
+7. Editing class profile with blank class name
+    Change preparations
+    Input Text    inputName    ${empty}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+8. Editing class name in case of changing places class indexes
+    Change preparations
+    Input Text    inputName    ${relocated}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+9. Editing class name with capital latin letter
+    Change preparations
+    Input Text    inputName    ${capital latin}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+10. Editing class name with small latin letter
+    Change preparations
+    Input Text    inputName    ${small latin}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+11. Editing class name with capital cyrrilic letter
+    Change preparations
+    Input Text    inputName    ${capital cyrillic}        
+    Click Button    name=add_button
+    Page Should Contain Link    /director/student_list/${classNumber}
+
+12. Editing class name with small cyrillic letter
+    Change preparations
+    Input Text    inputName    ${small cyrillic}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+13. Editing class name with symbol in it
+    Change preparations
+    Input Text    inputName    ${symbol}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+   
+14. Editing class name with only one letter
+    Mouse Over    css=div.group__item-holder
+    Click link    /director/group_edit/${classNumber}
+    Wait Until Element Is Visible     id=inputName
+    Input Text    inputName    ${one letter}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+15. Editing class name with many letters
+    Change preparations
+    Input Text    inputName    ${many letter}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+16. Editing class name without letter
+    Change preparations
+    Input Text    inputName    ${one digit}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+17. Editing class name with many digits
+    Change preparations
+    Input Text    inputName    ${many digit}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+18. Editing class name with many digits and letter
+    Change preparations
+    Input Text    inputName    ${all many}        
+    Click Button    name=add_button
+    Page Should Contain    Некоректно введено назву.
+
+19. Editing class profile without teacher name
+    Change preparations
+    Click Element    selectTeacher
+    Select From List by Index    selectTeacher    0
+    Press Key    selectTeacher    \\13
+    Click Button    name=add_button
+    Change preparations
+    Page Should Contain List    selectTeacher    0
+
+20. Editing class profile with adding teacher name
+    Change preparations
+    Click Element    selectTeacher
+    Select From List by Value    selectTeacher    8
+    Press Key    selectTeacher    \\13
+    Click Button    name=add_button
+    Change preparations
+    Page Should Contain List    selectTeacher    8
+
+21. Changing class teacher from dropdown list
+    Change preparations
+    Click Element    selectTeacher
+    Select From List by Value    selectTeacher    2
+    Press Key    selectTeacher    \\13
+    Click Button    name=add_button
+    Change preparations
+    Page Should Contain List    selectTeacher    2
+
+
+
+
+ 
+
