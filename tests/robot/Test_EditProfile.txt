@@ -191,12 +191,12 @@ ${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.so
     Test Steps Name    ${incorrect name 7}
     Check Warning Name
 
-19. Edit profile with incorrect name (eigth case)
+19. Edit profile with incorrect name (eighth case)
     [Tags]    InvalidTest
     Test Steps Name    ${incorrect name 8}
     Check Warning Name
 
-20. Edit profile with incorrect name (nineth case)
+20. Edit profile with incorrect name (ninth case)
     [Tags]    InvalidTest
     Test Steps Name    ${incorrect name 9}
     Check Warning Name
@@ -211,7 +211,7 @@ ${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.so
     Test Steps Name    ${incorrect name 11}
     Check Warning Name
 
-23. Edit profile with incorrect name (twelwth case)
+23. Edit profile with incorrect name (twelfth case)
     [Tags]    InvalidTest
     Test Steps Name    ${incorrect name 12}
     Check Warning Name
@@ -251,7 +251,7 @@ ${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.so
     Test Steps Email    ${incorrect email 4}
     Check Warning Email
 
-31. Edit profile with incorrect email (fourth case)
+31. Edit profile with incorrect email (fifth case)
     [Tags]    InvalidTest
     Test Steps Email    ${incorrect email 5}
     Check Warning Email
