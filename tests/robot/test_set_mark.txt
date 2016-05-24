@@ -1,0 +1,318 @@
+*** Settings ***
+Library           Selenium2Library
+Library           String
+Test Setup        Test Setup Steps
+Test Teardown     Close Browser
+Suite Teardown    Close Browser
+
+*** Keywords ***
+Test Setup Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}
+    Maximize Browser Window
+    Input Text    inputUsername    ${login}
+    Input Text    inputPassword    ${password}
+    Click Button    tag=button
+    Click Element    xpath=.//*[@id='1']/a[1]
+    
+Test ValidMark    [Arguments]  ${lesson}  ${validmark}  ${comment}
+    Mouse Down    ${lesson}
+    Mouse Up    ${lesson}
+    Wait Until Page Contains    Поставити оцінку
+    Input Text    inputMark    ${validmark}
+    Click Element    xpath=//*[@id='selectDir']
+    Select From List by Value    xpath=//*[@id='selectDir']    1
+    Input Text    inputComment   ${comment}
+    Click Button    Прийняти
+
+Test InvalidMark    [Arguments]  ${lesson}  ${invalidmark}
+    Mouse Down    ${lesson}
+    Mouse Up    ${lesson}
+    Wait Until Page Contains    Поставити оцінку
+    Input Text    inputMark    ${invalidmark}
+    Click Button    Прийняти
+    
+*** Variables ***
+${lesson usual}    xpath=//td[@href='/teacher/class_journal_set_mark/11/34/69']
+${lesson usual2}    xpath=//td[@href='/teacher/class_journal_set_mark/11/34/64']
+${lesson lab}    xpath=//td[@href='/teacher/class_journal_set_mark/11/36/69']
+${lesson control}    xpath=//td[@href='/teacher/class_journal_set_mark/11/37/69']
+
+${lesson usualyesterday}    xpath=//td[@href='/teacher/class_journal_set_mark/11/5/69']
+${lesson labyesterday}    xpath=//td[@href='/teacher/class_journal_set_mark/11/6/69']
+${lesson controlyesterday}    xpath=//td[@href='/teacher/class_journal_set_mark/11/4/69']
+
+${lesson usualtomorrow}    xpath=//td[@href='/teacher/class_journal_set_mark/11/5/69']
+${lesson labtomorrow}    xpath=//td[@href='/teacher/class_journal_set_mark/11/6/69']
+${lesson controltomorrow}    xpath=//td[@href='/teacher/class_journal_set_mark/11/4/69']
+
+${lesson negativeusual}    xpath=//td[@href='/teacher/class_journal_set_mark/11/34/64']
+${lesson negativelab}    xpath=//td[@href='/teacher/class_journal_set_mark/11/36/64']
+${lesson negativecontrol}    xpath=//td[@href='/teacher/class_journal_set_mark/11/37/64']
+${login address}    http://django-farinhate.rhcloud.com/
+${login}     yulia
+${password}    Lhkj4Gh
+${validmark 1}    5
+${validmark 2}    12
+${validmark 3}    1
+${invalidmark 1}    123
+${invalidmark 2}    %$dd#
+${invalidmark 3}    SUPER
+${invalidmark 4}    Відмінно
+${invalidmark 5}    -1
+${invalidmark 6}    A
+${invalidmark 7}    0
+
+${comment 1}    ок
+${comment 2}    123@#123
+${comment 3}    CoMmEnT КоМеНтАр
+
+
+*** Testcases ***
+
+1. Checks that teachers profile contains classes
+    Page Should Contain    Класс: 8А
+
+2. Checks that class contains students
+    Page Should Contain    Кулаковський Іван Орестович
+    Page Should Contain    Обліпиха Володимир Володимирович
+
+3. Checks if the frame contains fields and buttons
+    Mouse Down    ${lesson usual}
+    Mouse Up    ${lesson usual}
+    Wait Until Page Contains    Поставити оцінку
+    Page Should Contain    Оцінка
+    Page Should Contain    Тип оцінки
+    Page Should Contain    Коментарі
+    Page Should Contain List    selectDir
+    Page Should Contain    Відмінити
+    Page Should Contain    Прийняти
+    Page Should Contain Button    name=add_button
+
+4. Usual lesson. Checks that valid mark for usual lesson is added with comment
+    Test ValidMark    ${lesson usual}    ${validmark 1}    ${comment 1}
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[1]/td[10]    5
+
+5. Usual lesson. Checks that mark for usual lesson is added with "comments" of symbols, numbers
+    Test ValidMark    ${lesson usual}    ${validmark 1}    ${comment 2}
+    Mouse Down    ${lesson usual}
+    Mouse Up    ${lesson usual}
+    Wait Until Page Contains    Поставити оцінку
+    ${result}    Get Value    xpath=//input[@id='inputComment']
+    Should Be Equal    ${result}   123@#123
+
+6. Usual lesson. Checks that mark for usual lesson is added with "comments" of CamelCase
+    Test ValidMark    ${lesson usual}    ${validmark 1}    ${comment 3}
+    Mouse Down    ${lesson usual}
+    Mouse Up    ${lesson usual}
+    Wait Until Page Contains    Поставити оцінку
+    ${result}    Get Value    xpath=//input[@id='inputComment']
+    Should Be Equal    ${result}   CoMmEnT КоМеНтАр
+
+7. Usual lesson. Check that valid mark for usual lesson is added with empty field "comment"
+    Mouse Down    xpath=//td[@href='/teacher/class_journal_set_mark/11/34/64']
+    Mouse Up    xpath=//td[@href='/teacher/class_journal_set_mark/11/34/64']
+    Wait Until Page Contains    Поставити оцінку
+    Click Element    xpath=//*[@id='selectDir']
+    Select From List by Value    xpath=//*[@id='selectDir']    1
+    Input Text    inputMark    ${validmark 2}
+    Click Button    Прийняти
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[2]/td[10]    12
+
+8. Lab lesson. Checks that valid mark for lab lesson is added with comment
+    Test ValidMark    ${lesson lab}    ${validmark 1}    ${comment 1}
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[1]/td[11]    5
+
+9. Lab lesson. Checks that mark for lab lesson is added with "comments" of symbols, numbers
+    Test ValidMark    ${lesson lab}    ${validmark 1}    ${comment 2}
+    Mouse Down    ${lesson lab}
+    Mouse Up    ${lesson lab}
+    Wait Until Page Contains    Поставити оцінку
+    ${result}    Get Value    xpath=//input[@id='inputComment']
+    Should Be Equal    ${result}   123@#123
+
+10. Lab lesson. Checks that mark for lab lesson is added with "comments" of CamelCase
+    Test ValidMark    ${lesson lab}    ${validmark 1}    ${comment 3}
+    Mouse Down    ${lesson lab}
+    Mouse Up    ${lesson lab}
+    Wait Until Page Contains    Поставити оцінку
+    ${result}    Get Value    xpath=//input[@id='inputComment']
+    Should Be Equal    ${result}   CoMmEnT КоМеНтАр
+
+11. Lab lesson. Check that valid mark for lab lesson is added with empty field "comment"
+    Mouse Down    xpath=//td[@href='/teacher/class_journal_set_mark/11/36/64']
+    Mouse Up    xpath=//td[@href='/teacher/class_journal_set_mark/11/36/64']
+    Wait Until Page Contains    Поставити оцінку
+    Click Element    xpath=//*[@id='selectDir']
+    Select From List by Value    xpath=//*[@id='selectDir']    1
+    Input Text    inputMark    ${validmark 2}
+    Click Button    Прийняти
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[2]/td[11]    12
+
+12. Control lesson. Checks that valid mark for control lesson is added with comment
+    Test ValidMark    ${lesson control}    ${validmark 1}    ${comment 1}
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[1]/td[11]    5
+
+13. Control lesson. Checks that mark for lab lesson is added with "comments" of symbols, numbers
+    Test ValidMark    ${lesson control}    ${validmark 1}    ${comment 2}
+    Mouse Down    ${lesson control}
+    Mouse Up    ${lesson control}
+    Wait Until Page Contains    Поставити оцінку
+    ${result}    Get Value    xpath=//input[@id='inputComment']
+    Should Be Equal    ${result}   123@#123
+
+14. Control lesson. Checks that mark for lab lesson is added with "comments" of CamelCase
+    Test ValidMark    ${lesson lab}    ${validmark 1}    ${comment 3}
+    Mouse Down    ${lesson lab}
+    Mouse Up    ${lesson lab}
+    Wait Until Page Contains    Поставити оцінку
+    ${result}    Get Value    xpath=//input[@id='inputComment']
+    Should Be Equal    ${result}   CoMmEnT КоМеНтАр
+
+15. Control lesson. Check that valid mark for lab lesson is added with empty field "comment"
+    Mouse Down    xpath=//td[@href='/teacher/class_journal_set_mark/11/37/64']
+    Mouse Up    xpath=//td[@href='/teacher/class_journal_set_mark/11/37/64']
+    Wait Until Page Contains    Поставити оцінку
+    Click Element    xpath=//*[@id='selectDir']
+    Select From List by Value    xpath=//*[@id='selectDir']    1
+    Input Text    inputMark    ${validmark 2}
+    Click Button    Прийняти
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[2]/td[12]    12
+
+16. NEGATIVE Usual lesson. Check mark addition with not valid data (value is more than 12)
+    Test InvalidMark    ${lesson negativeusual}    ${invalidmark 1}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+17. NEGATIVE Usual lesson. Check mark addition with not valid data (value is a symbol)
+    Test InvalidMark    ${lesson negativeusual}    ${invalidmark 2}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+18. NEGATIVE Usual lesson. Check mark addition with not valid data (value is a latin word)
+    Test InvalidMark    ${lesson negativeusual}    ${invalidmark 3}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+19. NEGATIVE Usual lesson. Check mark addition with not valid data (value is a cyrillic word)
+    Test InvalidMark    ${lesson negativeusual}    ${invalidmark 4}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+20. NEGATIVE Usual lesson. Check mark addition with not valid data (value is a ECTS standard)
+    Test InvalidMark    ${lesson negativeusual}    ${invalidmark 5}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+21. NEGATIVE Usual lesson. Check mark addition with not valid data (value is a negative number)
+    Test InvalidMark    ${lesson negativeusual}    ${invalidmark 6}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+22. NEGATIVE Usual lesson. Check mark addition with not valid data (value is a 0)
+    Test InvalidMark    ${lesson negativeusual}    ${invalidmark 7}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+23. NEGATIVE Lab lesson. Check mark addition with not valid data (value is more than 12)
+    Test InvalidMark    ${lesson negativelab}    ${invalidmark 1}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+24. NEGATIVE Lab lesson. Check mark addition with not valid data (value is a symbol)
+    Test InvalidMark    ${lesson negativelab}    ${invalidmark 2}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+25. NEGATIVE Lab lesson. Check mark addition with not valid data (value is a latin word)
+    Test InvalidMark    ${lesson negativelab}    ${invalidmark 3}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+26. NEGATIVE Lab lesson. Check mark addition with not valid data (value is a cyrillic word)
+    Test InvalidMark    ${lesson negativelab}    ${invalidmark 4}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+27. NEGATIVE Lab lesson. Check mark addition with not valid data (value is a ECTS standard)
+    Test InvalidMark    ${lesson negativelab}    ${invalidmark 5}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+28. NEGATIVE Lab lesson. Check mark addition with not valid data (value is a negative number)
+    Test InvalidMark    ${lesson negativelab}    ${invalidmark 6}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+29. NEGATIVE Lab lesson. Check mark addition with not valid data (value is a 0)
+    Test InvalidMark    ${lesson negativelab}    ${invalidmark 7}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+30. NEGATIVE Control lesson. Check mark addition with not valid data (value is more than 12)
+    Test InvalidMark    ${lesson negativecontrol}    ${invalidmark 1}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+31. NEGATIVE Control lesson. Check mark addition with not valid data (value is a symbol)
+    Test InvalidMark    ${lesson negativecontrol}    ${invalidmark 2}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+32. NEGATIVE Control lesson. Check mark addition with not valid data (value is a latin word)
+    Test InvalidMark    ${lesson negativecontrol}    ${invalidmark 3}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+33. NEGATIVE Control lesson. Check mark addition with not valid data (value is a cyrillic word)
+    Test InvalidMark    ${lesson negativecontrol}    ${invalidmark 4}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+34. NEGATIVE Control lesson. Check mark addition with not valid data (value is a ECTS standard)
+    Test InvalidMark    ${lesson negativecontrol}    ${invalidmark 5}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+35. NEGATIVE Control lesson. Check mark addition with not valid data (value is a negative number)
+    Test InvalidMark    ${lesson negativecontrol}    ${invalidmark 6}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+36. NEGATIVE Control lesson. Check mark addition with not valid data (value is a 0)
+    Test InvalidMark    ${lesson negativecontrol}    ${invalidmark 7}
+    Element Should Contain    //button[@name='add_button']    Прийняти
+
+37. NEGATIVE. Usual lesson. Checks mark addition for past usual lesson
+    Mouse Down    ${lesson usualyesterday}
+    Mouse Up    ${lesson usualyesterday}
+    Wait Until Page Contains    Поставити оцінку
+    Element Should Be Disabled    inputMark
+    Element Should Be Disabled    inputComment
+
+38. NEGATIVE. Lab lesson. Checks mark addition for past lab lesson
+    Mouse Down    ${lesson labyesterday}
+    Mouse Up    ${lesson labyesterday}
+    Wait Until Page Contains    Поставити оцінку
+    Element Should Be Disabled    inputMark
+    Element Should Be Disabled    inputComment
+
+39. NEGATIVE. Control lesson. Checks mark addition for past control lesson
+    Mouse Down    ${lesson controlyesterday}
+    Mouse Up    ${lesson controlyesterday}
+    Wait Until Page Contains    Поставити оцінку
+    Element Should Be Disabled    inputMark
+    Element Should Be Disabled    inputComment
+
+40. NEGATIVE. Usual lesson. Checks mark addition for upcoming usual lesson
+    Mouse Down    ${lesson usualtomorrow}
+    Mouse Up    ${lesson usualtomorrow}
+    Wait Until Page Contains    Поставити оцінку
+    Element Should Be Disabled    inputMark
+    Element Should Be Disabled    inputComment
+
+41. NEGATIVE. Lab lesson. Checks mark addition for upcoming lab lesson
+    Mouse Down    ${lesson labtomorrow}
+    Mouse Up    ${lesson labtomorrow}
+    Wait Until Page Contains    Поставити оцінку
+    Element Should Be Disabled    inputMark
+    Element Should Be Disabled    inputComment
+
+42. NEGATIVE. Control lesson. Checks mark addition for upcoming control lesson
+    Mouse Down    ${lesson controltomorrow}
+    Mouse Up    ${lesson controltomorrow}
+    Wait Until Page Contains    Поставити оцінку
+    Element Should Be Disabled    inputMark
+    Element Should Be Disabled    inputComment
+
+43. Control lesson. Check that valid mark for past control lesson
+    Mouse Down    xpath=//td[@href='/teacher/class_journal_set_mark/11/4/66']
+    Mouse Up    xpath=//td[@href='/teacher/class_journal_set_mark/11/4/66']
+    Wait Until Page Contains    Поставити оцінку
+    Click Element    xpath=//*[@id='selectDir']
+    Select From List by Value    xpath=//*[@id='selectDir']    1
+    Input Text    inputMark    12
+    Element Should Be Disabled    inputComment
+    Click Button    Прийняти
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[3]/td[4]    12
+
