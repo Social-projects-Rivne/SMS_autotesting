@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 
+
 class TestPreparations(unittest.TestCase):
     """ Superclass with preparations for tests and initial data """
 
@@ -43,7 +44,6 @@ class TestPreparations(unittest.TestCase):
         """ Fixture that deletes all preparation for tests """
 
         self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
 
 
 class SmokeTests(TestPreparations):
@@ -140,8 +140,8 @@ class PositiveTests(TestPreparations):
         warnings = driver.find_elements_by_xpath("//span[@class='help-block']")
         for warning in warnings:
             msg = "Positive test failed - " + self.name + " " + self.email
-            self.assertEquals("Некоректно введено ім'я.", warning.text, msg)
-            self.assertEquals("Некоректно введено email.", warning.text, msg)
+            self.assertNotEqual("Некоректно введено ім'я.".decode('utf-8'), warning.text, msg)
+            self.assertNotEqual("Некоректно введено email.".decode('utf-8'), warning.text, msg)
 
         self.assertIn(self.name.decode('utf-8'),
                       driver.find_element_by_xpath(
@@ -207,9 +207,8 @@ class PositiveTests(TestPreparations):
         super(PositiveTests, self).tearDown()
 
 
-
 class NegativeTests(TestPreparations):
-    """ nNegative tests for Edit Profile with incorrect data,
+    """ Negative tests for Edit Profile with incorrect data,
     expected result - login is successful
     """
 
@@ -230,11 +229,11 @@ class NegativeTests(TestPreparations):
         "Семищенкомищенко Христофористофор Онуфрійовичуфрійовичуфрійович"]
 
     _test_data_emails = [
-         "@gmail.com",
-         "address@.com",
-         "address@gmail",
-         "address@gmail@com",
-         "voron-rozumna.anna-marija@many-many.domain.levels.and.some.more.domain.levels.for.email.testing.gmail.com"]
+        "@gmail.com",
+        "address@.com",
+        "address@gmail",
+        "address@gmail@com",
+        "voron-rozumna.anna-marija@many-many.domain.levels.and.some.more.domain.levels.for.email.testing.gmail.com"]
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests """
@@ -244,14 +243,14 @@ class NegativeTests(TestPreparations):
     def _set_test_data_name(self):
         """ Creating initial data for each test """
 
-        self.name = self._test_data_names[self.current_test][0]
+        self.name = self._test_data_names[self.current_test]
         self.email = self._original_email
 
     def _set_test_data_email(self):
         """ Creating initial data for each test """
 
         self.name = self._original_name
-        self.email = self._test_data_emails[self.current_test][1]
+        self.email = self._test_data_emails[self.current_test]
 
     def _test_steps_name(self):
         """ Common tests steps """
@@ -277,7 +276,10 @@ class NegativeTests(TestPreparations):
         msg = "Negative test failed - " + self.name + " " + self.email
         warnings = driver.find_elements_by_xpath("//span[@class='help-block']")
         expected = "Некоректно введено ім'я."
-        self.assertIsNot(any(expected == warning.text for warning in warnings), msg)
+        self.assertIsNot(any(expected.decode('utf-8') == warning.text for warning in warnings), msg)
+        # self.assertNotEqual("Некоректно введено ім'я.".decode('utf-8'), warning.text, msg)
+        # self.assertNotEqual("Некоректно введено email.".decode('utf-8'), warning.text, msg)
+
 
         self.passed = True
 
@@ -305,17 +307,16 @@ class NegativeTests(TestPreparations):
         msg = "Negative test failed - " + self.name + " " + self.email
         warnings = driver.find_elements_by_xpath("//span[@class='help-block']")
         expected = "Некоректно введено email."
-        self.assertIsNot(any(expected == warning.text for warning in warnings), msg)
+        self.assertIsNot(any(expected.decode('utf-8') == warning.text for warning in warnings), msg)
 
         self.passed = True
-
 
     def test_05(self):
         """ 05. Edit profile with correct data (first case) """
 
         self.current_test = 0
         self._set_test_data_name()
-        self._test_steps()
+        self._test_steps_name()
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests and restores
@@ -325,7 +326,8 @@ class NegativeTests(TestPreparations):
         if not self.passed:
             self.name = self._original_name
             self.email = self._original_email
-            self._test_steps()
+            self._test_steps_name()
+            self._test_steps_email()
 
         super(NegativeTests, self).tearDown()
 
