@@ -84,7 +84,8 @@ class PositiveTests(unittest.TestCase):
         input_password.clear()
         input_password.send_keys(self.password.decode('utf-8'))
         driver.find_element_by_xpath("//button[@type='submit']").click()
-        driver.find_element_by_xpath("//html/body/div[2]/div/div[1]/ul/li[4]/a").click()
+        driver.find_element_by_xpath(
+            "//html/body/div[2]/div/div[1]/ul/li[4]/a").click()
 
         self.assertIn(self.mail.decode('utf-8'),
                       driver.find_element_by_xpath(
@@ -124,7 +125,8 @@ class PositiveTests(unittest.TestCase):
                           "//h3[@class='only-bottom-margin']").text)
     def test01_view_main_teacher_xpath(self):
         """
-        1. Button "Мій профіль" show profile for "Головний вчитель" (click element)
+        1. Button "Мій профіль" show profile for
+        "Головний вчитель" (click element)
         """
         self.current_test = 0
         self._test_steps_xpath()
@@ -145,24 +147,20 @@ class PositiveTests(unittest.TestCase):
 
     def test04_view_main_teacher_xpath(self):
         """
-
         4. Button "Мій профіль" show profile for "Головний вчитель" (click link)
-
         """
         self.current_test = 0
         self._test_steps_link()
 
     def test05_view_director_xpath(self):
         """
-        5. Button "Мій профіль" show profile for "Завуч" (click link)
-
+        5.  Button "Мій профіль" show profile for "Завуч" (click link)
         """
         self.current_test = 1
         self._test_steps_link()
 
     def test06_view_teacher_xpath(self):
         """
-
         6. Button "Мій профіль" show profile for "Викладач" (click link)
         """
         self.current_test = 2
@@ -170,8 +168,8 @@ class PositiveTests(unittest.TestCase):
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests """
-
         self.driver.quit()
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
