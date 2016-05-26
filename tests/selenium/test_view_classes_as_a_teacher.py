@@ -15,9 +15,6 @@ class TestPreparations(unittest.TestCase):
     _login = "yulia"
     _password = "Lhkj4Gh"
 
-    _original_name = "Семищенко Христофор Онуфрійович"
-    _original_email = "semuschenko@gmail.com"
-
     _xpaths = {"frame_title": "//h3[contains(.,'Редагувати профіль')]",
                "edit_button": "//a[@href='/core/profile_edit/']",
                "input_name": "//input[@id='inputName']",
@@ -130,10 +127,10 @@ class ViewClassesAsATeacher(TestPreparations):
         driver.find_element_by_link_text("8А клас".decode("utf-8")).click()
 
         for student in self._students8A:
-            print(student)
-            print(driver.find_element_by_xpath("//td[contains(.,'{}')]".format(student)).text)
-            print(len(driver.find_elements_by_xpath("//td[contains(.,'{}')]".format(student))))
-            self.assertTrue(len(driver.find_elements_by_xpath("//td[contains(.,'{}')]".format(student))) == 1)
+            # print(student)
+            # print(driver.find_element_by_xpath("//td[contains(.,'{}')]".format(student)).text)
+            # print(len(driver.find_elements_by_xpath("//td[contains(.,'{}')]".format(student))))
+            self.assertTrue(len(driver.find_elements_by_xpath("//td[contains(.,'{}')]".format(student))) > 0)
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests and restores
