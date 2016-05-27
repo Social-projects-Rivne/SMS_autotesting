@@ -4,8 +4,6 @@
 
 import unittest
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.keys import Keys
 
 
 class TestPreparations(unittest.TestCase):
@@ -14,16 +12,6 @@ class TestPreparations(unittest.TestCase):
     _url = "http://sms-rv016atqc.rhcloud.com"
     _login = "yulia"
     _password = "Lhkj4Gh"
-
-    _xpaths = {"frame_title": "//h3[contains(.,'Редагувати профіль')]",
-               "edit_button": "//a[@href='/core/profile_edit/']",
-               "input_name": "//input[@id='inputName']",
-               "input_email": "//input[@id='inputEmail']",
-               "confirm_btn": "//button[@name='confirm_button']",
-               "warnings": "//span[@class='help-block']"}
-
-    _warnings = {"name": "Некоректно введено ім'я.",
-                 "email": "Некоректно введено email."}
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests,
@@ -46,7 +34,6 @@ class TestPreparations(unittest.TestCase):
         input_password.send_keys(self._password.decode('utf-8'))
         driver.find_element_by_xpath("//button[@type='submit']").click()
 
-        # driver.find_element_by_xpath("//a[@href='/core/profile/']").click()
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests """
@@ -55,6 +42,7 @@ class TestPreparations(unittest.TestCase):
 
 
 class ViewClassesAsATeacher(TestPreparations):
+    """ Class with methods for testing """
 
     _subjects = ["Українська мова",
                  "Українська література"]
@@ -85,62 +73,76 @@ class ViewClassesAsATeacher(TestPreparations):
 
     def test01_smoke_test(self):
         """ 01. Check, that the page to view classes opened """
+
         driver = self.driver
         self.assertIn("teacher/subject_group_list", driver.current_url)
 
-    def test02_(self):
-        """ 02. Check, that the page to view classes opened """
+    def test02_page_contains_subjects(self):
+        """ 02. Check, that the tabs for subjects exists and shown """
+
         driver = self.driver
 
         for subj in self._subjects:
-            self.assertTrue(len(driver.find_elements_by_link_text(subj.decode("utf-8"))) == 1)
+            self.assertTrue(len(driver.find_elements_by_link_text(
+                subj.decode("utf-8"))) == 1)
 
-    def test03_(self):
-        """ 03. Check, that the appropriate classes is present on the subjects pages """
+    def test03_subject_page_contains_classes(self):
+        """ 03. Check, that the appropriate classes is present
+        on the subjects pages
+        """
+
         driver = self.driver
 
-        # driver.find_element_by_xpath("//a[contains(.,'@{subjects}[1]')]").click()
-        driver.find_element_by_xpath("//a[contains(.,'Українська література')]").click()
+        driver.find_element_by_xpath(
+            "//a[contains(.,'Українська література')]").click()
 
         for cls in self._classes_literature:
-            self.assertTrue(len(driver.find_elements_by_link_text(cls.decode("utf-8"))) == 1)
+            self.assertTrue(len(driver.find_elements_by_link_text(
+                cls.decode("utf-8"))) == 1)
 
-        driver.find_element_by_xpath("//a[contains(.,'Українська мова')]").click()
+        driver.find_element_by_xpath(
+            "//a[contains(.,'Українська мова')]").click()
 
         for cls in self._classes_language:
-            self.assertTrue(len(driver.find_elements_by_link_text(cls.decode("utf-8"))) == 1)
+            self.assertTrue(len(driver.find_elements_by_link_text(
+                cls.decode("utf-8"))) == 1)
 
-    def test04_(self):
+    def test04_class_page_opened(self):
         """ 04. Check, that the page for class opened """
+
         driver = self.driver
 
-        driver.find_element_by_link_text("8А клас".decode("utf-8")).click()
+        driver.find_element_by_link_text(
+            "8А клас".decode("utf-8")).click()
 
         self.assertIn("class_journal", driver.current_url)
-        self.assertIn("Класс: 8А Предмет:".decode("utf-8"), driver.find_element_by_xpath("//h5[contains(.,'Класс: 8А Предмет:')]".decode("utf-8")).text)
-        self.assertIn("Українська мова".decode("utf-8"), driver.find_element_by_xpath("//select[@onchange='location = this.options[this.selectedIndex].value;']").text)
+        self.assertIn("Класс: 8А Предмет:".decode("utf-8"),
+                      driver.find_element_by_xpath(
+                          "//h5[contains(.,'Класс: 8А Предмет:')]".decode(
+                              "utf-8")).text)
+        self.assertIn("Українська мова".decode("utf-8"),
+                      driver.find_element_by_xpath(
+                          "//select[@onchange='location = "
+                          "this.options[this.selectedIndex].value;']").text)
 
-    def test05_(self):
-        """ 05. Check, that the list of students contains full and exact list for students in the class """
+    def test05_class_page_contains_students(self):
+        """ 05. Check, that the list of students contains full
+        and exact list for students in the class
+        """
+
         driver = self.driver
 
         driver.find_element_by_link_text("8А клас".decode("utf-8")).click()
 
         for student in self._students8A:
-            # print(student)
-            # print(driver.find_element_by_xpath("//td[contains(.,'{}')]".format(student)).text)
-            # print(len(driver.find_elements_by_xpath("//td[contains(.,'{}')]".format(student))))
-            self.assertTrue(len(driver.find_elements_by_xpath("//td[contains(.,'{}')]".format(student))) > 0)
+            self.assertTrue(len(
+                driver.find_elements_by_xpath(
+                    "//td[contains(.,'{}')]".format(student))) > 0)
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests and restores
         original data
         """
-
-        # if not self.passed:
-        #     self.name = self._original_name
-        #     self.email = self._original_email
-        #     self._test_steps_restore()
 
         super(ViewClassesAsATeacher, self).tearDown()
 
