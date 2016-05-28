@@ -1,0 +1,123 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Variables ***
+${user name}      test_admin    # main teacher for login
+${user password}    Install_new!
+
+*** Test Cases ***
+1. Test change default avatar with JPG file_positive
+    Open browser    http://smscloud-psvatqc.rhcloud.com/
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Click Link    /core/img_upload/
+    Sleep    1
+    Execute Javascript    ${CURDIR}/add_image.js
+    Choose File    xpath=html/body/div[3]/div/div/form/div[1]/div[2]/span/input    ${CURDIR}\\test_and_code.jpg
+    Click Button    Зберегти
+    Page Should Not Contain    Exception
+    Page Should Not Contain    IOError
+    ${img_src}=    Get Element Attribute    xpath=html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img@src
+    Should Match    ${img_src}    *test_and_code*
+    [Teardown]    Close Browser
+
+2. Test change avatar with NON IMAGE file_negative
+    Open browser    http://smscloud-psvatqc.rhcloud.com/
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Click Link    /core/img_upload/
+    Sleep    1
+    Choose File    xpath=html/body/div[3]/div/div/form/div[1]/div[2]/span/input    ${CURDIR}\\add_image.js
+    Click Button    Зберегти
+    Page Should Not Contain    Exception
+    Page Should Not Contain    IOError
+    [Teardown]    Close Browser
+
+3. Test change avatar with TO LARGE IMAGE file_negative
+    Open browser    http://smscloud-psvatqc.rhcloud.com/
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Click Link    /core/img_upload/
+    Sleep    1
+    Choose File    xpath=html/body/div[3]/div/div/form/div[1]/div[2]/span/input    ${CURDIR}\\test_and_code_large.jpg
+    Click Button    Зберегти
+    Page Should Not Contain    Image too large
+    Page Should Not Contain    Exception
+    Page Should Not Contain    IOError
+    [Teardown]    Close Browser
+
+4. Test change current avatar with JPG file_positive
+    Open browser    http://smscloud-psvatqc.rhcloud.com/
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Click Link    /core/img_upload/
+    Sleep    1
+    Execute Javascript    ${CURDIR}/add_image_jpg.js
+    Choose File    xpath=html/body/div[3]/div/div/form/div[1]/div[2]/span/input    ${CURDIR}\\test_and_code_jpg.jpg
+    Click Button    Зберегти
+    Page Should Not Contain    Exception
+    Page Should Not Contain    IOError
+    ${img_src}=    Get Element Attribute    xpath=html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img@src
+    Should Match    ${img_src}    *test_and_code_jpg*
+    [Teardown]    Close Browser
+
+5. Test change current avatar with PNG file_positive
+    Open browser    http://smscloud-psvatqc.rhcloud.com/
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Click Link    /core/img_upload/
+    Sleep    1
+    Execute Javascript    ${CURDIR}/add_image_png.js
+    Choose File    xpath=html/body/div[3]/div/div/form/div[1]/div[2]/span/input    ${CURDIR}\\test_and_code_png.png
+    Click Button    Зберегти
+    Page Should Not Contain    Exception
+    Page Should Not Contain    IOError
+    ${img_src}=    Get Element Attribute    xpath=html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img@src
+    Should Match    ${img_src}    *test_and_code_png*
+    [Teardown]    Close Browser
+
+6. Test change current avatar with BMP file_positive
+    Open browser    http://smscloud-psvatqc.rhcloud.com/
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Click Link    /core/img_upload/
+    Sleep    1
+    Execute Javascript    ${CURDIR}/add_image_bmp.js
+    Choose File    xpath=html/body/div[3]/div/div/form/div[1]/div[2]/span/input    ${CURDIR}\\test_and_code_bmp.bmp
+    Click Button    Зберегти
+    Page Should Not Contain    Exception
+    Page Should Not Contain    IOError
+    ${img_src}=    Get Element Attribute    xpath=html/body/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/img@src
+    Should Match    ${img_src}    *test_and_code_bmp*
+    [Teardown]    Close Browser
+
+7. Test change current avatar with NO file_negative
+    Open browser    http://smscloud-psvatqc.rhcloud.com/
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /core/profile/
+    Click Link    /core/img_upload/
+    Click Button    Зберегти
+    Page Should Not Contain    Exception
+    Page Should Not Contain    IOError
+    [Teardown]    Close Browser
