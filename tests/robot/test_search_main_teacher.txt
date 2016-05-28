@@ -1,0 +1,191 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Variables ***
+${user name}      test_admin    # main teacher for login
+${user password}    Install_new!
+${host}           http://smsautotesting-atqc.rhcloud.com
+
+*** Test Cases ***
+Search among SCHOOLS through button "Пошук". Search by EMPTY TEXT
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/schools_list/
+    Input Text    name=search_text    ${empty}
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    3
+    [Teardown]    Close Browser
+
+Search among SCHOOLS through button "Пошук". Search by TEXT (cyrillic)
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/schools_list/
+    Input Text    name=search_text    Колегіум
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1
+    [Teardown]    Close Browser
+
+Search among SCHOOLS through button "Пошук". Search by TEXT (latin)
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/schools_list/
+    Input Text    name=search_text    Colledge
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1
+    [Teardown]    Close Browser
+
+Search among SCHOOLS through button "Пошук". Search by NUMBERS
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/schools_list/
+    Input Text    name=search_text    111222333
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1
+    [Teardown]    Close Browser
+
+Search among SCHOOLS through button "Пошук". Search by TEXT with spaces
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/schools_list/
+    Input Text    name=search_text    \ \ Колегіум \ \
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    5    Search doesn't trim unnecessary spaces!
+    [Teardown]    Close Browser
+
+Search among SCHOOLS through button "Пошук". Search by TEXT with wrong case sensitive
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/schools_list/
+    Input Text    name=search_text    колегіум
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1    Search shouldn't be case sensitive!
+    [Teardown]    Close Browser
+
+Search among SCHOOLS through key 'enter' in search field. Search by TEXT (cyrillic)
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/schools_list/
+    Input Text    name=search_text    Колегіум
+    Press Key    name=search_text    \\13
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1    Search among SCHOOLS by 'enter' doesn't work!
+    [Teardown]    Close Browser
+
+Search among TEACHERS through button "Пошук". Search by empty TEXT
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Input Text    name=search_text    ${empty}
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    3
+    [Teardown]    Close Browser
+
+Search among TEACHERS through button "Пошук". Search by TEXT with spaces
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Input Text    name=search_text    \ \ Тест \ \
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1    Search doesn't trim unnecessary spaces!
+    [Teardown]    Close Browser
+
+Search among TEACHERS through button "Пошук". Search by TEXT with wrong case sensitive
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Input Text    name=search_text    тест
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1
+    [Teardown]    Close Browser
+
+Search among TEACHERS through button "Пошук". Search by TEXT (cyrillic)
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Input Text    name=search_text    Тест
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1
+    [Teardown]    Close Browser
+
+Search among TEACHERS through button "Пошук". Search by TEXT (latin)
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Input Text    name=search_text    Test
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1
+    [Teardown]    Close Browser
+
+Search among TEACHERS through button "Пошук". Search by NUMBERS
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Input Text    name=search_text    111222333
+    Click Button    Пошук
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1
+    [Teardown]    Close Browser
+
+Search among TEACHERS through key 'enter' in search field. Search by TEXT (cyrillic)
+    Open browser    ${host}
+    Maximize browser window
+    Input Text    name=inputUsername    ${user name}
+    Input Text    name=inputPassword    ${user password}
+    Click Button    Увійти
+    Click Link    /mainteacher/teachers_list/
+    Input Text    name=search_text    Тест
+    Press Key    name=search_text    \\13
+    Sleep    1
+    Xpath Should Match X Times    //tbody/tr[@id]    1    Search among TEACHERS by 'enter' doesn't work!
+    [Teardown]    Close Browser
+
