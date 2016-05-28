@@ -3,13 +3,14 @@
 
 import unittest
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
 
 class SchoolCRUDTests(unittest.TestCase):
     """ Class with methods, for testing School CRUD """
 
-    _baseurl = "http://smsautotesting-atqc.rhcloud.com/"
+    _baseurl = "https://smsauto-dvatqc.rhcloud.com"
     _username = "semuschenko"
     _password = "pDk7jf"
     _warnings = {
@@ -39,7 +40,8 @@ class SchoolCRUDTests(unittest.TestCase):
         'correctAddressForEdit': u'вул. Мельника, 67',
         'correctNameForEdit': u'Школа №25',
         'nameStartingLower': u'нвк "веселка"',
-        'addressStartingUpper': u'ВУЛ. Макарова, 19'
+        'addressStartingUpper': u'ВУЛ. Макарова, 19',
+        'schoolToDelete': u'вул. Тестова, 1'
     }
 
     def _insertCredetialsToAddSchool(self, driver, school_name, address):
@@ -119,7 +121,6 @@ class SchoolCRUDTests(unittest.TestCase):
     def test01_ui_to_add_schools_exists(self):
         """ Test to check whether windows to add school exists """
 
-
         self.driver.find_element_by_link_text(u'+ Додати').click()
         self.element = self.driver.find_element_by_tag_name('h3')
 
@@ -142,7 +143,7 @@ class SchoolCRUDTests(unittest.TestCase):
         link2.click()
         link.click()
         name_value = self.driver.find_element_by_xpath(self._xpaths[
-                                                      'inputSchoolName'])
+                                                           'inputSchoolName'])
         address_value = self.driver.find_element_by_xpath(
             self._xpaths['inputSchoolAddress'])
 
@@ -263,7 +264,8 @@ class SchoolCRUDTests(unittest.TestCase):
     def test13_ui_to_edit_schools_exists(self):
         """ Test to check whether windows to edit school exists """
 
-        self.driver.find_element_by_xpath(self._xpaths['buttonEditSchool']).click()
+        self.driver.find_element_by_xpath(
+            self._xpaths['buttonEditSchool']).click()
         self.element_to_test = self.driver.find_element_by_tag_name('h3')
 
         self.assertEquals(u"Редагувати школу", self.element_to_test.text)
@@ -405,6 +407,30 @@ class SchoolCRUDTests(unittest.TestCase):
         self.assertEqual(
             self._check_for_warning(
                 self.driver, self._warnings['incorrectAddress']), True)
+
+    def test24_edit_school_from_main_page_POSITIVE(self):
+        """Test to check whether director can be changed from main page"""
+
+        self.driver.find_element_by_xpath('//*[@id="4"]/td[3]').click()
+        self.driver.find_element_by_xpath(
+            "//option[contains(.,'Петросян Іван Сергієвич')]").click()
+        self.driver.find_element_by_xpath(
+            "//*[@id='list']/table/thead/tr/th[1]").click()
+
+        self.assertEquals(self.driver.find_element_by_xpath(
+            "//option[contains(.,'Петросян Іван Сергієвич')]").is_selected(),
+                          True)
+
+    def test25_delete_school_POSITIVE(self):
+        """Test to check whether delete school function works"""
+
+        self.driver.find_element_by_xpath("//*[@id='100']/td[4]/a[2]").click()
+        self.driver.find_element_by_xpath(
+            "//*[@id='form']/form/input[3]").click()
+
+        self.assertEqual(self._check_for_warning(self.driver,
+                                                 self._credentials[
+                                                     'schoolToDelete']), False)
 
 
 if __name__ == "__main__":
