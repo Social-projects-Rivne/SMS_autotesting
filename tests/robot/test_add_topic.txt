@@ -1,0 +1,319 @@
+*** Settings ***
+Suite Teardown    Close Browser
+Test Setup        Test_Setup_Steps
+Test Teardown     Close Browser
+Library           Selenium2Library
+Library           String
+Force Tags        FunctionalTest
+
+*** Variables ***
+${login address}    http://django-smstest2.rhcloud.com/
+${login address-local}    http://127.0.0.1:8000/
+${login test}     yulia
+${password test}    Lhkj4Gh
+${lesson_num1}    2
+
+${topic_max}    проаааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааат    
+${topic_min}    a
+${topic_spaces}    ${SPACE}${SPACE}${SPACE}${SPACE}
+${topic_numbers}    1234567
+${topic_latin}    Hello world!
+${topic_capital_letters}    ОУН-УПА
+${topic_small_letters}    small letter topic
+${topic_special_symbols}    = | * ( ) - : ; # % ^ ? ! [ ]
+${topic_letters_numbers}    Національно-визвольна війна українського народу 1647-1654 рр.
+${topic_outer_spaces}    ${SPACE}${SPACE}Hello world!${SPACE}${SPACE}
+${topic_key_sensitive}    War AnD PeACe - tHe twO wOrDS are KnoWN To eveRyoNe
+${topic_html}    <button class="btn btn-success" name="add_button" type="submit">Прийняти</button>
+${topic_javascript}    <script>alert(“Hello, world!”)</alert>, <script>document.getElementByID(“…”).disabled=true</script>
+${topic_sql}    DROP TABLE teachers; SELECT * FROM teachers;
+${topic_symbols_code}    \x27\xu201C\xu2663\xu263A\xu2642\xu201D\x20\x2C\x20\xu201C\xu201D\xu2018\x7E\x21@\x23\x24\x25
+
+${hometask_1}    параграф 34 переказувати
+${hometask_2}    ReaD AnD trAnSlaTe tHe TeXT
+${hometask_3}    <a class="modal-dialog link" href="/teacher/class_journal_add_lesson/13">+ Add</a>
+${hometask_4}    <script>alert(“Hello, world!”)</alert>, <script>document.getElementByID(“…”).disabled=true</script
+${hometask_5}    \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+
+*** Keywords ***
+Test_Setup_Steps
+   # Set Selenium Speed    0.1
+    Open Browser    ${login address}
+    Maximize Browser Window
+    Input Text    inputUsername    ${login test}
+    Input Text    inputPassword    ${password test}
+    Click Button    tag=button
+
+Fill In Lesson Add Form    [Arguments]    ${class_link}    ${lesson_link}    ${topic}    ${hometask}
+    Click Element    //*[@id='1']/a[${class_link}]
+    Wait Until Page Contains    Класс: 
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_link}]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    inputTopic    ${topic}
+    Input Text    inputHomework    ${hometask}
+    Click Button    Прийняти
+
+Check Correct Addition    [Arguments]    ${class_name}    ${lesson_link}    ${topic_value}    ${hometask_value} 
+    Page Should Contain    Класс: ${class_name}
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_link}]/a
+    Wait Until Page Contains    Редагувати урок
+    ${result}    Get Value    xpath=//*[@id='inputTopic']
+    Should Be Equal    ${result}    ${topic_value}
+    ${result}    Get Value    xpath=//*[@id='inputHomework']
+    Should Be Equal    ${result}    ${hometask_value}
+
+Test Date Addition    [Arguments]    ${class_link}    ${class_name}    ${Lesson_link}    ${date} 
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[${class_link}]
+    Wait Until Page Contains    Класс: ${class_name}
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${Lesson_link}]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    ${date}
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+
+Check Date Addition    [Arguments]    ${class_name}    ${Lesson_link}    ${date_value}
+    Page Should Contain    Класс: ${class_name}
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${Lesson_link}]/a    ${date_value}
+
+*** Test Cases ***
+Test 1 Checks that teachers profile is opened
+    [Tags]    ValidTest    AddTopic
+    Page Should Contain Link    /teacher/subject_group_list
+
+Test 2 Checks that teachers profile contains information about logged user
+    [Tags]    ValidTest    AddTopic
+    Page Should Contain    Бондаренко Юлія Олександрівна
+    Page Should Contain    Викладач
+
+Test 3 Checks that teachers profile contains the subjects and classes
+    [Tags]    ValidTest    AddTopic
+    Page Should Contain    Українська мова
+    Page Should Contain    Українська література
+    Page Should Contain    8А клас
+    Page Should Contain    8Б клас
+
+Test 4 Checks that class contains students
+    [Tags]    ValidTest    AddTopic
+    Click Element    //*[@id='1']/a[1]
+    Page Should Contain    Савчук Олена Петрівна
+    Page Should Contain    Степанюк Володимир Григорович
+
+Test 5 Checks that frame for lesson addition is opened
+    [Tags]    ValidTest    AddTopic
+    Click Element    //*[@id='1']/a[1]
+    Wait Until Page Contains    Класс: 8А
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
+    Wait Until Page Contains    Додати урок
+
+Test 6 Checks if the button for lesson addition exists
+    [Tags]    ValidTest    AddTopic
+    Click Element    //*[@id='1']/a[1]
+    Page Should Contain Link    /teacher/class_journal_add_lesson/11
+
+Test 7 Checks if the frame contains buttons and fields
+    [Tags]    ValidTest    AddTopic
+    Click Element    //*[@id='1']/a[1]
+    Wait Until Page Contains    Класс: 8А
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
+    Wait Until Page Contains Element    id=date
+    Wait Until Page Contains Element    id=selectDir
+    Page Should Contain Textfield    inputTopic
+    Page Should Contain Textfield    inputHomework
+    Page Should Contain List    selectDir
+    Page Should Contain    Відмінити
+    Page Should Contain    Прийняти
+    Page Should Contain Button    name=add_button
+
+Test 8 Checks lesson addition with empty fields
+    [Tags]    InvalidTest    AddTopic
+    Click Element    //*[@id='1']/a[1]
+    Wait Until Page Contains    Класс: 8А
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[9]/a
+    Wait Until Page Contains    Додати урок
+    Clear Element Text    date
+    Clear Element Text    inputTopic
+    Clear Element Text    inputHomework
+    Click Button    Прийняти
+    #Element Should Be Visible    xpath=//*[contains(.,'Please fill out this field.')]
+    #${result}    Get Element Attribute    //*[@id='inputTopic']@required
+    #log    ${result}
+    #Should Be Equal   $Lhkj4Gh{result}    true 
+    Page Should Contain    Класс: 8А
+
+Test 9 Checks lesson addition with max symbols length
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}    ${topic_max}    ${topic_max}
+    Check Correct Addition    8Б    ${lesson_num1}    ${topic_max}    ${topic_max}
+    
+Test 10 Checks lesson addition with min symbols length
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+1    ${topic_min}    ${topic_min}
+    Check Correct Addition    8Б    ${lesson_num1}+1    ${topic_min}    ${topic_min}
+
+Test 11 Checks lesson addition only with spaces
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+2    ${topic_spaces}    ${topic_spaces}
+    Check Correct Addition    8Б    ${lesson_num1}+2    ${topic_spaces}    ${topic_spaces}
+    
+Test 12 Checks lesson addition with only numbers
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+3    ${topic_numbers}    ${topic_numbers}
+    Check Correct Addition    8Б    ${lesson_num1}+3    ${topic_numbers}    ${topic_numbers}
+    
+Test 13 Checks lesson addition with latin letters
+    [Tags]    ValidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+4    ${topic_latin}    ${topic_latin}
+    Check Correct Addition    8Б    ${lesson_num1}+4    ${topic_latin}    ${topic_latin}    
+
+Test 14 Checks lesson addition with capital letters
+    [Tags]    ValidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+5    ${topic_capital_letters}    ${topic_capital_letters}
+    Check Correct Addition    8Б    ${lesson_num1}+5    ${topic_capital_letters}    ${topic_capital_letters}
+   
+Test 15 Checks lesson addition with small letters
+    [Tags]    ValidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+6    ${topic_small_letters}    ${topic_small_letters}
+    Check Correct Addition    8Б    ${lesson_num1}+6    ${topic_small_letters}    ${topic_small_letters}
+    
+Test 16 Checks lesson addition with special symbols
+    [Tags]    ValidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+7    ${topic_special_symbols}    ${topic_special_symbols}
+    Check Correct Addition    8Б    ${lesson_num1}+7    ${topic_special_symbols}    ${topic_special_symbols}
+        
+Test 17 Checks lesson addition with letters and numbers
+    [Tags]    ValidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+8    ${topic_letters_numbers}    ${hometask_1}
+    Check Correct Addition    8Б    ${lesson_num1}+8    ${topic_letters_numbers}    ${hometask_1}
+    
+Test 18 Checks lesson addition with outer spaces
+    [Tags]    ValidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+9    ${topic_outer_spaces}    ${topic_outer_spaces}
+    Check Correct Addition    8Б    ${lesson_num1}+9    ${topic_outer_spaces}    ${topic_outer_spaces}
+    
+Test 19 Checks lesson addition with key sensitive letters
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+10    ${topic_key_sensitive}    ${hometask_2}
+    Check Correct Addition    8Б    ${lesson_num1}+10    ${topic_key_sensitive}    ${hometask_2}
+    
+Test 20 Checks lesson addition with HTML scripts
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+11    ${topic_html}    ${hometask_3}
+    Check Correct Addition    8Б    ${lesson_num1}+11    ${topic_html}    ${hometask_3}
+    
+Test 21 Checks lesson addition with javascripts
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+12    ${topic_javascript}    ${hometask_4}
+    Check Correct Addition    8Б    ${lesson_num1}+12    ${topic_javascript}    ${hometask_4}
+    
+Test 22 Checks lesson addition with sql script
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+13    ${topic_sql}    ${topic_sql}
+    Check Correct Addition    8Б    ${lesson_num1}+13    ${topic_sql}    ${topic_sql}
+    
+Test 23 Checks lesson addition with symbols code
+    [Tags]    InvalidTest    AddTopic
+    Fill In Lesson Add Form    2    ${lesson_num1}+14    ${topic_symbols_code}    ${hometask_5}
+    Check Correct Addition    8Б    ${lesson_num1}+14    ${topic_symbols_code}    ${hometask_5}
+    
+Test 24 Checks lesson addition with yesterday's date if there was no lessons of the subject today
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}    2016-05-12
+    Check Date Addition    9Б    ${lesson_num1}   12.05     
+
+Test 25 Checks lesson addition with tomorrow's date
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+1    2016-05-14
+    Check Date Addition    9Б    ${lesson_num1}+1   14.05    
+
+Test 26 Checks lesson addition with yesterday's date if today's lesson was added
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+2    2016-05-13
+    Check Date Addition    9Б    ${lesson_num1}+1    13.05
+    
+Test 27 Checks lesson addition with previous year
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+3    2015-05-13
+    Check Date Addition    9Б    2    13.05    
+
+Test 28 Checks lesson addition with inversed position of day and month
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+4    2016-22-05
+    Check Date Addition    9Б    ${lesson_num1}+4    22.05    
+
+Test 29 Checks lesson addition with date format dd-mm-yyyy
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+5    22-05-2016
+    Check Date Addition    9Б    ${lesson_num1}+5    22.05    
+
+Test 30 Checks lesson addition with slash instead of dash in date
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+6    2016/05/25
+    Check Date Addition    9Б    ${lesson_num1}+5    25.05
+    
+Test 31 Checks lesson addition with dot instead of dash in date
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+7    2016.05.25
+    Check Date Addition    9Б    ${lesson_num1}+6    25.05
+
+Test 32 Checks lesson addition with float numbers in date
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+8    20.160515
+    Check Date Addition    9Б    ${lesson_num1}+8    20.160515
+
+Test 33 Checks lesson addition with 1859 year in date
+    [Tags]    InvalidTest    AddTopic
+    Test Date Addition    1    9Б    ${lesson_num1}+9    1859-05-22
+    Check Date Addition    9Б    3    22.05
+
+Test 34 Checks lesson addition with lesson type as Lab
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_num1}+10]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-26
+    Click Element    xpath=//*[@id='selectDir']/option[@value="2"]
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_num1}+8]/a
+    Wait Until Page Contains    Редагувати урок
+    List Selection Should Be    xpath=//*[@id='selectDir']    Самостійна/Лабораторна робота
+
+Test 35 Checks lesson addition with lesson type as Control Work
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_num1}+11]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-27
+    Click Element    xpath=//*[@id='selectDir']/option[@value="3"]
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_num1}+9]/a
+    Wait Until Page Contains    Редагувати урок
+    List Selection Should Be    xpath=//*[@id='selectDir']    Контрольна робота
+
+Test 36 Checks lesson addition with lesson type as Usual Lesson (default setting)
+    [Tags]    InvalidTest    AddTopic
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[2]/a
+    Click Element    //*[@id='2']/a[1]
+    Wait Until Page Contains    Класс: 9Б
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_num1}+12]/a
+    Wait Until Page Contains    Додати урок
+    Input Text    date    2016-05-28
+    #Click Element    xpath=//*[@id='selectDir']/option[@value="1"]
+    Input Text    inputTopic    Eurovision Song Contest 2016
+    Input Text    inputHomework    Watch Online
+    Click Button    Прийняти
+    Page Should Contain    Класс: 9Б 
+    Click Element    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_num1}+10]/a
+    Wait Until Page Contains    Редагувати урок
+    List Selection Should Be    xpath=//*[@id='selectDir']    Звичайний
