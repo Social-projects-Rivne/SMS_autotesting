@@ -4,50 +4,12 @@ Test suite for test search tool work
 for main teacher of the system
 """
 
-import unittest
 import time
+import unittest
 
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from psvsetup import TestSetup
 from tpt import TestPrepTemplate
-
-
-class TestSetup(unittest.TestCase):
-
-    """ Parent class with preparations for main tests
-    """
-
-    def setUp(self):
-        """ General preparations for all tests"""
-        self.driver = webdriver.Firefox()
-        self._appurl = 'http://smsautotesting-atqc.rhcloud.com/'
-        self._username = 'test_admin'
-        self._password = 'Install_new!'
-
-        # timeout in seconds
-        self._timeout = 2.0
-
-        self._xpaths = {
-            'btn-search': '//button[text()="Пошук"]',
-            'link-schools': '//a[@href="/mainteacher/schools_list/"]',
-            'link-teachers': '//a[@href="/mainteacher/teachers_list/"]',
-            'search-table-row': '//tbody/tr[@id]'
-        }
-
-        # Preparation actions for all test cases
-        driver = self.driver
-        driver.maximize_window()
-        driver.get(self._appurl)
-
-        elem = driver.find_element_by_name('inputUsername')
-        elem.send_keys(self._username)
-        elem.send_keys(Keys.TAB)
-        elem = driver.find_element_by_name('inputPassword')
-        elem.send_keys(self._password)
-        elem.send_keys(Keys.RETURN)
-
-    def tearDown(self):
-        self.driver.close()
 
 
 class TestSearchTool(TestSetup):
@@ -64,6 +26,7 @@ class TestSearchTool(TestSetup):
     def _search(self, search_text='',
                 link='', expected_count=0,
                 fail_msg='test FAIL'):
+        """ General actions for all tests about search tool testing"""
         driver = self.driver
         driver.find_element_by_xpath(link).click()
         elem = driver.find_element_by_name('search_text')
@@ -206,7 +169,13 @@ class TestSearchTool(TestSetup):
 
 
 if __name__ == "__main__":
-    TestPrepTemplate.prepare_db(action='setup', sql_filename='psv_test.sql')
+    # try:
+    #     TestPrepTemplate.prepare_db(sql_filename='psv_test.sql')
+    # except:
+    #     TestPrepTemplate.prepare_db(action='teardown')
+    #     exit()
+
+    TestPrepTemplate.prepare_db(sql_filename='psv_test.sql')
     try:
         unittest.main(verbosity=2)
     finally:
