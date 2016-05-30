@@ -49,7 +49,7 @@ ${lesson controltomorrow}    xpath=//td[@href='/teacher/class_journal_set_mark/1
 ${lesson negativeusual}    xpath=//td[@href='/teacher/class_journal_set_mark/11/34/64']
 ${lesson negativelab}    xpath=//td[@href='/teacher/class_journal_set_mark/11/36/64']
 ${lesson negativecontrol}    xpath=//td[@href='/teacher/class_journal_set_mark/11/37/64']
-${login address}    http://django-farinhate.rhcloud.com/
+${login address}    http://smsautotesting-atqc.rhcloud.com/
 ${login}     yulia
 ${password}    Lhkj4Gh
 ${validmark 1}    5
@@ -69,6 +69,16 @@ ${comment 3}    CoMmEnT КоМеНтАр
 
 
 *** Testcases ***
+
+11. Lab lesson. Check that valid mark for lab lesson is added with empty field "comment"
+    Mouse Down    xpath=//td[@href='/teacher/class_journal_set_mark/11/36/64']
+    Mouse Up    xpath=//td[@href='/teacher/class_journal_set_mark/11/36/64']
+    Wait Until Page Contains    Поставити оцінку
+    Click Element    xpath=//*[@id='selectDir']
+    Select From List by Value    xpath=//*[@id='selectDir']    1
+    Input Text    inputMark    ${validmark 2}
+    Click Button    Прийняти
+    Element Should Contain    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/tbody/tr[2]/td[11]    12
 
 1. Checks that teachers profile contains classes
     Page Should Contain    Класс: 8А
