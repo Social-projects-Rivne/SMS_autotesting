@@ -18,17 +18,20 @@ class TestPrepTemplate(object):
     _cmd_dump = "mysqldump smsautotesting -h $OPENSHIFT_MYSQL_DB_HOST " \
                 "-P ${OPENSHIFT_MYSQL_DB_PORT:-3306} " \
                 "-u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} " \
-                "--password=\"$OPENSHIFT_MYSQL_DB_PASSWORD\" > " \
+                "--password=\"$OPENSHIFT_MYSQL_DB_PASSWORD\" " \
+                "--default-character-set=utf8 > " \
                 "~/app-root/repo/sql/db_backup.sql;"
     _cmd_restore = "mysql smsautotesting -h $OPENSHIFT_MYSQL_DB_HOST " \
                    "-P ${OPENSHIFT_MYSQL_DB_PORT:-3306} " \
                    "-u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} " \
-                   "--password=\"$OPENSHIFT_MYSQL_DB_PASSWORD\" < " \
+                   "--password=\"$OPENSHIFT_MYSQL_DB_PASSWORD\" " \
+                   "--default-character-set=utf8 < " \
                    "~/app-root/repo/sql/db_backup.sql;"
     _cmd_sql = "mysql smsautotesting -h $OPENSHIFT_MYSQL_DB_HOST " \
                "-P ${OPENSHIFT_MYSQL_DB_PORT:-3306} " \
                "-u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} " \
-               "--password=\"$OPENSHIFT_MYSQL_DB_PASSWORD\" < " \
+               "--password=\"$OPENSHIFT_MYSQL_DB_PASSWORD\" " \
+               "--default-character-set=utf8 < " \
                "~/app-root/repo/sql/"
 
     @staticmethod
@@ -42,12 +45,16 @@ class TestPrepTemplate(object):
                                port=TestPrepTemplate._port,
                                username=TestPrepTemplate._username,
                                key_filename='id_rsa', timeout=10)
+                print("ssh connection established successfully (" +
+                      action + ")")
             except (paramiko.BadHostKeyException,
                     paramiko.AuthenticationException,
-                    paramiko.SSHException) as e:
-                return e
-            except BaseException as e:
-                return "General exception: " + e
+                    paramiko.SSHException) as ex:
+                print("Error while connecting through ssh: " + str(ex.message))
+                raise
+            except Exception as ex:
+                print("Some Error occurred in ssh: " + str(ex.message))
+                raise
 
             channel = client.get_transport().open_session()
             channel.settimeout(100)
@@ -55,7 +62,7 @@ class TestPrepTemplate(object):
             if action == 'setup':
                 channel.exec_command(TestPrepTemplate._cmd_dump +
                                      TestPrepTemplate._cmd_sql + sql_filename)
-            elif action == 'teardown':
+            else:
                 channel.exec_command(TestPrepTemplate._cmd_restore)
 
             content = ""
@@ -68,7 +75,14 @@ class TestPrepTemplate(object):
                                       channel.recv_stderr(max_size)
             client.close()
             final_output = unicode(response) + unicode(error)
-            return [status, final_output]
-        except Exception as e:
-            return [1, unicode(e)]
+            # message = ''
+            if action == 'setup':
+                message = 'Test preparation executed.'
+            else:
+                message = 'Database restored.'
+            print([message, status, final_output])
+        except Exception as ex:
+            print("SSH operation exception occurred (" + action + "): " +
+                  str(ex.message))
+            raise
 
