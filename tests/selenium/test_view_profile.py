@@ -7,6 +7,8 @@ import unittest
 
 from selenium import webdriver
 
+from tpt import TestPrepTemplate
+
 
 class UiTests(unittest.TestCase):
     """ Basic tests for start page - check UI elements presence """
@@ -15,7 +17,7 @@ class UiTests(unittest.TestCase):
         """ Fixture that creates a initial data and records for tests """
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "http://django-farinhate.rhcloud.com"
+        self.base_url = "http://smsautotesting-atqc.rhcloud.com"
         self.accept_next_alert = True
 
     def test_ui_presence(self):
@@ -59,7 +61,7 @@ class PositiveTests(unittest.TestCase):
 
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "http://django-farinhate.rhcloud.com"
+        self.base_url = "http://smsautotesting-atqc.rhcloud.com"
         self.accept_next_alert = True
 
     def _set_test_data(self):
@@ -172,4 +174,8 @@ class PositiveTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    TestPrepTemplate.prepare_db()
+    try:
+        unittest.main(verbosity=2)
+    finally:
+        TestPrepTemplate.prepare_db(action='tearDown')

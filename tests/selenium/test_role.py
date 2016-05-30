@@ -7,10 +7,12 @@ from selenium import webdriver
 
 from selenium.webdriver.support.ui import Select
 
+from tpt import TestPrepTemplate
+
 
 class RoleTests(unittest.TestCase):
     """ Class for testing function 'Change role' as mainteacher on Selenium """
-    _base_url = "http://django-farinhate.rhcloud.com"
+    _base_url = "http://smsautotesting-atqc.rhcloud.com/"
     _login = "semuschenko"
     _password = "pDk7jf"
 
@@ -105,6 +107,10 @@ class RoleTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    TestPrepTemplate.prepare_db()
+    try:
+        unittest.main(verbosity=2)
+    finally:
+        TestPrepTemplate.prepare_db(action='tearDown')
 
 
