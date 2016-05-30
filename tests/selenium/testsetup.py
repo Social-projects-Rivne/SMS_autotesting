@@ -14,24 +14,13 @@ class TestSetup(unittest.TestCase):
     """ Parent class with preparations for main tests
     """
 
-    def setUp(self):
+    def setUp(self, url='http://smsautotesting-atqc.rhcloud.com/',
+              user='test_admin', password='Install_new!'):
         """ General preparations for all tests"""
         self.driver = webdriver.Firefox()
-        self._appurl = 'http://smsautotesting-atqc.rhcloud.com/'
-        self._username = 'test_admin'
-        self._password = 'Install_new!'
-        # self._username = 'semuschenko'
-        # self._password = 'pDk7jf'
-
-        # timeout in seconds
-        self._timeout = 2.0
-
-        self._xpaths = {
-            'btn-search': '//button[text()="Пошук"]',
-            'link-schools': '//a[@href="/mainteacher/schools_list/"]',
-            'link-teachers': '//a[@href="/mainteacher/teachers_list/"]',
-            'search-table-row': '//tbody/tr[@id]'
-        }
+        self._appurl = url
+        self._username = user
+        self._password = password
 
         # Preparation actions for all test cases
         driver = self.driver

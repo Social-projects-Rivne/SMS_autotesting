@@ -8,7 +8,7 @@ import time
 import unittest
 
 from selenium.webdriver.common.keys import Keys
-from psvsetup import TestSetup
+from testsetup import TestSetup
 from tpt import TestPrepTemplate
 
 
@@ -19,6 +19,16 @@ class TestSearchTool(TestSetup):
 
     def setUp(self):
         super(TestSearchTool, self).setUp()
+
+        # timeout in seconds
+        self._timeout = 2.0
+
+        self._xpaths = {
+            'btn-search': '//button[text()="Пошук"]',
+            'link-schools': '//a[@href="/mainteacher/schools_list/"]',
+            'link-teachers': '//a[@href="/mainteacher/teachers_list/"]',
+            'search-table-row': '//tbody/tr[@id]'
+        }
 
     def tearDown(self):
         super(TestSearchTool, self).tearDown()
