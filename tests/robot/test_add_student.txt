@@ -14,8 +14,8 @@ Test_Setup_Steps
     Click Button    tag=button
     
 Change preparations
-    Click Link    /director/student_list/21    
-    Click Link    /director/student_add/21    
+    Click Link    /director/student_list/17    
+    Click Link    /director/student_add/17   
     Wait Until Element Is Visible     id=inputName
 
 *** Variables ***
@@ -49,7 +49,7 @@ ${symbol}    Карпенко-Карий Іван Іванович
 
 5. Checks that the class profile have active buttons for out
     Change preparations
-    Page Should Contain Link    /director/student_list/21
+    Page Should Contain Link    /director/student_list/17
 
 6. Checks that the class profile have active buttons for disable
     Change preparations

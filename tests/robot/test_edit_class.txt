@@ -23,7 +23,7 @@ Change preparations
 ${login address}    http://ss-alexeyvasiluk.rhcloud.com/
 ${login test}     zoshch
 ${password test}    df5sFdf
-${classNumber}    21
+${classNumber}    17
 ${capital cyrillic}    1Б
 ${small cyrillic}    1б
 ${capital latin}    1D
@@ -104,9 +104,7 @@ ${all many}    123АБВ
     Page Should Contain    Некоректно введено назву.
    
 14. Editing class name with only one letter
-    Mouse Over    css=div.group__item-holder
-    Click link    /director/group_edit/${classNumber}
-    Wait Until Element Is Visible     id=inputName
+    Change preparations
     Input Text    inputName    ${one letter}        
     Click Button    name=add_button
     Page Should Contain    Некоректно введено назву.
