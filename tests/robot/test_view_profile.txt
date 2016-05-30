@@ -27,7 +27,7 @@ Test Click Element    [Arguments]  ${view}  ${email}  ${photo}
     Page Should Contain    ${view}
 
 *** Variables ***
-${login address}    http://django-farinhate.rhcloud.com/
+${login address}    http://smsautotesting-atqc.rhcloud.com/
 ${browser}    firefox
 ${login main}    semuschenko
 ${password main}    pDk7jf
