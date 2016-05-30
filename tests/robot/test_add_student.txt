@@ -45,6 +45,7 @@ ${symbol}    Карпенко-Карий Іван Іванович
 
 4. Checks that the class profile have active buttons for edit
     Change preparations
+    Page Should Contain Element     name=add_button 
 
 5. Checks that the class profile have active buttons for out
     Change preparations
@@ -66,7 +67,7 @@ ${symbol}    Карпенко-Карий Іван Іванович
     Click Button    name=add_button
     Page Should Contain    Некоректно введено ім'я.
 
-9. Add students to class with classic cyrillic name without second name
+9. Add students to class with classic cyrillic name with surname only
     Change preparations
     Input Text    inputName    ${1cyrillic}        
     Click Button    name=add_button
