@@ -1,0 +1,107 @@
+*** Settings ***
+Library           Selenium2Library
+Test Setup        Test_Setup_Steps
+Test Teardown     Close Browser
+
+*** Keywords ***
+Test_Setup_Steps
+    Set Selenium Speed    0
+    Open Browser    ${login address}
+    Maximize Browser Window
+    Input Text    inputUsername    ${login}
+    Input Text    inputPassword    ${password}
+    Click Button  tag=button
+
+*** Variables ***
+${login address}  https://smsauto-dvatqc.rhcloud.com
+${login address-local}  http://127.0.0.1:8000/
+${login}  zoshch
+${password}  df5sFdf
+
+*** Testcases ***
+1. Check whether pop-up windows shows onclick the button “Add subject”
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject/2
+  Wait Until Page Contains Element  manage_teachers_select
+  Page Should Contain  Призначити предмет
+  Page Should Contain  Предмет*
+
+2. Add subject for teacher
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject/2
+  Wait Until Page Contains Element    manage_teachers_select
+  Click Element    manage_teachers_select
+  Select From List By Index    manage_teachers_select    6
+  Press Key    manage_teachers_select  \\13
+  Click Element    add_button
+  Page Should Contain   Зарубіжна література
+
+3. Add already exists subject for teacher
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject/2
+  Wait Until Page Contains Element    manage_teachers_select
+  Click Element    manage_teachers_select
+  Select From List By Index    manage_teachers_select    6
+  Press Key    manage_teachers_select  \\13
+  Sleep  1s
+  Page Should Contain    Даний викладач вже веде вибраний предмет.
+
+4. Add with no choosen subject
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject/2
+  Wait Until Page Contains Element    manage_teachers_select
+  Click Element    manage_teachers_select
+  Select From List By Index    manage_teachers_select    0
+  Press Key    manage_teachers_select  \\13
+  Click Element    add_button
+  Page Should Contain    Це обов'язкове поле.
+
+5. Check whether pop-up windows shows onclick the button “Add class”
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject_group/16
+  Wait Until Page Contains Element  manage_teachers_select
+  Page Should Contain  Галицький Максим Генадійович - Зарубіжна література
+
+6. Add class for teacher
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject_group/16
+  Wait Until Page Contains Element    manage_teachers_select
+  Click Element    manage_teachers_select
+  Select From List By Index    manage_teachers_select    1
+  Press Key    manage_teachers_select  \\13
+  Click Element    add_button
+  Page Should Contain  1А
+
+7. Add second class for teacher
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject_group/16
+  Wait Until Page Contains Element    manage_teachers_select
+  Click Element    manage_teachers_select
+  Select From List By Index    manage_teachers_select    2
+  Press Key    manage_teachers_select  \\13
+  Click Element    add_button
+  Page Should Contain  1Б
+
+8. Add already exists subject for teacher at the class
+  Click Link    /director/manage_teachers/
+  Click Link    /director/add_teacher_subject_group/16
+  Wait Until Page Contains Element    manage_teachers_select
+  Click Element    manage_teachers_select
+  Select From List By Index    manage_teachers_select    1
+  Press Key    manage_teachers_select  \\13
+  Sleep  1s
+  Page Should Contain    Викладач вже веде даний предмет в цьому класі.
+
+9. Delete user’s subject
+  Click Link    /director/manage_teachers/
+  Click Link    /director/delete_teacher_subject_group/8
+  Wait Until Page Contains Element  confirm_button
+  Click Element    confirm_button
+  Page Should Not Contain    11А
+
+10. Delete subject
+  Click Link    /director/manage_teachers/
+  Click Link    /director/delete_teacher_subject/5
+  Wait Until Page Contains Element    confirm_button
+  Click Element    confirm_button
+  Page Should Not Contain  Інформатика

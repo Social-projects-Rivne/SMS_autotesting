@@ -145,22 +145,26 @@ Test 8 Checks lesson addition with empty fields
 Test 9 Checks lesson addition with max symbols length
     [Tags]    InvalidTest    AddTopic
     Fill In Lesson Add Form    2    ${lesson_num1}    ${topic_max}    ${topic_max}
-    Check Correct Addition    8Б    ${lesson_num1}    ${topic_max}    ${topic_max}
+    #Check Correct Addition    8Б    ${lesson_num1}    ${topic_max}    ${topic_max}
+    Page Should Contain    Додати урок
     
 Test 10 Checks lesson addition with min symbols length
     [Tags]    InvalidTest    AddTopic
     Fill In Lesson Add Form    2    ${lesson_num1}+1    ${topic_min}    ${topic_min}
-    Check Correct Addition    8Б    ${lesson_num1}+1    ${topic_min}    ${topic_min}
+    #Check Correct Addition    8Б    ${lesson_num1}+1    ${topic_min}    ${topic_min}
+    Page Should Contain    Додати урок
 
 Test 11 Checks lesson addition only with spaces
     [Tags]    InvalidTest    AddTopic
     Fill In Lesson Add Form    2    ${lesson_num1}+2    ${topic_spaces}    ${topic_spaces}
-    Check Correct Addition    8Б    ${lesson_num1}+2    ${topic_spaces}    ${topic_spaces}
+    #Check Correct Addition    8Б    ${lesson_num1}+2    ${topic_spaces}    ${topic_spaces}
+    Page Should Contain    Додати урок
     
 Test 12 Checks lesson addition with only numbers
     [Tags]    InvalidTest    AddTopic
     Fill In Lesson Add Form    2    ${lesson_num1}+3    ${topic_numbers}    ${topic_numbers}
-    Check Correct Addition    8Б    ${lesson_num1}+3    ${topic_numbers}    ${topic_numbers}
+    #Check Correct Addition    8Б    ${lesson_num1}+3    ${topic_numbers}    ${topic_numbers}
+    Page Should Contain    Додати урок
     
 Test 13 Checks lesson addition with latin letters
     [Tags]    ValidTest    AddTopic
@@ -225,7 +229,8 @@ Test 24 Checks lesson addition with yesterday's date if there was no lessons of 
 Test 25 Checks lesson addition with tomorrow's date
     [Tags]    InvalidTest    AddTopic
     Test Date Addition    1    9Б    ${lesson_num1}+1    2016-05-14
-    Check Date Addition    9Б    ${lesson_num1}+1   14.05    
+    #Check Date Addition    9Б    ${lesson_num1}+1   14.05
+    Page Should Contain    Додати урок    
 
 Test 26 Checks lesson addition with yesterday's date if today's lesson was added
     [Tags]    InvalidTest    AddTopic
@@ -235,7 +240,8 @@ Test 26 Checks lesson addition with yesterday's date if today's lesson was added
 Test 27 Checks lesson addition with previous year
     [Tags]    InvalidTest    AddTopic
     Test Date Addition    1    9Б    ${lesson_num1}+3    2015-05-13
-    Check Date Addition    9Б    2    13.05    
+    #Check Date Addition    9Б    2    13.05 
+    Page Should Contain    Додати урок   
 
 Test 28 Checks lesson addition with inversed position of day and month
     [Tags]    InvalidTest    AddTopic
@@ -265,7 +271,8 @@ Test 32 Checks lesson addition with float numbers in date
 Test 33 Checks lesson addition with 1859 year in date
     [Tags]    InvalidTest    AddTopic
     Test Date Addition    1    9Б    ${lesson_num1}+9    1859-05-22
-    Check Date Addition    9Б    3    22.05
+    #Check Date Addition    9Б    3    22.05
+    Page Should Contain    Додати урок
 
 Test 34 Checks lesson addition with lesson type as Lab
     [Tags]    InvalidTest    AddTopic
@@ -317,3 +324,4 @@ Test 36 Checks lesson addition with lesson type as Usual Lesson (default setting
     Click Element    xpath=html/body/div[2]/div/div[2]/div/div/table[2]/thead/tr/th[${lesson_num1}+10]/a
     Wait Until Page Contains    Редагувати урок
     List Selection Should Be    xpath=//*[@id='selectDir']    Звичайний
+
