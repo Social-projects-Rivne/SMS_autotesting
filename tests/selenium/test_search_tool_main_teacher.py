@@ -179,13 +179,13 @@ class TestSearchTool(TestSetup):
 
 
 if __name__ == "__main__":
-    # try:
-    #     TestPrepTemplate.prepare_db(sql_filename='psv_test.sql')
-    # except:
-    #     TestPrepTemplate.prepare_db(action='teardown')
-    #     exit()
+    try:
+        TestPrepTemplate.prepare_db(
+            sql_filename='psv_test_search_preparations.sql')
+    except:
+        TestPrepTemplate.prepare_db(action='teardown')
+        exit()
 
-    TestPrepTemplate.prepare_db(sql_filename='psv_test.sql')
     try:
         unittest.main(verbosity=2)
     finally:

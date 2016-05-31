@@ -34,7 +34,7 @@ class TestChangeAvatar(TestSetup):
             '//a[@href="/core/img_upload/"]').click()
 
         elem = driver.find_element_by_xpath("//input[@type='file']")
-        elem.send_keys(os.getcwd() + "\\" + "change_avatar\\" +
+        elem.send_keys(os.getcwd() + "/change_avatar/" +
                        filename + "." + fileext)
         driver.find_element_by_xpath('//button[text()="Зберегти"]').click()
         self.assertTrue(
