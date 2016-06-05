@@ -97,22 +97,22 @@ ${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.so
 
 *** Testcases ***
 01. Check, that user profile page is opened
-    [Tags]    ValidTest     SmokeTest
+    [Tags]    PositiveTest     SmokeTest
     Page Should Contain    Профіль
     Page Should Contain    ${login test}
 
 02. Check, that user profile page contains button(link) to edit profile
-    [Tags]    ValidTest     SmokeTest
+    [Tags]    PositiveTest     SmokeTest
     Page Should Contain Link    /core/profile_edit/
 
 03. Check, that clicking on the link to edit profile opens the frame to edit profile opened
-    [Tags]    ValidTest     SmokeTest
+    [Tags]    PositiveTest     SmokeTest
     Click Link    /core/profile_edit/
     Wait Until Page Contains    Редагувати профіль
     Page Should Contain    Редагувати профіль
 
 04. Check, that the frame to edit profile contains fields and buttons
-    [Tags]    ValidTest     SmokeTest
+    [Tags]    PositiveTest     SmokeTest
     Click Link    /core/profile_edit/
     Wait Until Page Contains Element    id=inputName
     Page Should Contain Textfield    inputName
@@ -122,137 +122,137 @@ ${incorrect email 5}    voron-rozumna.anna-marija@many-many.domain.levels.and.so
     Page Should Contain Button    name=confirm_button
 
 05. Edit profile with correct data (first case)
-    [Tags]    ValidTest
+    [Tags]    PositiveTest
     Test Steps Both    ${correct name 1}   ${correct email 1}
     Confirm Changes    ${correct name 1}   ${correct email 1}
 
 06. Edit profile with correct data (second case)
-    [Tags]    ValidTest
+    [Tags]    PositiveTest
     Test Steps Both    ${correct name 2}   ${correct email 2}
     Confirm Changes    ${correct name 2}   ${correct email 2}
 
 07. Edit profile with correct data (third case)
-    [Tags]    ValidTest     Failed
+    [Tags]    PositiveTest     Failed
     Test Steps Both    ${correct name 3}   ${correct email 3}
     Confirm Changes    ${correct name 3}   ${correct email 3}
 
 08. Edit profile with correct data (fourth case)
-    [Tags]    ValidTest     Failed
+    [Tags]    PositiveTest     Failed
     Test Steps Both    ${correct name 4}   ${correct email 3}
     Confirm Changes    ${correct name 4}   ${correct email 3}
 
 09. Edit profile with correct data (fifth case)
-    [Tags]    ValidTest     Failed
+    [Tags]    PositiveTest     Failed
     Test Steps Both    ${correct name 5}   ${correct email 3}
     Confirm Changes    ${correct name 5}   ${correct email 3}
 
 10. Edit profile with correct data (fifth case)
-    [Tags]    ValidTest     Failed
+    [Tags]    PositiveTest     Failed
     Test Steps Both    ${correct name 6}   ${correct email 3}
     Confirm Changes    ${correct name 6}   ${correct email 3}
 
 11. Edit profile with empty name
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${empty}
     Check Warning Name
 
 12. Edit profile with incorrect name (first case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 1}
     Check Warning Name
 
 13. Edit profile with incorrect name (second case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 2}
     Check Warning Name
 
 14. Edit profile with incorrect name (third case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 3}
     Check Warning Name
 
 15. Edit profile with incorrect name (fourth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 4}
     Check Warning Name
 
 16. Edit profile with incorrect name (fifth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 5}
     Check Warning Name
 
 17. Edit profile with incorrect name (sixth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 6}
     Check Warning Name
 
 18. Edit profile with incorrect name (seventh case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 7}
     Check Warning Name
 
 19. Edit profile with incorrect name (eighth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 8}
     Check Warning Name
 
 20. Edit profile with incorrect name (ninth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 9}
     Check Warning Name
 
 21. Edit profile with incorrect name (tenth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 10}
     Check Warning Name
 
 22. Edit profile with incorrect name (eleventh case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 11}
     Check Warning Name
 
 23. Edit profile with incorrect name (twelfth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 12}
     Check Warning Name
 
 24. Edit profile with incorrect name (thirteenth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Name    ${incorrect name 13}
     Check Warning Name
 
 25. Edit profile with incorrect name (fourteenth case)
-    [Tags]    InvalidTest     Failed
+    [Tags]    NegativeTest     Failed
     Test Steps Name    ${incorrect name 14}
     Check Warning Name
 
 26. Edit profile with empty email
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Email    ${empty}
     Check Warning Email
 
 27. Edit profile with incorrect email (first case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Email    ${incorrect email 1}
     Check Warning Email
 
 28. Edit profile with incorrect email (second case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Email    ${incorrect email 2}
     Check Warning Email
 
 29. Edit profile with incorrect email (third case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Email    ${incorrect email 3}
     Check Warning Email
 
 30. Edit profile with incorrect email (fourth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Email    ${incorrect email 4}
     Check Warning Email
 
 31. Edit profile with incorrect email (fifth case)
-    [Tags]    InvalidTest
+    [Tags]    NegativeTest
     Test Steps Email    ${incorrect email 5}
     Check Warning Email
 

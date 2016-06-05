@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """  _  """
 
-
 import unittest
 from selenium import webdriver
 
@@ -9,9 +8,9 @@ from selenium import webdriver
 class TestPreparations(unittest.TestCase):
     """ Superclass with preparations for tests and initial data """
 
-    _url = "http://sms-rv016atqc.rhcloud.com"
-    _login = "yulia"
-    _password = "Lhkj4Gh"
+    base_url = "http://sms-rv016atqc.rhcloud.com"
+    login = "yulia"
+    password = "Lhkj4Gh"
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests,
@@ -19,8 +18,8 @@ class TestPreparations(unittest.TestCase):
         """
 
         self.driver = webdriver.Firefox()
+        self.driver.maximize_window()
         self.driver.implicitly_wait(30)
-        self.base_url = self._url
         self.accept_next_alert = True
 
         self.driver.get(self.base_url + "/")
@@ -28,10 +27,10 @@ class TestPreparations(unittest.TestCase):
 
         input_username = driver.find_element_by_name("inputUsername")
         input_username.clear()
-        input_username.send_keys(self._login.decode('utf-8'))
+        input_username.send_keys(self.login.decode('utf-8'))
         input_password = driver.find_element_by_name("inputPassword")
         input_password.clear()
-        input_password.send_keys(self._password.decode('utf-8'))
+        input_password.send_keys(self.password.decode('utf-8'))
         driver.find_element_by_xpath("//button[@type='submit']").click()
 
 
@@ -43,28 +42,6 @@ class TestPreparations(unittest.TestCase):
 
 class ViewClassesAsATeacher(TestPreparations):
     """ Class with methods for testing """
-
-    _subjects = ["Українська мова",
-                 "Українська література"]
-
-    _classes_literature = ["9Б клас",
-                           "9A клас"]
-
-    _classes_language = ["8А клас",
-                         "8Б клас",
-                         "8В клас",
-                         "8В клас",
-                         "9A клас"]
-
-    _students8A = ["Кулаковський Іван Орестович",
-                   "Обліпиха Володимир Володимирович",
-                   "Панасюк Ігор Олександрович",
-                   "Петрук Тамара Миколаївна",
-                   "Порох Євген Леонідович",
-                   "Савчук Олена Петрівна",
-                   "Сорока Ірина Ігорівна",
-                   "Степанюк Володимир Григорович",
-                   "Щеба Андрій Назарович"]
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests """
@@ -82,7 +59,10 @@ class ViewClassesAsATeacher(TestPreparations):
 
         driver = self.driver
 
-        for subj in self._subjects:
+        subjects = ["Українська мова",
+                    "Українська література"]
+
+        for subj in subjects:
             self.assertTrue(len(driver.find_elements_by_link_text(
                 subj.decode("utf-8"))) == 1)
 
@@ -96,14 +76,23 @@ class ViewClassesAsATeacher(TestPreparations):
         driver.find_element_by_xpath(
             "//a[contains(.,'Українська література')]").click()
 
-        for cls in self._classes_literature:
+        classes_literature = ["9Б клас",
+                              "9A клас"]
+
+        for cls in classes_literature:
             self.assertTrue(len(driver.find_elements_by_link_text(
                 cls.decode("utf-8"))) == 1)
 
         driver.find_element_by_xpath(
             "//a[contains(.,'Українська мова')]").click()
 
-        for cls in self._classes_language:
+        classes_language = ["8А клас",
+                            "8Б клас",
+                            "8В клас",
+                            "8В клас",
+                            "9A клас"]
+
+        for cls in classes_language:
             self.assertTrue(len(driver.find_elements_by_link_text(
                 cls.decode("utf-8"))) == 1)
 
@@ -134,7 +123,17 @@ class ViewClassesAsATeacher(TestPreparations):
 
         driver.find_element_by_link_text("8А клас".decode("utf-8")).click()
 
-        for student in self._students8A:
+        students8A = ["Кулаковський Іван Орестович",
+                      "Обліпиха Володимир Володимирович",
+                      "Панасюк Ігор Олександрович",
+                      "Петрук Тамара Миколаївна",
+                      "Порох Євген Леонідович",
+                      "Савчук Олена Петрівна",
+                      "Сорока Ірина Ігорівна",
+                      "Степанюк Володимир Григорович",
+                      "Щеба Андрій Назарович"]
+
+        for student in students8A:
             self.assertTrue(len(
                 driver.find_elements_by_xpath(
                     "//td[contains(.,'{}')]".format(student))) > 0)
@@ -146,7 +145,6 @@ class ViewClassesAsATeacher(TestPreparations):
 
         super(ViewClassesAsATeacher, self).tearDown()
 
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
-
-
