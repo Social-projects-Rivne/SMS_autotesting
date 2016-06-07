@@ -33,16 +33,16 @@ ${password teacher}    Lhkj4Gh
 
 *** Testcases ***
 01. Check, that the page to view classes opened
-    [Tags]    ValidTest     SmokeTest
+    [Tags]    PositiveTest     SmokeTest
     Location Should Contain    teacher/subject_group_list
 
 02. Check, that the tabs for subjects exists and shown
-    [Tags]    ValidTest     SmokeTest
+    [Tags]    PositiveTest     SmokeTest
     :FOR    ${subject}   IN    @{subjects}
     \   Page Should Contain     ${subject}
 
 03. Check, that the appropriate classes is present on the subjects pages
-    [Tags]    ValidTest
+    [Tags]    PositiveTest
     Click Element   xpath = //a[contains(.,'@{subjects}[1]')]
     :FOR    ${class}    IN    @{classes literature}
     \   Page Should Contain     ${class}
@@ -51,14 +51,14 @@ ${password teacher}    Lhkj4Gh
     \   Page Should Contain     ${class}
 
 04. Check, that the page for class opened
-    [Tags]    ValidTest     SmokeTest   Fail
+    [Tags]    PositiveTest     SmokeTest   Fail
     Click Element   xpath = //a[contains(.,'@{classes language}[0]')]
     Location Should Contain     class_journal
     Page Should Contain     Класс: 8А Предмет:
     Page Should Contain     @{subjects}[0]
 
 05. Check, that the list of students contains full and exact list for students in the class
-    [Tags]    ValidTest
+    [Tags]    PositiveTest
     Click Element   xpath = //a[contains(.,'@{classes language}[0]')]
     :FOR    ${student}    IN    @{students8A}
     \   Page Should Contain     ${student}

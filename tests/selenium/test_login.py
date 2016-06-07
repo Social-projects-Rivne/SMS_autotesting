@@ -6,9 +6,14 @@ from selenium import webdriver
 
 
 class SmokeTests(unittest.TestCase):
+
     """ Smoke tests for login process - check UI elements presence """
 
-    base_url = "http://sms-rv016atqc.rhcloud.com"
+    def __init__(self, *args, **kwargs):
+        """  Define instance variables """
+
+        super(SmokeTests, self).__init__(*args, **kwargs)
+        self.base_url = "http://sms-rv016atqc.rhcloud.com"
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests """
@@ -19,7 +24,7 @@ class SmokeTests(unittest.TestCase):
         self.accept_next_alert = True
 
     def test_ui_presence(self):
-        """ 01. Check, that login page contains fields and buttons """
+        """ Check, that login page contains fields and buttons """
 
         driver = self.driver
         driver.get(self.base_url + "/")
@@ -34,83 +39,32 @@ class SmokeTests(unittest.TestCase):
 
 
 class PositiveTests(unittest.TestCase):
+
     """ Positive tests for login process with correct data,
     expected result - login is successful
     """
 
-    # _list_login_correct = ["semuschenko",
-    #                        "zoshch",
-    #                        "maximus",
-    #                        "sEmUsChEnKo",
-    #                        "semuschenko"]
-    # _list_password_correct = ["pDk7jf",
-    #                           "df5sFdf",
-    #                           "LKuJf3y",
-    #                           "pDk7jf",
-    #                           "pDk7jf"]
-    # _list_url_part = ["/mainteacher/",
-    #                   "/director/",
-    #                   "/teacher/",
-    #                   "/mainteacher/",
-    #                   "/mainteacher/"]
-    # _list_position = ["Головний вчитель",
-    #                   "Завуч",
-    #                   "Викладач",
-    #                   "Головний вчитель",
-    #                   "Головний вчитель"]
-    # _list_name = ["Семищенко Христофор Онуфрійович",
-    #               "Зощенко Іван Вікторович",
-    #               "Галицький Максим Генадійович",
-    #               "Семищенко Христофор Онуфрійович",
-    #               "Семищенко Христофор Онуфрійович"]
-    #
-    # _test_data = zip(_list_login_correct,
-    #                  _list_password_correct,
-    #                  _list_url_part,
-    #                  _list_position,
-    #                  _list_name)
-    #
-    # test_data_count = len(_test_data)
+    def __init__(self, *args, **kwargs):
+        """  Define instance variables """
 
-    base_url = "http://sms-rv016atqc.rhcloud.com"
-
+        super(PositiveTests, self).__init__(*args, **kwargs)
+        self.base_url = "http://sms-rv016atqc.rhcloud.com"
+        self.login = ""
+        self.password = ""
+        self.url_part = ""
+        self.position = ""
+        self.name = ""
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests """
-
-        # input_error_msg = "Quantity of input parameters must be equal"
-        # self.assertEqual(len(self._list_login_correct),
-        #                  len(self._list_password_correct),
-        #                  input_error_msg)
-        # self.assertEqual(len(self._list_password_correct),
-        #                  len(self._list_url_part),
-        #                  input_error_msg)
-        # self.assertEqual(len(self._list_url_part),
-        #                  len(self._list_position),
-        #                  input_error_msg)
-        # self.assertEqual(len(self._list_position),
-        #                  len(self._list_name),
-        #                  input_error_msg)
 
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
         self.driver.implicitly_wait(30)
         self.accept_next_alert = True
 
-    # def _set_test_data(self):
-    #     """ Creating initial data for each test """
-    #
-    #     self.login = self._list_login_correct[self.current_test]
-    #     self.password = self._list_password_correct[self.current_test]
-    #     self.url_part = self._list_url_part[self.current_test]
-    #     self.position = self._list_position[self.current_test]
-    #     self.name = self._list_name[self.current_test]
-
-
     def _test_steps(self):
         """ Common tests steps """
-
-        # self._set_test_data()
 
         print("\nPositive test for : ")
         print([self.login, self.password,
@@ -137,7 +91,7 @@ class PositiveTests(unittest.TestCase):
 
     def test01_main_teacher_login(self):
         """
-        01. Login Should Succeed for main teacher when the correct Username
+        Login Should Succeed for main teacher when the correct Username
         and Password are entered
         """
 
@@ -151,7 +105,7 @@ class PositiveTests(unittest.TestCase):
 
     def test02_school_director_login(self):
         """
-        02. Login Should Succeed for school director when the correct
+        Login Should Succeed for school director when the correct
         Username and Password are entered
         """
 
@@ -165,7 +119,7 @@ class PositiveTests(unittest.TestCase):
 
     def test03_common_teacher_login(self):
         """
-        03. Login Should Succeed for teacher when the correct Username and
+        Login Should Succeed for teacher when the correct Username and
         Password are entered
         """
 
@@ -179,7 +133,7 @@ class PositiveTests(unittest.TestCase):
 
     def test04_main_teacher_login_case(self):
         """
-        04. Login Should Succeed for main teacher when the correct Username
+        Login Should Succeed for main teacher when the correct Username
         (different case) and Password are entered
         """
 
@@ -193,7 +147,7 @@ class PositiveTests(unittest.TestCase):
 
     def test05_login_restore(self):
         """
-        05. Test whether login/close/reopen browser shows an login page
+        Test whether login/close/reopen browser shows an login page
         with empty fields
         """
 
@@ -223,74 +177,24 @@ class PositiveTests(unittest.TestCase):
 
 
 class NegativeTests(unittest.TestCase):
+
     """ Negative tests for login process with incorrect data,
     expected result - login is unsuccessful
     """
-    #
-    # _list_login_incorrect = \
-    #     ["semuschenko",
-    #      "pDk7jf",
-    #      "",
-    #      "loginloginlogin",
-    #      "",
-    #      "loginloginlogin",
-    #      "semuschenko",
-    #      "loginloginlogin",
-    #      "<script>alert(123)</script>",
-    #      "(' or 'a' = 'a'; DROP TABLE teachers; SELECT * FROM teachers;)",
-    #      "' or 'a' = 'a'; DROP TABLE teachers; SELECT * FROM teachers;",
-    #      "(<script>alert(\"Hello, world!\")</alert>, <script>document.getElementByID(\"…\").disabled=true</script>)",
-    #      "<script>alert(\"Hello, world!\")</alert>, <script>document.getElementByID(\"…\").disabled=true</script>",
-    #      "(<form action=\"http://sms-rv016atqc.rhcloud.com/\"><input type=\"submit\"></form>)",
-    #      "<form action=\"http://sms-rv016atqc.rhcloud.com/\"><input type=\"submit\"></form>",
-    #      "\x23\x27\xE2\x80\x9C\xE2\x99\xA3\xE2\x98\xBA\xE2\x99\x82\xE2\x80\x9D\x20\x2C\x20\xE2\x80\x9C\xE2\x80\x9D\xE2\x80\x98\x7E\x21\x40\x23\x24\x25\x5E\x26\x2A\x28\x29\x3F\x3E\x2C\x2E\x2F\x5C\x3C\x5D\x5B\x20\x2F\x2A\x3C\x21\xE2\x80\x93\xE2\x80\x9C\xE2\x80\x9D\x2C\x20\xE2\x80\x9C\x24\x7B\x63\x6F\x64\x65\x7D\xE2\x80\x9D\x3B\xE2\x80\x93\x3E\x27",
-    #      "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
-    #      "\x20\x20\x20\x20semuschenko",
-    #      "semuschenko\x20\x20\x20\x20",
-    #      "логін",
-    #      "<semuschenko>"]
-    #
-    # _list_password_incorrect = \
-    #     ["PdK7Jf",
-    #      "semuschenko",
-    #      "",
-    #      "",
-    #      "passwordpasswordpassword",
-    #      "passwordpasswordpassword",
-    #      "passwordpasswordpassword",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "pDk7jf",
-    #      "пароль123!?%&",
-    #      "pDk7jf"]
 
-    login_part = "/mainteacher/"
+    def __init__(self, *args, **kwargs):
+        """  Define instance variables """
 
-    warning_message = "Невірно вказаний пароль або логін"
-    page_title = "Авторизація | SMS"
-
-    base_url = "http://sms-rv016atqc.rhcloud.com"
-
-    # _test_data = zip(_list_login_incorrect,
-    #                  _list_password_incorrect)
-    #
-    # test_data_count = len(_test_data)
+        super(NegativeTests, self).__init__(*args, **kwargs)
+        self.login_part = "/mainteacher/"
+        self.warning_message = "Невірно вказаний пароль або логін"
+        self.page_title = "Авторизація | SMS"
+        self.base_url = "http://sms-rv016atqc.rhcloud.com"
+        self.login = ""
+        self.password = ""
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests """
-
-        # input_error_msg = "Quantity of input parameters must be equal"
-        # self.assertEqual(len(self._list_login_incorrect),
-        #                  len(self._list_password_incorrect), input_error_msg)
 
         # self.driver = webdriver.Chrome()
         self.driver = webdriver.Firefox()
@@ -298,18 +202,8 @@ class NegativeTests(unittest.TestCase):
         self.driver.implicitly_wait(30)
         self.accept_next_alert = True
 
-    # def _set_test_data(self):
-    #     """ Creating initial data for each test """
-    #
-    #     self.login = self._list_login_incorrect[self.current_test]
-    #     self.password = self._list_password_incorrect[self.current_test]
-    #     print("\nNegative test for : ")
-    #     print(list(param for param in self._test_data[self.current_test]))
-
     def _test_steps(self):
         """ Common tests steps """
-
-        # self._set_test_data()
 
         print("\nNegative test for : ")
         print([self.login, self.password])
@@ -338,7 +232,7 @@ class NegativeTests(unittest.TestCase):
 
     def test01_password_mixed_case(self):
         """
-        01. Warning Message Should appear for user when the correct
+        Warning Message Should appear for user when the correct
         Username and Password (different case) are entered
         """
 
@@ -348,7 +242,7 @@ class NegativeTests(unittest.TestCase):
 
     def test02_username_password_rearranged(self):
         """
-        02. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         Password->Username and Username->Password
         """
 
@@ -359,7 +253,7 @@ class NegativeTests(unittest.TestCase):
 
     def test03_username_password_empty(self):
         """
-        03. Warning Message Should appear for user when the Username
+        Warning Message Should appear for user when the Username
         and Password left empty
         """
 
@@ -370,7 +264,7 @@ class NegativeTests(unittest.TestCase):
 
     def test04_password_empty(self):
         """
-        04. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         Password left empty
         """
 
@@ -381,7 +275,7 @@ class NegativeTests(unittest.TestCase):
 
     def test05_username_empty(self):
         """
-        05. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         Username left empty
         """
 
@@ -392,7 +286,7 @@ class NegativeTests(unittest.TestCase):
 
     def test06_username_password_incorrect(self):
         """
-        06. Warning Message Should appear for user when the incorrect
+        Warning Message Should appear for user when the incorrect
         Username and Password are Entered
         """
 
@@ -403,7 +297,7 @@ class NegativeTests(unittest.TestCase):
 
     def test07_password_incorrect(self):
         """
-        07. Warning Message Should appear for user when the correct
+        Warning Message Should appear for user when the correct
         Username and incorrect Password are Entered
         """
 
@@ -414,7 +308,7 @@ class NegativeTests(unittest.TestCase):
 
     def test08_username_incorrect(self):
         """
-        08. Warning Message Should appear for user when the incorrect
+        Warning Message Should appear for user when the incorrect
         Username and correct Password are Entered
         """
         self.login = "loginloginlogin"
@@ -424,7 +318,7 @@ class NegativeTests(unittest.TestCase):
 
     def test09_username_injection(self):
         """
-        09. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         injection1 -> Username and correct Password are Entered
         """
 
@@ -435,7 +329,7 @@ class NegativeTests(unittest.TestCase):
 
     def test10_username_injection(self):
         """
-        10. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         injection2 -> Username and correct Password are Entered
         """
 
@@ -447,7 +341,7 @@ class NegativeTests(unittest.TestCase):
 
     def test11_username_injection(self):
         """
-        11. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         injection3 -> Username and correct Password are Entered
         """
 
@@ -459,7 +353,7 @@ class NegativeTests(unittest.TestCase):
 
     def test12_username_injection(self):
         """
-        12. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         injection4 -> Username and correct Password are Entered
         """
 
@@ -472,7 +366,7 @@ class NegativeTests(unittest.TestCase):
 
     def test13_username_injection(self):
         """
-        13. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         injection5 -> Username and correct Password are Entered
         """
 
@@ -485,7 +379,7 @@ class NegativeTests(unittest.TestCase):
 
     def test14_username_injection(self):
         """
-        14. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         injection6 -> Username and correct Password are Entered
         """
 
@@ -497,7 +391,7 @@ class NegativeTests(unittest.TestCase):
 
     def test15_username_injection(self):
         """
-        15. Warning Message Should appear for user when the
+        Warning Message Should appear for user when the
         injection7 -> Username and correct Password are Entered
         """
 
@@ -509,7 +403,7 @@ class NegativeTests(unittest.TestCase):
 
     def test16_username_incorrect_password_correct(self):
         """
-        16. Warning Message Should appear for user when the wrong
+        Warning Message Should appear for user when the wrong
         Username and correct Password are Entered
         """
 
@@ -527,7 +421,7 @@ class NegativeTests(unittest.TestCase):
 
     def test17_username_from_spaces(self):
         """
-        17. Warning Message Should appear for user when the wrong Username
+        Warning Message Should appear for user when the wrong Username
         only with spaces and correct Password are Entered
         """
 
@@ -538,7 +432,7 @@ class NegativeTests(unittest.TestCase):
 
     def test18_username_with_spaces_on_start(self):
         """
-        18. Warning Message Should appear for user when the correct
+        Warning Message Should appear for user when the correct
         Username with spaces at beginning and correct Password are Entered
         """
 
@@ -549,7 +443,7 @@ class NegativeTests(unittest.TestCase):
 
     def test19_username_with_spaces_on_end(self):
         """
-        19. Warning Message Should appear for user when the correct
+        Warning Message Should appear for user when the correct
         Username with spaces on the end and correct Password are Entered
         """
 
@@ -560,7 +454,7 @@ class NegativeTests(unittest.TestCase):
 
     def test20_username_password_cyrillic(self):
         """
-        20. Warning Message Should appear for user when the Username and
+        Warning Message Should appear for user when the Username and
         Password (both cyrillic) are Entered
         """
 
@@ -571,7 +465,7 @@ class NegativeTests(unittest.TestCase):
 
     def test21_username_incorrect_password_correct(self):
         """
-        21. Warning Message Should appear for user when the incorrect
+        Warning Message Should appear for user when the incorrect
         Username with <> and correct Password are Entered
         """
 

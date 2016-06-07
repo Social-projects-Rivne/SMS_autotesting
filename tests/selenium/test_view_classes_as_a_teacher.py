@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
-"""  _  """
+"""  Testing userstory 'I as the teacher in the system i want
+to have possibility  view classes where I teach'
+"""
 
 import unittest
 from selenium import webdriver
 
 
 class TestPreparations(unittest.TestCase):
+
     """ Superclass with preparations for tests and initial data """
 
-    base_url = "http://sms-rv016atqc.rhcloud.com"
-    login = "yulia"
-    password = "Lhkj4Gh"
+    def __init__(self, *args, **kwargs):
+        """  Define instance variables """
+
+        super(TestPreparations, self).__init__(*args, **kwargs)
+        self.base_url = "http://sms-rv016atqc.rhcloud.com"
+        self.login = "yulia"
+        self.password = "Lhkj4Gh"
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests,
@@ -33,7 +40,6 @@ class TestPreparations(unittest.TestCase):
         input_password.send_keys(self.password.decode('utf-8'))
         driver.find_element_by_xpath("//button[@type='submit']").click()
 
-
     def tearDown(self):
         """ Fixture that deletes all preparation for tests """
 
@@ -41,6 +47,7 @@ class TestPreparations(unittest.TestCase):
 
 
 class ViewClassesAsATeacher(TestPreparations):
+
     """ Class with methods for testing """
 
     def setUp(self):
@@ -49,13 +56,13 @@ class ViewClassesAsATeacher(TestPreparations):
         super(ViewClassesAsATeacher, self).setUp()
 
     def test01_smoke_test(self):
-        """ 01. Check, that the page to view classes opened """
+        """ Check, that the page to view classes opened """
 
         driver = self.driver
         self.assertIn("teacher/subject_group_list", driver.current_url)
 
     def test02_page_contains_subjects(self):
-        """ 02. Check, that the tabs for subjects exists and shown """
+        """ Check, that the tabs for subjects exists and shown """
 
         driver = self.driver
 
@@ -67,7 +74,7 @@ class ViewClassesAsATeacher(TestPreparations):
                 subj.decode("utf-8"))) == 1)
 
     def test03_subject_page_contains_classes(self):
-        """ 03. Check, that the appropriate classes is present
+        """ Check, that the appropriate classes is present
         on the subjects pages
         """
 
@@ -97,7 +104,7 @@ class ViewClassesAsATeacher(TestPreparations):
                 cls.decode("utf-8"))) == 1)
 
     def test04_class_page_opened(self):
-        """ 04. Check, that the page for class opened """
+        """ Check, that the page for class opened """
 
         driver = self.driver
 
@@ -115,7 +122,7 @@ class ViewClassesAsATeacher(TestPreparations):
                           "this.options[this.selectedIndex].value;']").text)
 
     def test05_class_page_contains_students(self):
-        """ 05. Check, that the list of students contains full
+        """ Check, that the list of students contains full
         and exact list for students in the class
         """
 
@@ -123,17 +130,17 @@ class ViewClassesAsATeacher(TestPreparations):
 
         driver.find_element_by_link_text("8А клас".decode("utf-8")).click()
 
-        students8A = ["Кулаковський Іван Орестович",
-                      "Обліпиха Володимир Володимирович",
-                      "Панасюк Ігор Олександрович",
-                      "Петрук Тамара Миколаївна",
-                      "Порох Євген Леонідович",
-                      "Савчук Олена Петрівна",
-                      "Сорока Ірина Ігорівна",
-                      "Степанюк Володимир Григорович",
-                      "Щеба Андрій Назарович"]
+        students_8a = ["Кулаковський Іван Орестович",
+                       "Обліпиха Володимир Володимирович",
+                       "Панасюк Ігор Олександрович",
+                       "Петрук Тамара Миколаївна",
+                       "Порох Євген Леонідович",
+                       "Савчук Олена Петрівна",
+                       "Сорока Ірина Ігорівна",
+                       "Степанюк Володимир Григорович",
+                       "Щеба Андрій Назарович"]
 
-        for student in students8A:
+        for student in students_8a:
             self.assertTrue(len(
                 driver.find_elements_by_xpath(
                     "//td[contains(.,'{}')]".format(student))) > 0)
