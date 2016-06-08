@@ -21,8 +21,7 @@ class TestPreparations(unittest.TestCase):
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests,
-        initial test steps
-        """
+        initial test steps """
 
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
@@ -75,8 +74,7 @@ class ViewClassesAsATeacher(TestPreparations):
 
     def test03_subject_page_contains_classes(self):
         """ Check, that the appropriate classes is present
-        on the subjects pages
-        """
+        on the subjects pages """
 
         driver = self.driver
 
@@ -123,8 +121,7 @@ class ViewClassesAsATeacher(TestPreparations):
 
     def test05_class_page_contains_students(self):
         """ Check, that the list of students contains full
-        and exact list for students in the class
-        """
+        and exact list for students in the class """
 
         driver = self.driver
 
@@ -147,8 +144,7 @@ class ViewClassesAsATeacher(TestPreparations):
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests and restores
-        original data
-        """
+        original data """
 
         super(ViewClassesAsATeacher, self).tearDown()
 

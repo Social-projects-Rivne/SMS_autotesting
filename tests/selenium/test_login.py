@@ -41,8 +41,7 @@ class SmokeTests(unittest.TestCase):
 class PositiveTests(unittest.TestCase):
 
     """ Positive tests for login process with correct data,
-    expected result - login is successful
-    """
+    expected result - login is successful """
 
     def __init__(self, *args, **kwargs):
         """  Define instance variables """
@@ -92,8 +91,7 @@ class PositiveTests(unittest.TestCase):
     def test01_main_teacher_login(self):
         """
         Login Should Succeed for main teacher when the correct Username
-        and Password are entered
-        """
+        and Password are entered """
 
         self.login = "semuschenko"
         self.password = "pDk7jf"
@@ -106,8 +104,7 @@ class PositiveTests(unittest.TestCase):
     def test02_school_director_login(self):
         """
         Login Should Succeed for school director when the correct
-        Username and Password are entered
-        """
+        Username and Password are entered """
 
         self.login = "zoshch"
         self.password = "df5sFdf"
@@ -120,8 +117,7 @@ class PositiveTests(unittest.TestCase):
     def test03_common_teacher_login(self):
         """
         Login Should Succeed for teacher when the correct Username and
-        Password are entered
-        """
+        Password are entered """
 
         self.login = "maximus"
         self.password = "LKuJf3y"
@@ -148,8 +144,7 @@ class PositiveTests(unittest.TestCase):
     def test05_login_restore(self):
         """
         Test whether login/close/reopen browser shows an login page
-        with empty fields
-        """
+        with empty fields """
 
         self.login = "sEmUsChEnKo"
         self.password = "pDk7jf"
@@ -179,8 +174,7 @@ class PositiveTests(unittest.TestCase):
 class NegativeTests(unittest.TestCase):
 
     """ Negative tests for login process with incorrect data,
-    expected result - login is unsuccessful
-    """
+    expected result - login is unsuccessful """
 
     def __init__(self, *args, **kwargs):
         """  Define instance variables """
@@ -231,181 +225,135 @@ class NegativeTests(unittest.TestCase):
             self.assertIn(self.page_title.decode('utf-8'), driver.title)
 
     def test01_password_mixed_case(self):
-        """
-        Warning Message Should appear for user when the correct
-        Username and Password (different case) are entered
-        """
+        """ Warning Message Should appear for user when the correct
+        Username and Password (different case) are entered """
 
         self.login = "semuschenko"
         self.password = "PdK7Jf"
         self._test_steps()
 
     def test02_username_password_rearranged(self):
-        """
-        Warning Message Should appear for user when the
-        Password->Username and Username->Password
-        """
+        """ Warning Message Should appear for user when the
+        Password->Username and Username->Password """
 
         self.login = "pDk7jf"
         self.password = "semuschenko"
-
         self._test_steps()
 
     def test03_username_password_empty(self):
-        """
-        Warning Message Should appear for user when the Username
-        and Password left empty
-        """
+        """ Warning Message Should appear for user when the Username
+        and Password left empty """
 
         self.login = ""
         self.password = ""
-
         self._test_steps()
 
     def test04_password_empty(self):
-        """
-        Warning Message Should appear for user when the
-        Password left empty
-        """
+        """ Warning Message Should appear for user when the
+        Password left empty """
 
         self.login = "loginloginlogin"
         self.password = ""
-
         self._test_steps()
 
     def test05_username_empty(self):
-        """
-        Warning Message Should appear for user when the
-        Username left empty
-        """
+        """ Warning Message Should appear for user when the
+        Username left empty """
 
         self.login = ""
         self.password = "passwordpasswordpassword"
-
         self._test_steps()
 
     def test06_username_password_incorrect(self):
-        """
-        Warning Message Should appear for user when the incorrect
-        Username and Password are Entered
-        """
+        """ Warning Message Should appear for user when the incorrect
+        Username and Password are Entered """
 
         self.login = "loginloginlogin"
         self.password = "passwordpasswordpassword"
-
         self._test_steps()
 
     def test07_password_incorrect(self):
-        """
-        Warning Message Should appear for user when the correct
-        Username and incorrect Password are Entered
-        """
+        """ Warning Message Should appear for user when the correct
+        Username and incorrect Password are Entered """
 
         self.login = "semuschenko"
         self.password = "passwordpasswordpassword"
-
         self._test_steps()
 
     def test08_username_incorrect(self):
-        """
-        Warning Message Should appear for user when the incorrect
-        Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the incorrect
+        Username and correct Password are Entered """
         self.login = "loginloginlogin"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test09_username_injection(self):
-        """
-        Warning Message Should appear for user when the
-        injection1 -> Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the
+        injection1 -> Username and correct Password are Entered """
 
         self.login = "<script>alert(123)</script>"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test10_username_injection(self):
-        """
-        Warning Message Should appear for user when the
-        injection2 -> Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the
+        injection2 -> Username and correct Password are Entered """
 
         self.login = "(' or 'a' = 'a'; DROP TABLE teachers; " \
                      "SELECT * FROM teachers;)"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test11_username_injection(self):
-        """
-        Warning Message Should appear for user when the
-        injection3 -> Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the
+        injection3 -> Username and correct Password are Entered """
 
         self.login = "' or 'a' = 'a'; DROP TABLE teachers; " \
                      "SELECT * FROM teachers;"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test12_username_injection(self):
-        """
-        Warning Message Should appear for user when the
-        injection4 -> Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the
+        injection4 -> Username and correct Password are Entered """
 
         self.login = "(<script>alert(\"Hello, world!\")</alert>, " \
                      "<script>document.getElementByID(\"…\")." \
                      "disabled=true</script>)"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test13_username_injection(self):
-        """
-        Warning Message Should appear for user when the
-        injection5 -> Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the
+        injection5 -> Username and correct Password are Entered """
 
         self.login = "<script>alert(\"Hello, world!\")</alert>, " \
                      "<script>document.getElementByID(\"…\")." \
                      "disabled=true</script>"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test14_username_injection(self):
-        """
-        Warning Message Should appear for user when the
-        injection6 -> Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the
+        injection6 -> Username and correct Password are Entered """
 
         self.login = "(<form action=\"http://sms-rv016atqc.rhcloud.com/\">" \
                      "<input type=\"submit\"></form>)"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test15_username_injection(self):
-        """
-        Warning Message Should appear for user when the
-        injection7 -> Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the
+        injection7 -> Username and correct Password are Entered """
 
         self.login = "<form action=\"http://sms-rv016atqc.rhcloud.com/\">" \
                      "<input type=\"submit\"></form>"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test16_username_incorrect_password_correct(self):
-        """
-        Warning Message Should appear for user when the wrong
-        Username and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the wrong
+        Username and correct Password are Entered """
 
         #'“♣☺♂” , “”‘~!@#$%^&*()?>,./\<][ /*<!–“”, “${code}”;–>'
         self.login = "\x23\x27\xE2\x80\x9C\xE2\x99\xA3\xE2\x98\xBA\xE2" \
@@ -416,62 +364,46 @@ class NegativeTests(unittest.TestCase):
                      "\xE2\x80\x9D\x2C\x20\xE2\x80\x9C\x24\x7B\x63\x6F" \
                      "\x64\x65\x7D\xE2\x80\x9D\x3B\xE2\x80\x93\x3E\x27"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test17_username_from_spaces(self):
-        """
-        Warning Message Should appear for user when the wrong Username
-        only with spaces and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the wrong Username
+        only with spaces and correct Password are Entered """
 
         self.login = "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test18_username_with_spaces_on_start(self):
-        """
-        Warning Message Should appear for user when the correct
-        Username with spaces at beginning and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the correct
+        Username with spaces at beginning and correct Password are Entered """
 
         self.login = "\x20\x20\x20\x20semuschenko"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test19_username_with_spaces_on_end(self):
-        """
-        Warning Message Should appear for user when the correct
-        Username with spaces on the end and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the correct
+        Username with spaces on the end and correct Password are Entered """
 
         self.login = "semuschenko\x20\x20\x20\x20"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def test20_username_password_cyrillic(self):
-        """
-        Warning Message Should appear for user when the Username and
-        Password (both cyrillic) are Entered
-        """
+        """ Warning Message Should appear for user when the Username and
+        Password (both cyrillic) are Entered """
 
         self.login = "логін"
         self.password = "пароль123!?%&"
-
         self._test_steps()
 
     def test21_username_incorrect_password_correct(self):
-        """
-        Warning Message Should appear for user when the incorrect
-        Username with <> and correct Password are Entered
-        """
+        """ Warning Message Should appear for user when the incorrect
+        Username with <> and correct Password are Entered """
 
         self.login = "<semuschenko>"
         self.password = "pDk7jf"
-
         self._test_steps()
 
     def tearDown(self):

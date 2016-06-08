@@ -36,8 +36,7 @@ class TestPreparations(unittest.TestCase):
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests,
-        initial test steps
-        """
+        initial test steps """
 
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
@@ -114,8 +113,7 @@ class SmokeTests(TestPreparations):
 class PositiveTests(TestPreparations):
 
     """ Positive tests for Edit Profile with correct data,
-    expected result - data in profile is changed
-    """
+    expected result - data in profile is changed """
 
     def __init__(self, *args, **kwargs):
         """  Define instance variables """
@@ -216,8 +214,7 @@ class PositiveTests(TestPreparations):
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests and restores
-        original data
-        """
+        original data """
 
         if self.passed:
             self.name = self.original_name
@@ -230,8 +227,7 @@ class PositiveTests(TestPreparations):
 class NegativeTests(TestPreparations):
 
     """ Negative tests for Edit Profile with incorrect data,
-    expected result - data in profile isn't changed
-    """
+    expected result - data in profile isn't changed """
 
     def __init__(self, *args, **kwargs):
         """  Define instance variables """
@@ -556,8 +552,7 @@ class NegativeTests(TestPreparations):
 
     def tearDown(self):
         """ Fixture that deletes all preparation for tests and restores
-        original data
-        """
+        original data """
 
         if not self.passed:
             self.name = self.original_name
