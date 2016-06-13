@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""  Testing userstory 'I as the teacher in the system i want
+"""
+Testing userstory 'I as the teacher in the system i want
 to have possibility  view classes where I teach'
 """
 
@@ -9,7 +10,9 @@ from selenium import webdriver
 
 class TestPreparations(unittest.TestCase):
 
-    """ Superclass with preparations for tests and initial data """
+    """
+    Superclass with preparations for tests and initial data
+    """
 
     def __init__(self, *args, **kwargs):
         """  Define instance variables """
@@ -20,8 +23,10 @@ class TestPreparations(unittest.TestCase):
         self.password = "Lhkj4Gh"
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests,
-        initial test steps """
+        """
+        Fixture that creates a initial data and records for tests,
+        initial test steps
+        """
 
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
@@ -40,28 +45,38 @@ class TestPreparations(unittest.TestCase):
         driver.find_element_by_xpath("//button[@type='submit']").click()
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests """
+        """
+        Fixture that deletes all preparation for tests
+        """
 
         self.driver.quit()
 
 
 class ViewClassesAsATeacher(TestPreparations):
 
-    """ Class with methods for testing """
+    """
+    Class with methods for testing
+    """
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests """
+        """
+        Fixture that creates a initial data and records for tests
+        """
 
         super(ViewClassesAsATeacher, self).setUp()
 
     def test01_smoke_test(self):
-        """ Check, that the page to view classes opened """
+        """
+        Check, that the page to view classes opened
+        """
 
         driver = self.driver
         self.assertIn("teacher/subject_group_list", driver.current_url)
 
     def test02_page_contains_subjects(self):
-        """ Check, that the tabs for subjects exists and shown """
+        """
+        Check, that the tabs for subjects exists and shown
+        """
 
         driver = self.driver
 
@@ -73,8 +88,10 @@ class ViewClassesAsATeacher(TestPreparations):
                 subj.decode("utf-8"))) == 1)
 
     def test03_subject_page_contains_classes(self):
-        """ Check, that the appropriate classes is present
-        on the subjects pages """
+        """
+        Check, that the appropriate classes is present
+        on the subjects pages
+        """
 
         driver = self.driver
 
@@ -102,7 +119,9 @@ class ViewClassesAsATeacher(TestPreparations):
                 cls.decode("utf-8"))) == 1)
 
     def test04_class_page_opened(self):
-        """ Check, that the page for class opened """
+        """
+        Check, that the page for class opened
+        """
 
         driver = self.driver
 
@@ -120,8 +139,10 @@ class ViewClassesAsATeacher(TestPreparations):
                           "this.options[this.selectedIndex].value;']").text)
 
     def test05_class_page_contains_students(self):
-        """ Check, that the list of students contains full
-        and exact list for students in the class """
+        """
+        Check, that the list of students contains full
+        and exact list for students in the class
+        """
 
         driver = self.driver
 
@@ -143,8 +164,10 @@ class ViewClassesAsATeacher(TestPreparations):
                     "//td[contains(.,'{}')]".format(student))) > 0)
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests and restores
-        original data """
+        """
+        Fixture that deletes all preparation for tests and restores
+        original data
+        """
 
         super(ViewClassesAsATeacher, self).tearDown()
 

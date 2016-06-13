@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-""" Tests for "Edit Profile" (testing with Selenium) """
+"""
+Tests for "Edit Profile" (testing with Selenium)
+"""
 
 import unittest
 from selenium import webdriver
@@ -9,7 +11,9 @@ from selenium.webdriver.common.keys import Keys
 
 class TestPreparations(unittest.TestCase):
 
-    """ Superclass with preparations for tests and initial data """
+    """
+    Superclass with preparations for tests and initial data
+    """
 
     base_url = "http://sms-rv016atqc.rhcloud.com"
     login = "semuschenko"
@@ -30,13 +34,17 @@ class TestPreparations(unittest.TestCase):
                 "email": "Некоректно введено email."}
 
     def __init__(self, *args, **kwargs):
-        """  Define instance variables """
+        """
+        Define instance variables
+        """
 
         super(TestPreparations, self).__init__(*args, **kwargs)
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests,
-        initial test steps """
+        """
+        Fixture that creates a initial data and records for tests,
+        initial test steps
+        """
 
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
@@ -57,17 +65,23 @@ class TestPreparations(unittest.TestCase):
         driver.find_element_by_xpath("//a[@href='/core/profile/']").click()
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests """
+        """
+        Fixture that deletes all preparation for tests
+        """
 
         self.driver.quit()
 
 
 class SmokeTests(TestPreparations):
 
-    """ Smoke tests for Edit Profile  - check UI elements presence """
+    """
+    Smoke tests for Edit Profile  - check UI elements presence
+    """
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests """
+        """
+        Fixture that creates a initial data and records for tests
+        """
 
         super(SmokeTests, self).setUp()
 
@@ -105,18 +119,24 @@ class SmokeTests(TestPreparations):
         driver.find_element_by_xpath(self.xpaths["confirm_btn"])
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests """
+        """
+        Fixture that deletes all preparation for tests
+        """
 
         super(SmokeTests, self).tearDown()
 
 
 class PositiveTests(TestPreparations):
 
-    """ Positive tests for Edit Profile with correct data,
-    expected result - data in profile is changed """
+    """
+    Positive tests for Edit Profile with correct data,
+    expected result - data in profile is changed
+    """
 
     def __init__(self, *args, **kwargs):
-        """  Define instance variables """
+        """
+        Define instance variables
+        """
 
         super(PositiveTests, self).__init__(*args, **kwargs)
         self.name = ""
@@ -124,12 +144,16 @@ class PositiveTests(TestPreparations):
         self.passed = False
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests """
+        """
+        Fixture that creates a initial data and records for tests
+        """
 
         super(PositiveTests, self).setUp()
 
     def _test_steps(self):
-        """ Common tests steps """
+        """
+        Common tests steps
+        """
 
         driver = self.driver
         driver.find_element_by_xpath(self.xpaths["edit_button"]).click()
@@ -170,42 +194,54 @@ class PositiveTests(TestPreparations):
         self.passed = True
 
     def test01_correct_name(self):
-        """ Edit profile with correct data (first case) """
+        """
+        Edit profile with correct data (first case)
+        """
 
         self.name = "Іванов Петро Степанович"
         self.email = "email@domain.com"
         self._test_steps()
 
     def test02_correct_name(self):
-        """ Edit profile with correct data (second case) """
+        """
+        Edit profile with correct data (second case)
+        """
 
         self.name = "Стець Мар'яна Іванівна"
         self.email = "marjana.stetc@gmail.com"
         self._test_steps()
 
     def test03_correct_name(self):
-        """ Edit profile with correct data (third case) """
+        """
+        Edit profile with correct data (third case)
+        """
 
         self.name = "Ворон-Розумна Анна-Марія Степанівна"
         self.email = "email@domain.com"
         self._test_steps()
 
     def test04_correct_name(self):
-        """ Edit profile with correct data (fourth case) """
+        """
+        Edit profile with correct data (fourth case)
+        """
 
         self.name = "Ворон-Розумна Анна Степанівна"
         self.email = "email@domain.com"
         self._test_steps()
 
     def test05_correct_name(self):
-        """ Edit profile with correct data (fifth case) """
+        """
+        Edit profile with correct data (fifth case)
+        """
 
         self.name = "Ворон Анна-Марія Степанівна"
         self.email = "email@domain.com"
         self._test_steps()
 
     def test06_correct_name(self):
-        """ Edit profile with correct data (sixth case) """
+        """
+        Edit profile with correct data (sixth case)
+        """
 
         self.name = "Ворон Анна Степанівна"
         self.email = "voron-rozumna.anna-marija@" \
@@ -213,8 +249,10 @@ class PositiveTests(TestPreparations):
         self._test_steps()
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests and restores
-        original data """
+        """
+        Fixture that deletes all preparation for tests and restores
+        original data
+        """
 
         if self.passed:
             self.name = self.original_name
@@ -226,11 +264,15 @@ class PositiveTests(TestPreparations):
 
 class NegativeTests(TestPreparations):
 
-    """ Negative tests for Edit Profile with incorrect data,
-    expected result - data in profile isn't changed """
+    """
+    Negative tests for Edit Profile with incorrect data,
+    expected result - data in profile isn't changed
+    """
 
     def __init__(self, *args, **kwargs):
-        """  Define instance variables """
+        """
+        Define instance variables
+        """
 
         super(NegativeTests, self).__init__(*args, **kwargs)
         self.name = ""
@@ -238,12 +280,16 @@ class NegativeTests(TestPreparations):
         self.passed = False
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests """
+        """
+        Fixture that creates a initial data and records for tests
+        """
 
         super(NegativeTests, self).setUp()
 
     def _test_steps_name(self):
-        """ Common tests steps for name """
+        """
+        Common tests steps for name
+        """
 
         driver = self.driver
         driver.find_element_by_xpath(self.xpaths["edit_button"]).click()
@@ -278,105 +324,134 @@ class NegativeTests(TestPreparations):
         self.passed = True
 
     def test01_empty_name(self):
-        """ Edit profile with empty name """
+        """
+        Edit profile with empty name
+        """
 
         self.name = ""
         self.email = self.original_email
         self._test_steps_name()
 
     def test02_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Мадонна"
         self.email = self.original_email
         self._test_steps_name()
 
     def test03_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Мурзік Васильович"
         self.email = self.original_email
         self._test_steps_name()
 
     def test04_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Василь Перебійніс"
         self.email = self.original_email
         self._test_steps_name()
 
     def test05_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "John"
         self.email = self.original_email
         self._test_steps_name()
 
     def test06_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "John Smith"
         self.email = self.original_email
         self._test_steps_name()
 
     def test07_incorrect_name(self):
-        """  Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "John Alexander Smith"
         self.email = self.original_email
         self._test_steps_name()
 
     def test08_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "John A. Smith"
         self.email = self.original_email
         self._test_steps_name()
 
     def test09_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "бОРИС бОРИС бОРИСОВИЧ"
         self.email = self.original_email
         self._test_steps_name()
 
     def test10_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Борис Борис Борисович Молодший"
         self.email = self.original_email
         self._test_steps_name()
 
     def test11_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Cемищенко Xристофор Oнуфрійович"
         self.email = self.original_email
         self._test_steps_name()
 
     def test12_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Семищенко_Христофор_Онуфрійович"
         self.email = self.original_email
         self._test_steps_name()
 
     def test13_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Семищенко Христофор Онуфр1йович"
         self.email = self.original_email
         self._test_steps_name()
 
     def test14_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name
+        """
 
         self.name = "Семищенко Христофор О."
         self.email = self.original_email
         self._test_steps_name()
 
     def test15_incorrect_name(self):
-        """ Edit profile with incorrect name """
+        """
+        Edit profile with incorrect name """
 
         self.name = "Семищенкомищенко Христофористофор " \
                     "Онуфрійовичуфрійовичуфрійович"
@@ -384,28 +459,36 @@ class NegativeTests(TestPreparations):
         self._test_steps_name()
 
     def test16_incorrect_name(self):
-        """ Edit profile with correct name that begins with spaces """
+        """
+        Edit profile with correct name that begins with spaces
+        """
 
         self.name = self.original_name + "     "
         self.email = self.original_email
         self._test_steps_name()
 
     def test17_incorrect_name(self):
-        """ Edit profile with correct name that ends with spaces """
+        """
+        Edit profile with correct name that ends with spaces
+        """
 
         self.name = "     " + self.original_name
         self.email = self.original_email
         self._test_steps_name()
 
     def test18_incorrect_name(self):
-        """ Edit profile with correct name that consists from spaces """
+        """
+        Edit profile with correct name that consists from spaces
+        """
 
         self.name = "     "
         self.email = self.original_email
         self._test_steps_name()
 
     def _test_steps_email(self):
-        """ Common tests steps for email """
+        """
+        Common tests steps for email
+        """
 
         self.passed = False
 
@@ -442,49 +525,63 @@ class NegativeTests(TestPreparations):
         self.passed = True
 
     def test51_empty_email(self):
-        """ Edit profile with empty email """
+        """
+        Edit profile with empty email
+        """
 
         self.name = self.original_name
         self.email = ""
         self._test_steps_email()
 
     def test52_incorrect_email(self):
-        """ Edit profile with incorrect email """
+        """
+        Edit profile with incorrect email
+        """
 
         self.name = self.original_name
         self.email = "@gmail.com"
         self._test_steps_email()
 
     def test53_incorrect_email(self):
-        """ Edit profile with incorrect email """
+        """
+        Edit profile with incorrect email
+        """
 
         self.name = self.original_name
         self.email = "address@.com"
         self._test_steps_email()
 
     def test54_incorrect_email(self):
-        """ Edit profile with incorrect email """
+        """
+        Edit profile with incorrect email
+        """
 
         self.name = self.original_name
         self.email = "address@gmail"
         self._test_steps_email()
 
     def test55_incorrect_email(self):
-        """ Edit profile with incorrect email """
+        """
+        Edit profile with incorrect email
+        """
 
         self.name = self.original_name
         self.email = "address@gmail@com"
         self._test_steps_email()
 
     def test56_incorrect_email(self):
-        """ Edit profile with incorrect email """
+        """
+        Edit profile with incorrect email
+        """
 
         self.name = self.original_name
         self.email = "address.gmail.com"
         self._test_steps_email()
 
     def test57_incorrect_email(self):
-        """ Edit profile with incorrect email """
+        """
+        Edit profile with incorrect email
+        """
 
         self.name = self.original_name
         self.email = "voron-rozumna.anna-marija@many-many.domain.levels.and." \
@@ -492,28 +589,36 @@ class NegativeTests(TestPreparations):
         self._test_steps_email()
 
     def test58_incorrect_email(self):
-        """ Edit profile with correct name that begins with spaces """
+        """
+        Edit profile with correct name that begins with spaces
+        """
 
         self.name = self.original_name
         self.email = self.original_email + "     "
         self._test_steps_email()
 
     def test59_incorrect_email(self):
-        """ Edit profile with correct name that ends with spaces """
+        """
+        Edit profile with correct name that ends with spaces
+        """
 
         self.name = self.original_name
         self.email = "     " + self.original_email
         self._test_steps_email()
 
     def test60_incorrect_email(self):
-        """ Edit profile with correct name that consists from spaces """
+        """
+        Edit profile with correct name that consists from spaces
+        """
 
         self.name = self.original_name
         self.email = "     "
         self._test_steps_email()
 
     def _test_steps_restore(self):
-        """ Common tests steps to restore state before tests """
+        """
+        Common tests steps to restore state before tests
+        """
 
         driver = self.driver
         driver.find_element_by_xpath(self.xpaths["edit_button"]).click()
@@ -551,8 +656,10 @@ class NegativeTests(TestPreparations):
         self.passed = True
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests and restores
-        original data """
+        """
+        Fixture that deletes all preparation for tests and
+        restores original data
+        """
 
         if not self.passed:
             self.name = self.original_name
