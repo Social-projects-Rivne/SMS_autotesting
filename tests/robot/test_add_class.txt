@@ -14,12 +14,19 @@ ${password test}    df5sFdf
 
 *** Keywords ***
 Test_Setup_Steps
-    #Set Selenium Speed    0.1
     Open Browser    ${login address}
     Maximize Browser Window
     Input Text    inputUsername    ${login test}
     Input Text    inputPassword    ${password test}
     Click Button    tag=button
+
+Negative Test    [Arguments]    ${class_id}    ${class_number}
+    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[${class_id}]/a
+    Click Element    xpath=//*[@id=${class_id}]/a
+    Wait Until Page Contains Element    id=inputName
+    Input Text    inputName    ${class_number}
+    Click Button    Прийняти
+    Page Should Contain    Некоректно введено назву
 
 *** Test Cases ***
 Test 1 Check that profile is opened
@@ -75,104 +82,48 @@ Test 8 Check class addition with empty name
 
 Test 9 Check class addition with latin letter
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6A
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
+    Negative Test    6    6A
 
 Test 10 Check class addition with small letter
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6а
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    6а
+   
 Test 11 Check class addition with small latin letter
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6a
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    6a
+    
 Test 12 Check class addition with several capital letters
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6АБВ
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    6АБВ
+    
 Test 13 Check class addition with several small letters
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6абв
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    6абв
+    
 Test 14 Check class addition without letters
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    6
+    
 Test 15 Check class addition with several numbers and letter
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    631А
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    631А
+    
 Test 16 Check class addition without numbers 
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    А
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    А
+    
 Test 17 Check class addition with space 
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6 А
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    6 А
+    
 Test 18 Check class addition with down underline 
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    6_А
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
+    Negative Test    6    6_А
+    
 Test 19 Check class addition with correct name but with outer spaces 
     [Tags]    InvalidTest    AddClass
-    Click Link    xpath=html/body/div[2]/div/div[2]/div/div/ul/li[6]/a
-    Click Element    //*[@id='6']/a
-    Wait Until Page Contains Element    id=inputName
-    Input Text    inputName    ${SPACE}6А${SPACE} 
-    Click Button    Прийняти
-    Page Should Contain    Некоректно введено назву
-
-
+    Negative Test    6    ${SPACE}6А${SPACE} 
+    
 Test 20 Check class addition with special symbols 
     [Tags]    InvalidTest    AddClass
     ${SOME_VALUE}=    Set Variable    = / \\ | * ( ) - : ; # % ^ ? ! [ ]
