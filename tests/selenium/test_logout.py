@@ -15,19 +15,19 @@ xpaths = {
 class logout_main(unittest.TestCase):
     """Class with methods, for testing logout by main teacher"""
 
-    _baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
-    _login_main = "semuschenko"
-    _password_main = "pDk7jf"
+    baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
+    login_main = "semuschenko"
+    password_main = "pDk7jf"
 
     def setUp(self):
         """Fixture that creates all the preparations for tests"""
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
-        self.driver.get(self._baseurl)
+        self.driver.get(self.baseurl)
         self.driver.find_element_by_xpath(xpaths['inputUsername']).send_keys(
-            self._login_main)
+            self.login_main)
         self.driver.find_element_by_xpath(xpaths['inputPassword']).send_keys(
-            self._password_main)
+            self.password_main)
         self.driver.find_element_by_tag_name(xpaths['submitButtonLogin']).\
             click()
 
@@ -48,19 +48,19 @@ class logout_main(unittest.TestCase):
 class Logout_director(unittest.TestCase):
     """Class with methods, for testing logout by director"""
 
-    _baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
-    _login_director = "zoshch"
-    _password_director = "df5sFdf"
+    baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
+    login_director = "zoshch"
+    password_director = "df5sFdf"
 
     def setUp(self):
         """Fixture that creates all the preparations for tests"""
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
-        self.driver.get(self._baseurl)
+        self.driver.get(self.baseurl)
         self.driver.find_element_by_xpath(xpaths['inputUsername']).send_keys(
-            self._login_director)
+            self.login_director)
         self.driver.find_element_by_xpath(xpaths['inputPassword']).send_keys(
-            self._password_director)
+            self.password_director)
         self.driver.find_element_by_tag_name(xpaths['submitButtonLogin']).\
             click()
 
@@ -81,19 +81,19 @@ class Logout_director(unittest.TestCase):
 class Logout_teacher(unittest.TestCase):
     """Class with methods, for testing logout by teacher"""
 
-    _baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
-    _login_teacher = "maximus"
-    _password_teacher = "LKuJf3y"
+    baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
+    login_teacher = "maximus"
+    password_teacher = "LKuJf3y"
 
     def setUp(self):
         """Fixture that creates all the preparations for tests"""
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
-        self.driver.get(self._baseurl)
+        self.driver.get(self.baseurl)
         self.driver.find_element_by_xpath(xpaths['inputUsername']).send_keys(
-            self._login_teacher)
+            self.login_teacher)
         self.driver.find_element_by_xpath(xpaths['inputPassword']).send_keys(
-            self._password_teacher)
+            self.password_teacher)
         self.driver.find_element_by_tag_name(xpaths['submitButtonLogin']).\
             click()
 
