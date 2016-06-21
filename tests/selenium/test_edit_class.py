@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Tests on Selenium WebDriver add students to class function"""
+"""Tests on Selenium WebDriver add students to class function"""
 
 import unittest
 from selenium import webdriver
@@ -47,7 +47,7 @@ class EditClassTests(unittest.TestCase):
         return element_exist
 
     def setUp(self):
-        """ Fixture that creates all the preparations for tests """
+        """Fixture that creates all the preparations for tests"""
 
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
@@ -66,7 +66,7 @@ class EditClassTests(unittest.TestCase):
         self.driver.implicitly_wait(10)
 
     def tearDown(self):
-        """ Fixture that deletes all the preparations for tests """
+        """Fixture that deletes all the preparations for tests"""
         self.driver.close()
 
     def test01_ui_checks_profile_exist(self):
@@ -121,7 +121,8 @@ class EditClassTests(unittest.TestCase):
     def test09_edit_class_name_change_indexes_negative(self):
         """Editing class name in case of changing places class indexes"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["relocated"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["relocated"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -129,7 +130,8 @@ class EditClassTests(unittest.TestCase):
     def test10_edit_class_name_with_capital_latin_negative(self):
         """Editing class name with capital latin letter"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["capitalLatin"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["capitalLatin"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -137,7 +139,8 @@ class EditClassTests(unittest.TestCase):
     def test11_edit_class_name_with_small_latin_negative(self):
         """Editing class name with small latin letter"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["smallLatin"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["smallLatin"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -154,7 +157,8 @@ class EditClassTests(unittest.TestCase):
     def test13_edit_class_name_with_symbol_negative(self):
         """Editing class name with symbol in it"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["symbol"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["symbol"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -162,7 +166,8 @@ class EditClassTests(unittest.TestCase):
     def test14_edit_class_name_only_letter_negative(self):
         """Editing class name with only one letter"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["oneLetter"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["oneLetter"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -170,7 +175,8 @@ class EditClassTests(unittest.TestCase):
     def test15_edit_class_name_many_letter_negative(self):
         """Editing class name with many letters"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["manyLetter"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["manyLetter"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -178,7 +184,8 @@ class EditClassTests(unittest.TestCase):
     def test16_edit_class_name_without_letter_negative(self):
         """Editing class name without letter"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["oneDigit"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["oneDigit"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -186,7 +193,8 @@ class EditClassTests(unittest.TestCase):
     def test17_edit_class_name_many_digits_negative(self):
         """Editing class name with many digits"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["manyDigits"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["manyDigits"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -194,14 +202,16 @@ class EditClassTests(unittest.TestCase):
     def test18_edit_class_name_many_all_negative(self):
         """Editing class name with many digits and letter"""
         self.driver.find_element_by_name('name').clear()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["allMany"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["allMany"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
 
     def test19_edit_class_without_teacher_positive(self):
         """Editing class profile without teacher name"""
-        self.driver.find_element_by_name('teacher').send_keys(self.credentials["noTeacher"])
+        self.driver.find_element_by_name('teacher').send_keys(
+            self.credentials["noTeacher"])
         self.driver.find_element_by_tag_name('h3').click()
         self.driver.find_element_by_name('add_button').click()
         hover = ActionChains(self.driver).move_to_element(

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Tests on Selenium WebDriver add students to class function"""
-
+"""Tests on Selenium WebDriver add students to class function"""
 
 import unittest
 from selenium import webdriver
@@ -28,7 +27,6 @@ class AddStudentTests(unittest.TestCase):
         "symbol": u"Карпенко-Карий Іван Іванович",
         "warning": u"Некоректно введено ім'я."
     }
-
 
     def check_for_element_existence(self, driver, element):
         """Function to check whether element exists on the web-page"""
@@ -108,7 +106,8 @@ class AddStudentTests(unittest.TestCase):
         """New student should be added with classic cyrillic name"""
 
         self.driver.find_element_by_link_text(u'+ Додати').click()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["cyrillic3"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["cyrillic3"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["cyrillic3"]), True)
@@ -117,7 +116,8 @@ class AddStudentTests(unittest.TestCase):
         """Add students to class with cyrillic name without second name"""
 
         self.driver.find_element_by_link_text(u'+ Додати').click()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["cyrillic2"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["cyrillic2"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -126,7 +126,8 @@ class AddStudentTests(unittest.TestCase):
         """Add students to class with cyrillic name with surname only"""
 
         self.driver.find_element_by_link_text(u'+ Додати').click()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["cyrillic1"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["cyrillic1"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -135,7 +136,8 @@ class AddStudentTests(unittest.TestCase):
         """Add students to class with cyrillic name(first small letter)"""
 
         self.driver.find_element_by_link_text(u'+ Додати').click()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["smallCyrillic"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["smallCyrillic"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -144,7 +146,8 @@ class AddStudentTests(unittest.TestCase):
         """Add students to class with classic latin name"""
 
         self.driver.find_element_by_link_text(u'+ Додати').click()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["latin3"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["latin3"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -153,7 +156,8 @@ class AddStudentTests(unittest.TestCase):
         """Add students to class with classic cyrillic name(short name)"""
 
         self.driver.find_element_by_link_text(u'+ Додати').click()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["dot"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["dot"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)
@@ -162,7 +166,8 @@ class AddStudentTests(unittest.TestCase):
         """Add students to class with line in cyrillic name"""
 
         self.driver.find_element_by_link_text(u'+ Додати').click()
-        self.driver.find_element_by_name('name').send_keys(self.credentials["symbol"])
+        self.driver.find_element_by_name('name').send_keys(
+            self.credentials["symbol"])
         self.driver.find_element_by_name('add_button').click()
         self.assertEqual(self.check_for_element_existence(
             self.driver, self.credentials["warning"]), True)

@@ -12,7 +12,7 @@ xpaths = {
 }
 
 
-class logout_main(unittest.TestCase):
+class LogoutMain(unittest.TestCase):
     """Class with methods, for testing logout by main teacher"""
 
     baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
@@ -45,7 +45,7 @@ class logout_main(unittest.TestCase):
         self.assertIsNotNone(self.element)
 
 
-class Logout_director(unittest.TestCase):
+class LogoutDirector(unittest.TestCase):
     """Class with methods, for testing logout by director"""
 
     baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
@@ -78,7 +78,7 @@ class Logout_director(unittest.TestCase):
         self.assertIsNotNone(self.element)
 
 
-class Logout_teacher(unittest.TestCase):
+class LogoutTeacher(unittest.TestCase):
     """Class with methods, for testing logout by teacher"""
 
     baseurl = "http://ss-alexeyvasiluk.rhcloud.com/"
