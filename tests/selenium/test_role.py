@@ -7,16 +7,18 @@ from selenium import webdriver
 
 from selenium.webdriver.support.ui import Select
 
-from tpt import TestPrepTemplate
-
 
 class RoleTests(unittest.TestCase):
-    """ Class for testing function 'Change role' as mainteacher on Selenium """
-    _base_url = "http://smsautotesting-atqc.rhcloud.com/"
-    _login = "semuschenko"
-    _password = "pDk7jf"
+    
+    """
+    Class for testing function 'Change role' as mainteacher on Selenium
+    """
 
-    _xpaths = {
+    base_url_team = "http://smsautotesting-atqc.rhcloud.com/"
+    login = "semuschenko"
+    password = "pDk7jf"
+
+    xpaths = {
         'inputUsername': "//input[@name='inputUsername']",
         'inputPassword': "//input[@name='inputPassword']",
         'loginButton': "//button[@type='submit']",
@@ -28,89 +30,97 @@ class RoleTests(unittest.TestCase):
     }
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests """
+        """
+        Fixture that creates a initial data and records for tests
+        """
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = self._base_url
+        self.base_url = self.base_url_team
         self.accept_next_alert = True
 
-    def _test_steps(self):
-        """ test steps for all cases"""
+    def test_steps(self):
+        """
+        test steps for all cases
+        """
         driver = self.driver
         driver.get(self.base_url + "/")
         driver.find_element_by_xpath(
-            self._xpaths["inputUsername"]).send_keys(self._login)
+            self.xpaths["inputUsername"]).send_keys(self.login)
         driver.find_element_by_xpath(
-            self._xpaths["inputPassword"]).send_keys(self._password)
-        driver.find_element_by_xpath(self._xpaths["loginButton"]).click()
+            self.xpaths["inputPassword"]).send_keys(self.password)
+        driver.find_element_by_xpath(self.xpaths["loginButton"]).click()
         driver.find_element_by_link_text("Викладачі").click()
 
     def test01_director_teacher(self):
-        """ Test for Changing Role From Завуч to Викладач """
-        self._test_steps()
+        """
+        Test for Changing Role From Завуч to Викладач
+        """
+        self.test_steps()
         self.driver.find_element_by_xpath(
-            self._xpaths["DirectortoTeacher"]).click()
+            self.xpaths["DirectortoTeacher"]).click()
 
         select = Select(self.driver.find_element_by_xpath(
-            self._xpaths["DirectortoTeacher"]))
+            self.xpaths["DirectortoTeacher"]))
         select.select_by_value("3")
 
         current = self.driver.find_element_by_xpath(
-            self._xpaths["DirectortoTeacher"]).get_attribute("value")
+            self.xpaths["DirectortoTeacher"]).get_attribute("value")
         self.assertEquals("3", current)
 
     def test02_teacher_director(self):
-        """ Test for Changing Role From Викладач to Завуч """
-        self._test_steps()
+        """
+        Test for Changing Role From Викладач to Завуч
+        """
+        self.test_steps()
         self.driver.find_element_by_xpath(
-            self._xpaths["TeachertoDirector"]).click()
+            self.xpaths["TeachertoDirector"]).click()
 
         select = Select(self.driver.find_element_by_xpath(
-            self._xpaths["TeachertoDirector"]))
+            self.xpaths["TeachertoDirector"]))
         select.select_by_value("2")
 
         current = self.driver.find_element_by_xpath(
-            self._xpaths["TeachertoDirector"]).get_attribute("value")
+            self.xpaths["TeachertoDirector"]).get_attribute("value")
         self.assertEquals("2", current)
 
     def test03_teacher_teacher(self):
-        """ Test for Changing Role From Викладач to Викладач """
-        self._test_steps()
+        """
+        Test for Changing Role From Викладач to Викладач
+        """
+        self.test_steps()
         self.driver.find_element_by_xpath(
-            self._xpaths["TeachertoTeacher"]).click()
+            self.xpaths["TeachertoTeacher"]).click()
 
         select = Select(self.driver.find_element_by_xpath(
-            self._xpaths["TeachertoTeacher"]))
+            self.xpaths["TeachertoTeacher"]))
         select.select_by_value("3")
 
         current = self.driver.find_element_by_xpath(
-            self._xpaths["TeachertoTeacher"]).get_attribute("value")
+            self.xpaths["TeachertoTeacher"]).get_attribute("value")
         self.assertEquals("3", current)
 
     def test04_director_director(self):
-        """ Test for Changing Role From Завуч to Завуч """
-        self._test_steps()
+        """
+        Test for Changing Role From Завуч to Завуч
+        """
+        self.test_steps()
         self.driver.find_element_by_xpath(
-            self._xpaths["DirectortoDirector"]).click()
+            self.xpaths["DirectortoDirector"]).click()
 
         select = Select(self.driver.find_element_by_xpath(
-            self._xpaths["DirectortoDirector"]))
+            self.xpaths["DirectortoDirector"]))
         select.select_by_value("2")
 
         current = self.driver.find_element_by_xpath(
-            self._xpaths["DirectortoDirector"]).get_attribute("value")
+            self.xpaths["DirectortoDirector"]).get_attribute("value")
         self.assertEquals("2", current)
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests """
+        """
+        Fixture that deletes all preparation for tests
+        """
         self.driver.quit()
 
 
 if __name__ == "__main__":
-    TestPrepTemplate.prepare_db()
-    try:
-        unittest.main(verbosity=2)
-    finally:
-        TestPrepTemplate.prepare_db(action='tearDown')
-
-
+    unittest.main(verbosity=2)

@@ -7,11 +7,11 @@ import unittest
 
 from selenium import webdriver
 
-from tpt import TestPrepTemplate
-
 
 class UiTests(unittest.TestCase):
-    """ Basic tests for start page - check UI elements presence """
+    """
+    Basic tests for start page - check UI elements presence
+    """
 
     def setUp(self):
         """ Fixture that creates a initial data and records for tests """
@@ -39,143 +39,206 @@ class PositiveTests(unittest.TestCase):
     """ Tests for 'View profile' function of roles
     'teacher', 'mainteacher', 'director'
     """
-    _list_login = ["semuschenko",
-                   "zoshch",
-                   "maximus"]
-    _list_password = ["pDk7jf",
-                      "df5sFdf",
-                      "LKuJf3y"]
-    _list_name = ["Семищенко Христофор Онуфрійович",
-                  "Зощенко Іван Вікторович",
-                  "Галицький Максим Генадійович"]
-    _list_mail = ["semuschenko@gmail.com",
-                  "zoshch@gmail.com",
-                  "maximus@gmail.com"]
-    _list_view_login = ["Логін: semuschenko",
-                        "Логін: zoshch",
-                        "Логін: maximus"]
+    login_main = "semuschenko"
+    login_director = "zoshch"
+    login_teacher = "maximus"
+
+    password_main = "pDk7jf"
+    password_director = "df5sFdf"
+    password_teacher = "LKuJf3y"
+
+    name_main = u"Семищенко Христофор Онуфрійович"
+    name_director = u"Зощенко Іван Вікторович"
+    name_teacher = u"Галицький Максим Генадійович"
+
+    mail_main = "semuschenko@gmail.com"
+    mail_director = "zoshch@gmail.com"
+    mail_teacher = "maximus@gmail.com"
+
+    view_login_main = "Логін: semuschenko"
+    view_login_director = "Логін: zoshch"
+    view_login_teacher = "Логін: maximus"
 
 
     def setUp(self):
-        """ Fixture that creates a initial data and records for tests """
-
+        """
+        Fixture that creates a initial data and records for tests
+        """
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
         self.base_url = "http://smsautotesting-atqc.rhcloud.com"
         self.accept_next_alert = True
 
-    def _set_test_data(self):
-        """ Creating initial data for tests """
-        self.login = self._list_login[self.current_test]
-        self.password = self._list_password[self.current_test]
-        self.name = self._list_name[self.current_test]
-        self.view_login = self._list_view_login[self.current_test]
-        self.mail = self._list_mail[self.current_test]
 
-    def _test_steps_xpath(self):
-        """ tests steps for click element by xpath """
-        self._set_test_data()
-
-        driver = self.driver
-        driver.get(self.base_url)
-
-        input_username = driver.find_element_by_name("inputUsername")
-        input_username.clear()
-        input_username.send_keys(self.login.decode('utf-8'))
-        input_password = driver.find_element_by_name("inputPassword")
-        input_password.clear()
-        input_password.send_keys(self.password.decode('utf-8'))
-        driver.find_element_by_xpath("//button[@type='submit']").click()
-        driver.find_element_by_xpath(
-            "//html/body/div[2]/div/div[1]/ul/li[4]/a").click()
-
-        self.assertIn(self.mail.decode('utf-8'),
-                      driver.find_element_by_xpath(
-                          "//div[contains(@class,'col-md-8')]").text)
-        self.assertIn(self.view_login.decode('utf-8'),
-                      driver.find_element_by_xpath(
-                          "//div[@class='col-md-8']").text)
-        self.assertIn(self.name.decode('utf-8'),
-                      driver.find_element_by_xpath(
-                          "//h3[@class='only-bottom-margin']").text)
-
-    def _test_steps_link(self):
-        """ tests steps for click element by link """
-        self._set_test_data()
-
-        driver = self.driver
-        driver.get(self.base_url)
-
-        input_username = driver.find_element_by_name("inputUsername")
-        input_username.clear()
-        input_username.send_keys(self.login.decode('utf-8'))
-        input_password = driver.find_element_by_name("inputPassword")
-        input_password.clear()
-        input_password.send_keys(self.password.decode('utf-8'))
-
-        driver.find_element_by_xpath("//button[@type='submit']").click()
-        driver.find_element_by_link_text(u'Мій профіль').click()
-
-        self.assertIn(self.mail.decode('utf-8'),
-                      driver.find_element_by_xpath(
-                          "//div[contains(@class,'col-md-8')]").text)
-        self.assertIn(self.view_login.decode('utf-8'),
-                      driver.find_element_by_xpath(
-                          "//div[@class='col-md-8']").text)
-        self.assertIn(self.name.decode('utf-8'),
-                      driver.find_element_by_xpath(
-                          "//h3[@class='only-bottom-margin']").text)
     def test01_view_main_teacher_xpath(self):
         """
         1. Button "Мій профіль" show profile for
         "Головний вчитель" (click element)
         """
-        self.current_test = 0
-        self._test_steps_xpath()
+        driver = self.driver
+        driver.get(self.base_url)
+
+        input_username = driver.find_element_by_name("inputUsername")
+        input_username.clear()
+        input_username.send_keys(self.login_main.decode('utf-8'))
+        input_password = driver.find_element_by_name("inputPassword")
+        input_password.clear()
+        input_password.send_keys(self.password_main.decode('utf-8'))
+        driver.find_element_by_xpath("//button[@type='submit']").click()
+        driver.find_element_by_xpath(
+            "//html/body/div[2]/div/div[1]/ul/li[4]/a").click()
+
+        self.assertIn(self.mail_main.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[contains(@class,'col-md-8')]").text)
+        self.assertIn(self.view_login_main.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[@class='col-md-8']").text)
+        self.assertIn(self.name_main,
+                      driver.find_element_by_xpath(
+                          "//h3[@class='only-bottom-margin']").text)
 
     def test02_view_director_xpath(self):
         """
         2. Button "Мій профіль" show profile for "Завуч" (click element)
         """
-        self.current_test = 1
-        self._test_steps_xpath()
+        driver = self.driver
+        driver.get(self.base_url)
+
+        input_username = driver.find_element_by_name("inputUsername")
+        input_username.clear()
+        input_username.send_keys(self.login_director.decode('utf-8'))
+        input_password = driver.find_element_by_name("inputPassword")
+        input_password.clear()
+        input_password.send_keys(self.password_director.decode('utf-8'))
+        driver.find_element_by_xpath("//button[@type='submit']").click()
+        driver.find_element_by_xpath(
+            "//html/body/div[2]/div/div[1]/ul/li[4]/a").click()
+
+        self.assertIn(self.mail_director.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[contains(@class,'col-md-8')]").text)
+        self.assertIn(self.view_login_director.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[@class='col-md-8']").text)
+        self.assertIn(self.name_director,
+                      driver.find_element_by_xpath(
+                          "//h3[@class='only-bottom-margin']").text)
 
     def test03_view_teacher_xpath(self):
         """
         3. Button "Мій профіль" show profile for "Викладач" (click element)
         """
-        self.current_test = 2
-        self._test_steps_xpath()
+        driver = self.driver
+        driver.get(self.base_url)
+
+        input_username = driver.find_element_by_name("inputUsername")
+        input_username.clear()
+        input_username.send_keys(self.login_teacher.decode('utf-8'))
+        input_password = driver.find_element_by_name("inputPassword")
+        input_password.clear()
+        input_password.send_keys(self.password_teacher.decode('utf-8'))
+        driver.find_element_by_xpath("//button[@type='submit']").click()
+        driver.find_element_by_xpath(
+            "//html/body/div[2]/div/div[1]/ul/li[4]/a").click()
+
+        self.assertIn(self.mail_teacher.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[contains(@class,'col-md-8')]").text)
+        self.assertIn(self.view_login_teacher.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[@class='col-md-8']").text)
+        self.assertIn(self.name_teacher,
+                      driver.find_element_by_xpath(
+                          "//h3[@class='only-bottom-margin']").text)
 
     def test04_view_main_teacher_xpath(self):
         """
         4. Button "Мій профіль" show profile for "Головний вчитель" (click link)
         """
-        self.current_test = 0
-        self._test_steps_link()
+        driver = self.driver
+        driver.get(self.base_url)
+
+        input_username = driver.find_element_by_name("inputUsername")
+        input_username.clear()
+        input_username.send_keys(self.login_main.decode('utf-8'))
+        input_password = driver.find_element_by_name("inputPassword")
+        input_password.clear()
+        input_password.send_keys(self.password_main.decode('utf-8'))
+
+        driver.find_element_by_xpath("//button[@type='submit']").click()
+        driver.find_element_by_link_text(u'Мій профіль').click()
+
+        self.assertIn(self.mail_main.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[contains(@class,'col-md-8')]").text)
+        self.assertIn(self.view_login_main.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[@class='col-md-8']").text)
+        self.assertIn(self.name_main,
+                      driver.find_element_by_xpath(
+                          "//h3[@class='only-bottom-margin']").text)
 
     def test05_view_director_xpath(self):
         """
         5.  Button "Мій профіль" show profile for "Завуч" (click link)
         """
-        self.current_test = 1
-        self._test_steps_link()
+        driver = self.driver
+        driver.get(self.base_url)
+
+        input_username = driver.find_element_by_name("inputUsername")
+        input_username.clear()
+        input_username.send_keys(self.login_director.decode('utf-8'))
+        input_password = driver.find_element_by_name("inputPassword")
+        input_password.clear()
+        input_password.send_keys(self.password_director.decode('utf-8'))
+
+        driver.find_element_by_xpath("//button[@type='submit']").click()
+        driver.find_element_by_link_text(u'Мій профіль').click()
+
+        self.assertIn(self.mail_director.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[contains(@class,'col-md-8')]").text)
+        self.assertIn(self.view_login_director.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[@class='col-md-8']").text)
+        self.assertIn(self.name_director,
+                      driver.find_element_by_xpath(
+                          "//h3[@class='only-bottom-margin']").text)
 
     def test06_view_teacher_xpath(self):
         """
         6. Button "Мій профіль" show profile for "Викладач" (click link)
         """
-        self.current_test = 2
-        self._test_steps_link()
+        driver = self.driver
+        driver.get(self.base_url)
+
+        input_username = driver.find_element_by_name("inputUsername")
+        input_username.clear()
+        input_username.send_keys(self.login_teacher.decode('utf-8'))
+        input_password = driver.find_element_by_name("inputPassword")
+        input_password.clear()
+        input_password.send_keys(self.password_teacher.decode('utf-8'))
+
+        driver.find_element_by_xpath("//button[@type='submit']").click()
+        driver.find_element_by_link_text(u'Мій профіль').click()
+
+        self.assertIn(self.mail_teacher.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[contains(@class,'col-md-8')]").text)
+        self.assertIn(self.view_login_teacher.decode('utf-8'),
+                      driver.find_element_by_xpath(
+                          "//div[@class='col-md-8']").text)
+        self.assertIn(self.name_teacher,
+                      driver.find_element_by_xpath(
+                          "//h3[@class='only-bottom-margin']").text)
 
     def tearDown(self):
-        """ Fixture that deletes all preparation for tests """
+        """
+        Fixture that deletes all preparation for tests
+        """
         self.driver.quit()
 
 
 if __name__ == "__main__":
-    TestPrepTemplate.prepare_db()
-    try:
-        unittest.main(verbosity=2)
-    finally:
-        TestPrepTemplate.prepare_db(action='tearDown')
+    unittest.main(verbosity=2)
