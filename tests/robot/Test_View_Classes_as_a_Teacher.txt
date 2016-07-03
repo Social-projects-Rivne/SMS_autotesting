@@ -51,7 +51,7 @@ ${password teacher}    Lhkj4Gh
     \   Page Should Contain     ${class}
 
 04. Check, that the page for class opened
-    [Tags]    PositiveTest     SmokeTest   Fail
+    [Tags]    PositiveTest     SmokeTest
     Click Element   xpath = //a[contains(.,'@{classes language}[0]')]
     Location Should Contain     class_journal
     Page Should Contain     Класс: 8А Предмет:
