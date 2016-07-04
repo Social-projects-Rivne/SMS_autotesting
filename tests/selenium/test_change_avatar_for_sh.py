@@ -123,16 +123,5 @@ class TestChangeAvatar(TestSetup):
 
 
 if __name__ == "__main__":
-    try:
-        ssh_mod.prepare_db(
-            sql_filename='psv_test_change_avatar_preparations.sql')
-    except:
-        ssh_mod.prepare_db(action='teardown')
-        exit()
-
-    try:
-        unittest.main(verbosity=2)
-    finally:
-        ssh_mod.prepare_db(action='teardown')
-
+    unittest.main(verbosity=2)
 

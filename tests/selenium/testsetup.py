@@ -11,12 +11,16 @@ from selenium.webdriver.common.keys import Keys
 
 class TestSetup(unittest.TestCase):
 
-    """ Parent class with preparations for main tests
+    """
+    Parent class with preparations for main tests
     """
 
     def setUp(self, url='http://smsautotesting-atqc.rhcloud.com/',
               user='test_admin', password='Install_new!'):
-        """ General preparations for all tests"""
+        """
+        General preparations for all tests
+        """
+        
         self.driver = webdriver.Firefox()
         self._appurl = url
         self._username = user
@@ -35,7 +39,9 @@ class TestSetup(unittest.TestCase):
         elem.send_keys(Keys.ENTER)
 
     def tearDown(self):
-        """ Close browser after each test"""
-        self.driver.close()
+        """
+        Close browser after each test
+        """
 
+        self.driver.close()
 

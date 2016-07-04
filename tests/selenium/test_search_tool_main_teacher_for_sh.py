@@ -7,7 +7,6 @@ for main teacher of the system
 # import time
 import unittest
 
-import ssh_mod
 from selenium.webdriver.common.keys import Keys
 from testsetup import TestSetup
 
@@ -236,16 +235,5 @@ class TestSearchTool(TestSetup):
 
 
 if __name__ == "__main__":
-    try:
-        ssh_mod.prepare_db(
-            sql_filename='psv_test_search_preparations.sql')
-    except:
-        ssh_mod.prepare_db(action='teardown')
-        exit()
-
-    try:
-        unittest.main(verbosity=2)
-    finally:
-        ssh_mod.prepare_db(action='teardown')
-
+    unittest.main(verbosity=2)
 
