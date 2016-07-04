@@ -9,15 +9,15 @@ from selenium.webdriver.support.ui import Select
 class SchoolCRUDTests(unittest.TestCase):
     """ Class with methods, for testing School CRUD """
 
-    _baseurl = "https://smsauto-dvatqc.rhcloud.com"
-    _username = "semuschenko"
-    _password = "pDk7jf"
-    _warnings = {
+    baseurl = "https://smsauto-dvatqc.rhcloud.com"
+    username = "semuschenko"
+    password = "pDk7jf"
+    warnings = {
         'incorrectName': u"Некоректно введено назву.",
         'incorrectAddress': u"Некоректно введено адресу.",
         'alreadyExistsName': u"Школа з такою назвою вже існує."
     }
-    _xpaths = {
+    xpaths = {
         'inputUsername': "//input[@name='inputUsername']",
         'inputPassword': "//input[@name='inputPassword']",
         'submitButtonLogin': "button",
@@ -29,7 +29,7 @@ class SchoolCRUDTests(unittest.TestCase):
         'buttonDeleteSchool': "//*[@id='100']/td[4]/a[2]"
 
     }
-    _credentials = {
+    credentials = {
         'correctAddress': u'вул. Євгена Коновальця, 19',
         'correctName': u'Школа №28',
         'correctName2': u'Школа №80',
@@ -44,33 +44,33 @@ class SchoolCRUDTests(unittest.TestCase):
         'schoolToDelete': u'вул. Тестова, 1'
     }
 
-    def _credetials_to_add_school(self, driver, school_name, address):
+    def credetials_to_add_school(self, driver, school_name, address):
         """ Function to automate proccess of inserting the credentials """
 
         driver.find_element_by_link_text(u'+ Додати').click()
         driver.find_element_by_xpath(
-            self._xpaths['inputSchoolName']).send_keys(
+            self.xpaths['inputSchoolName']).send_keys(
             school_name)
         driver.find_element_by_xpath(
-            self._xpaths['inputSchoolAddress']).send_keys(
+            self.xpaths['inputSchoolAddress']).send_keys(
             address)
 
         driver.find_element_by_xpath(
-            self._xpaths['confirmAddEditButton']).click()
+            self.xpaths['confirmAddEditButton']).click()
 
-    def _credetials_to_edit_school(self,
-                                   driver,
-                                   school_name,
-                                   address,
-                                   xpath_of_school_to_edit,
-                                   xpath_of_director):
+    def credetials_to_edit_school(self,
+                                  driver,
+                                  school_name,
+                                  address,
+                                  xpath_of_school_to_edit,
+                                  xpath_of_director):
         """ Function to automate proccess of inserting the credentials """
 
         driver.find_element_by_xpath(xpath_of_school_to_edit).click()
         input_name_area = driver.find_element_by_xpath(
-            self._xpaths['inputSchoolName'])
+            self.xpaths['inputSchoolName'])
         input_address_area = driver.find_element_by_xpath(
-            self._xpaths['inputSchoolAddress'])
+            self.xpaths['inputSchoolAddress'])
         input_name_area.clear()
         input_name_area.send_keys(school_name)
         input_address_area.clear()
@@ -83,7 +83,7 @@ class SchoolCRUDTests(unittest.TestCase):
 
         select.select_by_value('12')
         driver.find_element_by_xpath(
-            self._xpaths['confirmAddEditButton']).click()
+            self.xpaths['confirmAddEditButton']).click()
 
     def _check_for_element_existence(self, driver, warning):
         """ Function to check whether element exists on the web-page """
@@ -103,17 +103,17 @@ class SchoolCRUDTests(unittest.TestCase):
         self.driver.maximize_window()
         self.driver.implicitly_wait(30)
         self.accept_next_alert = True
-        self.driver.get(self._baseurl)
+        self.driver.get(self.baseurl)
         self.driver.find_element_by_xpath(
-            self._xpaths['inputUsername']).send_keys(
-            self._username)
+            self.xpaths['inputUsername']).send_keys(
+            self.username)
 
         self.driver.find_element_by_xpath(
-            self._xpaths['inputPassword']).send_keys(
-            self._password)
+            self.xpaths['inputPassword']).send_keys(
+            self.password)
 
         self.driver.find_element_by_tag_name(
-            self._xpaths['submitButtonLogin']).click()
+            self.xpaths['submitButtonLogin']).click()
 
     def tearDown(self):
         """ Fixture that deletes all the preparations for tests """
@@ -136,309 +136,309 @@ class SchoolCRUDTests(unittest.TestCase):
         link = self.driver.find_element_by_link_text(u'+ Додати')
         link.click()
         self.driver.find_element_by_xpath(
-            self._xpaths['inputSchoolName']).send_keys(
-            self._credentials['correctName'])
+            self.xpaths['inputSchoolName']).send_keys(
+            self.credentials['correctName'])
         self.driver.find_element_by_xpath(
-            self._xpaths['inputSchoolAddress']).send_keys(
-            self._credentials['correctAddress'])
+            self.xpaths['inputSchoolAddress']).send_keys(
+            self.credentials['correctAddress'])
         link2 = self.driver.find_element_by_link_text('x')
         link2.click()
         link.click()
-        name_value = self.driver.find_element_by_xpath(self._xpaths[
+        name_value = self.driver.find_element_by_xpath(self.xpaths[
                                                            'inputSchoolName'])
         address_value = self.driver.find_element_by_xpath(
-            self._xpaths['inputSchoolAddress'])
+            self.xpaths['inputSchoolAddress'])
 
         self.assertTrue(("" == name_value.get_attribute('value')) and
                         ("" == address_value.get_attribute('value')))
 
-    def test03_add_school_with_correct_credentials_POSITIVE(self):
+    def test03_add_school_with_correct_credentials_positive(self):
         """ New school should be added with correct credentials """
 
-        self._credetials_to_add_school(self.driver,
-                                       self._credentials['correctName'],
-                                       self._credentials[
-                                           'correctAddress'])
+        self.credetials_to_add_school(self.driver,
+                                      self.credentials['correctName'],
+                                      self.credentials[
+                                          'correctAddress'])
         self.driver.refresh()
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._credentials['correctName']), True)
+                self.driver, self.credentials['correctName']), True)
 
-    def test04_add_school_with_roman_name_NEGATIVE(self):
+    def test04_add_school_with_roman_name_negative(self):
         """ Expected warning about incorrect name """
 
-        self._credetials_to_add_school(self.driver,
-                                       self._credentials['nameRoman'],
-                                       self._credentials[
-                                           'correctAddress'])
+        self.credetials_to_add_school(self.driver,
+                                      self.credentials['nameRoman'],
+                                      self.credentials[
+                                          'correctAddress'])
 
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectName']), True)
+                self.driver, self.warnings['incorrectName']), True)
 
-    def test05_add_school_with_roman_address_NEGATIVE(self):
+    def test05_add_school_with_roman_address_negative(self):
         """ Expected warning about incorrect address """
 
-        self._credetials_to_add_school(self.driver,
-                                       "",
-                                       self._credentials[
-                                           'addressRoman'])
+        self.credetials_to_add_school(self.driver,
+                                      "",
+                                      self.credentials[
+                                          'addressRoman'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
-    def test06_add_school_with_empty_name_NEGATIVE(self):
+    def test06_add_school_with_empty_name_negative(self):
         """ Expected warning about incorrect name """
 
-        self._credetials_to_add_school(self.driver, "",
-                                       self._credentials[
-                                           'correctAddress'])
+        self.credetials_to_add_school(self.driver, "",
+                                      self.credentials[
+                                          'correctAddress'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectName']), True)
+                self.driver, self.warnings['incorrectName']), True)
 
-    def test07_add_school_with_empty_address_NEGATIVE(self):
+    def test07_add_school_with_empty_address_negative(self):
         """ Expected warning about incorrect address """
 
-        self._credetials_to_add_school(self.driver,
-                                       self._credentials[
-                                           'correctNameForEdit'],
-                                       "")
+        self.credetials_to_add_school(self.driver,
+                                      self.credentials[
+                                          'correctNameForEdit'],
+                                      "")
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
-    def test08_add_school_with_wrong_cyrrilic_name_NEGATIVE(self):
+    def test08_add_school_with_wrong_cyrrilic_name_negative(self):
         """ Expected warning about incorrect name """
 
-        self._credetials_to_add_school(self.driver,
-                                       self._credentials[
-                                           'cyrrilicNameWrong'],
-                                       "")
+        self.credetials_to_add_school(self.driver,
+                                      self.credentials[
+                                          'cyrrilicNameWrong'],
+                                      "")
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectName']), True)
+                self.driver, self.warnings['incorrectName']), True)
 
-    def test09_add_school_with_wrong_cyrrilic_address_NEGATIVE(self):
+    def test09_add_school_with_wrong_cyrrilic_address_negative(self):
         """ Expected warning about incorrect address """
 
-        self._credetials_to_add_school(self.driver, "",
-                                       self._credentials[
-                                           'cyrrilicAddressWrong'], )
+        self.credetials_to_add_school(self.driver, "",
+                                      self.credentials[
+                                          'cyrrilicAddressWrong'], )
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
-    def test10_add_school_with_already_exists_name_NEGATIVE(self):
+    def test10_add_school_with_already_exists_name_negative(self):
         """ Expected warning about already existing name for school """
 
-        self._credetials_to_add_school(self.driver,
-                                       self._credentials[
-                                           'correctName'],
-                                       self._credentials[
-                                           'correctAddress'])
+        self.credetials_to_add_school(self.driver,
+                                      self.credentials[
+                                          'correctName'],
+                                      self.credentials[
+                                          'correctAddress'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['alreadyExistsName']), True)
+                self.driver, self.warnings['alreadyExistsName']), True)
 
-    def test11_add_school_with_name_lower_case_NEGATIVE(self):
+    def test11_add_school_with_name_lower_case_negative(self):
         """ Expected warning about incorrect name """
 
-        self._credetials_to_add_school(self.driver,
-                                       self._credentials[
-                                           'nameStartingLower'],
-                                       self._credentials[
-                                           'correctAddress'])
+        self.credetials_to_add_school(self.driver,
+                                      self.credentials[
+                                          'nameStartingLower'],
+                                      self.credentials[
+                                          'correctAddress'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectName']), True)
+                self.driver, self.warnings['incorrectName']), True)
 
-    def test12_add_school_with_address_upper_case_NEGATIVE(self):
+    def test12_add_school_with_address_upper_case_negative(self):
         """ Expected warning about incorrect address """
 
-        self._credetials_to_add_school(self.driver,
-                                       self._credentials[
-                                           'correctNameForEdit'],
-                                       self._credentials[
-                                           'addressStartingUpper'])
+        self.credetials_to_add_school(self.driver,
+                                      self.credentials[
+                                          'correctNameForEdit'],
+                                      self.credentials[
+                                          'addressStartingUpper'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
     def test13_ui_to_edit_schools_exists(self):
         """ Test to check whether windows to edit school exists """
 
         self.driver.find_element_by_xpath(
-            self._xpaths['buttonEditSchool']).click()
+            self.xpaths['buttonEditSchool']).click()
         self.element_to_test = self.driver.find_element_by_tag_name('h3')
 
         self.assertEquals(u"Редагувати школу", self.element_to_test.text)
 
-    def test14_edit_school_with_correct_credentials_POSITIVE(self):
+    def test14_edit_school_with_correct_credentials_positive(self):
         """ The school should be edited with correct credentials """
 
         src_before = self.driver.page_source
-        if self._credentials['correctNameForEdit'] in src_before:
+        if self.credentials['correctNameForEdit'] in src_before:
             school_exists = True
         else:
             school_exists = False
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials[
-                                            'correctNameForEdit'],
-                                        self._credentials[
-                                            'correctAddressForEdit'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor']
-                                        )
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials[
+                                           'correctNameForEdit'],
+                                       self.credentials[
+                                           'correctAddressForEdit'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor']
+                                       )
         self.driver.switch_to_alert().accept()
         self.driver.refresh()
         self.assertEqual(school_exists, False)
 
-    def test15_edit_school_with_roman_name_NEGATIVE(self):
+    def test15_edit_school_with_roman_name_negative(self):
         """Expected warning about incorrect name"""
 
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials['nameRoman'],
-                                        self._credentials[
-                                            'correctAddress'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials['nameRoman'],
+                                       self.credentials[
+                                           'correctAddress'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectName']), True)
+                self.driver, self.warnings['incorrectName']), True)
 
-    def test16_edit_school_with_roman_address_NEGATIVE(self):
+    def test16_edit_school_with_roman_address_negative(self):
         """Expected warning about incorrect address"""
 
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials[
-                                            'correctName'],
-                                        self._credentials[
-                                            'addressRoman'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials[
+                                           'correctName'],
+                                       self.credentials[
+                                           'addressRoman'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
-    def test17_edit_school_with_empty_name_NEGATIVE(self):
+    def test17_edit_school_with_empty_name_negative(self):
         """ Expected warning about incorrect name """
 
-        self._credetials_to_edit_school(self.driver,
-                                        "",
-                                        self._credentials[
-                                            'addressRoman'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       "",
+                                       self.credentials[
+                                           'addressRoman'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectName']), True)
+                self.driver, self.warnings['incorrectName']), True)
 
-    def test18_edit_school_with_empty_address_NEGATIVE(self):
+    def test18_edit_school_with_empty_address_negative(self):
         """ Expected warning about incorrect address """
 
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials[
-                                            'correctName'],
-                                        "",
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials[
+                                           'correctName'],
+                                       "",
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
-    def test19_edit_school_with_wrong_cyrrilic_name_NEGATIVE(self):
+    def test19_edit_school_with_wrong_cyrrilic_name_negative(self):
         """ Expected warning about incorrect name """
 
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials[
-                                            'cyrrilicNameWrong'],
-                                        self._credentials[
-                                            'correctAddressForEdit'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials[
+                                           'cyrrilicNameWrong'],
+                                       self.credentials[
+                                           'correctAddressForEdit'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectName']), True)
+                self.driver, self.warnings['incorrectName']), True)
 
-    def test20_edit_school_with_wrong_cyrrilic_address_NEGATIVE(self):
+    def test20_edit_school_with_wrong_cyrrilic_address_negative(self):
         """ Expected warning about incorrect address """
 
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials[
-                                            'correctName'],
-                                        self._credentials[
-                                            'cyrrilicAddressWrong'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials[
+                                           'correctName'],
+                                       self.credentials[
+                                           'cyrrilicAddressWrong'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
-    def test21_edit_school_with_already_exists_name_NEGATIVE(self):
+    def test21_edit_school_with_already_exists_name_negative(self):
         """ Expected warning about already existing name for school """
 
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials[
-                                            'correctName'],
-                                        self._credentials[
-                                            'correctAddress'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials[
+                                           'correctName'],
+                                       self.credentials[
+                                           'correctAddress'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['alreadyExistsName']), True)
+                self.driver, self.warnings['alreadyExistsName']), True)
 
-    def test22_edit_school_with_name_lower_case_NEGATIVE(self):
+    def test22_edit_school_with_name_lower_case_negative(self):
         """ Expected warning about incorrect name """
 
         driver = self.driver
-        self._credetials_to_edit_school(driver,
-                                        self._credentials[
-                                            'nameStartingLower'],
-                                        self._credentials[
-                                            'correctAddress'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(driver,
+                                       self.credentials[
+                                           'nameStartingLower'],
+                                       self.credentials[
+                                           'correctAddress'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                driver, self._warnings['incorrectName']), True)
+                driver, self.warnings['incorrectName']), True)
 
-    def test23_edit_school_with_address_upper_case_NEGATIVE(self):
+    def test23_edit_school_with_address_upper_case_negative(self):
         """ Expected warning about incorrect address """
 
-        self._credetials_to_edit_school(self.driver,
-                                        self._credentials[
-                                            'correctName'],
-                                        self._credentials[
-                                            'addressStartingUpper'],
-                                        self._xpaths[
-                                            'buttonEditSchool'],
-                                        self._xpaths[
-                                            'selectionOfDiretor'])
+        self.credetials_to_edit_school(self.driver,
+                                       self.credentials[
+                                           'correctName'],
+                                       self.credentials[
+                                           'addressStartingUpper'],
+                                       self.xpaths[
+                                           'buttonEditSchool'],
+                                       self.xpaths[
+                                           'selectionOfDiretor'])
         self.assertEqual(
             self._check_for_element_existence(
-                self.driver, self._warnings['incorrectAddress']), True)
+                self.driver, self.warnings['incorrectAddress']), True)
 
-    def test24_edit_school_from_main_page_POSITIVE(self):
+    def test24_edit_school_from_main_page_positive(self):
         """Test to check whether director can be changed from main page"""
 
         self.driver.find_element_by_xpath('//*[@id="4"]/td[3]').click()
@@ -451,17 +451,17 @@ class SchoolCRUDTests(unittest.TestCase):
             "//option[contains(.,'Петросян Іван Сергієвич')]").is_selected(),
                           True)
 
-    def test25_delete_school_POSITIVE(self):
+    def test25_delete_school_positive(self):
         """Test to check whether delete school function works"""
 
         self.driver.find_element_by_xpath(
-            self._xpaths['buttonDeleteSchool']).click()
+            self.xpaths['buttonDeleteSchool']).click()
         self.driver.find_element_by_xpath(
             "//*[@id='form']/form/input[3]").click()
 
         self.assertEqual(self._check_for_element_existence
                          (self.driver,
-                          self._credentials['schoolToDelete']),
+                          self.credentials['schoolToDelete']),
                          False)
 
 

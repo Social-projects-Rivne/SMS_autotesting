@@ -25,7 +25,8 @@ class AddSubjectClassForTeacherTests(unittest.TestCase):
     warnings = {
         "alreadyExistsSubject": u"Даний викладач вже веде вибраний предмет.",
         "thisIsRequiredField": u"Це обов'язкове поле.",
-        "alreadyStudyingSubjectForClass": u"Викладач вже веде даний предмет в цьому класі."
+        "alreadyStudyingSubjectForClass":
+            u"Викладач вже веде даний предмет в цьому класі."
     }
 
     def check_for_element_existence(self, driver, element):
@@ -62,97 +63,102 @@ class AddSubjectClassForTeacherTests(unittest.TestCase):
 
         self.driver.close()
 
-    # def test01_ui_to_add_subject_exist(self):
-    #     """
-    #     Check whether pop-up windows shows onclick the button “Add subject”
-    #     """
-    #
-    #     self.driver.find_element_by_link_text(u"Керування предметами").click()
-    #     self.driver.find_element_by_xpath("/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td/a").click()
-    #     self.assertEqual(
-    #         self.check_for_element_existence(
-    #             self.driver,
-    #             self.driver.find_element_by_tag_name("h3").text), True)
-    #
-    # def test02_add_subject_for_teacher_positive(self):
-    #     """  Check whether subject can be added for teacher """
-    #
-    #     self.driver.find_element_by_link_text(u"Керування предметами").click()
-    #     self.driver.find_element_by_xpath("/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td/a").click()
-    #     select = Select(self.driver.find_element_by_xpath(
-    #         "//*[@id='manage_teachers_select']"))
-    #     select.select_by_value('9')
-    #     self.driver.find_element_by_xpath("//*[@id='add_button']").click()
-    #     self.assertEqual(self.check_for_element_existence(self.driver,
-    #                                                       u"Зарубіжна література"),
-    #                      True)
+    def test01_ui_to_add_subject_exist(self):
+        """
+        Check whether pop-up windows shows onclick the button “Add subject”
+        """
 
-    # def test03_add_already_exist_subject_for_teacher_negative(self):
-    #     """
-    #     Check whether warning message exists
-    #     while add already exist subject for teacher
-    #     """
-    #     self.driver.find_element_by_link_text(u"Керування предметами").click()
-    #     self.driver.find_element_by_xpath(
-    #         "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[3]/td/a"). \
-    #         click()
-    #     select = Select(self.driver.find_element_by_xpath(
-    #         "//*[@id='manage_teachers_select']"))
-    #     select.select_by_value('9')
-    #     self.driver.find_element_by_xpath("//*[@id='add_button']").click()
-    #     self.assertEqual(
-    #         self.check_for_element_existence(self.driver,
-    #                                          self.warnings[
-    #                                              "alreadyExistsSubject"]),
-    #         True)
+        self.driver.find_element_by_link_text(u"Керування предметами").click()
+        self.driver.find_element_by_xpath(
+            "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td/a").\
+            click()
+        self.assertEqual(
+            self.check_for_element_existence(
+                self.driver,
+                self.driver.find_element_by_tag_name("h3").text), True)
 
-    # def test04_insert_empty_value_for_subject_negative(self):
-    #     """ Check whether warning message exist while subject not chosen """
-    #
-    #     self.driver.find_element_by_link_text(u"Керування предметами").click()
-    #     self.driver.find_element_by_xpath(
-    #         "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[8]/td/a"). \
-    #         click()
-    #     self.driver.find_element_by_xpath("//*[@id='add_button']").click()
-    #     self.assertEqual(self.check_for_element_existence(self.driver,
-    #                                                       self.warnings[
-    #                                                           "thisIsRequiredField"]),
-    #                      True)
-    #
-    # def test05_ui_to_add_class(self):
-    #     """
-    #     Check whether pop-up windows shows onclick the button “Add class”
-    #     """
-    #
-    #     self.driver.find_element_by_link_text(u"Керування предметами").click()
-    #     self.driver.find_element_by_xpath("//*[@id='2']/td[2]/a").click()
-    #
-    #     self.assertIsNotNone(self.driver.find_element_by_tag_name("select"))
-    #
-    # def test06_add_class_for_teacher_positive(self):
-    #     """ Check whether school class can be added for teacher """
-    #
-    #     self.driver.find_element_by_link_text(u"Керування предметами").click()
-    #     self.driver.find_element_by_xpath("//*[@id='8']/td[4]/a").click()
-    #     select = Select(self.driver.find_element_by_xpath(
-    #         "//*[@id='manage_teachers_select']"))
-    #     select.select_by_value('17')
-    #     self.driver.find_element_by_xpath("//*[@id='add_button']").click()
-    #     self.assertEqual(self.check_for_element_existence(self.driver, u"1А"),
-    #                      True)
-    # def test07_add_second_class_for_teacher_positive(self):
-    #     """
-    #     Check whether second school class can be added for the same teacher
-    #     """
-    #
-    #     self.driver.find_element_by_link_text(u"Керування предметами").click()
-    #     self.driver.find_element_by_xpath("//*[@id='8']/td[4]/a").click()
-    #     select = Select(self.driver.find_element_by_xpath(
-    #         "//*[@id='manage_teachers_select']"))
-    #     select.select_by_value('18')
-    #     self.driver.find_element_by_xpath("//*[@id='add_button']").click()
-    #     self.assertEqual(self.check_for_element_existence(self.driver, u"1Б"),
-    #                      True)
+    def test02_add_subject_for_teacher_positive(self):
+        """  Check whether subject can be added for teacher """
+
+        self.driver.find_element_by_link_text(u"Керування предметами").click()
+        self.driver.find_element_by_xpath(
+            "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td/a").\
+            click()
+        select = Select(self.driver.find_element_by_xpath(
+            "//*[@id='manage_teachers_select']"))
+        select.select_by_value('9')
+        self.driver.find_element_by_xpath("//*[@id='add_button']").click()
+        self.assertEqual(self.check_for_element_existence(
+                            self.driver,
+                            u"Зарубіжна література"), True)
+
+    def test03_add_already_exist_subject_for_teacher_negative(self):
+        """
+        Check whether warning message exists
+        while add already exist subject for teacher
+        """
+        self.driver.find_element_by_link_text(u"Керування предметами").click()
+        self.driver.find_element_by_xpath(
+            "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[3]/td/a"). \
+            click()
+        select = Select(self.driver.find_element_by_xpath(
+            "//*[@id='manage_teachers_select']"))
+        select.select_by_value('9')
+        self.driver.find_element_by_xpath("//*[@id='add_button']").click()
+        self.assertEqual(
+            self.check_for_element_existence(self.driver,
+                                             self.warnings[
+                                                 "alreadyExistsSubject"]),
+            True)
+
+    def test04_insert_empty_value_for_subject_negative(self):
+        """ Check whether warning message exist while subject not chosen """
+
+        self.driver.find_element_by_link_text(u"Керування предметами").click()
+        self.driver.find_element_by_xpath(
+            "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr[8]/td/a"). \
+            click()
+        self.driver.find_element_by_xpath("//*[@id='add_button']").click()
+        self.assertEqual(self.check_for_element_existence(
+                            self.driver,
+                            self.warnings["thisIsRequiredField"]), True)
+
+    def test05_ui_to_add_class(self):
+        """
+        Check whether pop-up windows shows onclick the button “Add class”
+        """
+
+        self.driver.find_element_by_link_text(u"Керування предметами").click()
+        self.driver.find_element_by_xpath("//*[@id='2']/td[2]/a").click()
+
+        self.assertIsNotNone(self.driver.find_element_by_tag_name("select"))
+
+    def test06_add_class_for_teacher_positive(self):
+        """ Check whether school class can be added for teacher """
+
+        self.driver.find_element_by_link_text(u"Керування предметами").click()
+        self.driver.find_element_by_xpath("//*[@id='8']/td[4]/a").click()
+        select = Select(self.driver.find_element_by_xpath(
+            "//*[@id='manage_teachers_select']"))
+        select.select_by_value('17')
+        self.driver.find_element_by_xpath("//*[@id='add_button']").click()
+        self.assertEqual(self.check_for_element_existence(self.driver, u"1А"),
+                         True)
+
+    def test07_add_second_class_for_teacher_positive(self):
+        """
+        Check whether second school class can be added for the same teacher
+        """
+
+        self.driver.find_element_by_link_text(u"Керування предметами").click()
+        self.driver.find_element_by_xpath("//*[@id='8']/td[4]/a").click()
+        select = Select(self.driver.find_element_by_xpath(
+            "//*[@id='manage_teachers_select']"))
+        select.select_by_value('18')
+        self.driver.find_element_by_xpath("//*[@id='add_button']").click()
+        self.assertEqual(self.check_for_element_existence(self.driver, u"1Б"),
+                         True)
+
     def test08_add_already_exists_class_for_subject_negative(self):
         """ Check whether warning message exists
         while add already exists class for subject
@@ -164,14 +170,10 @@ class AddSubjectClassForTeacherTests(unittest.TestCase):
             "//*[@id='manage_teachers_select']"))
         select.select_by_value('17')
         self.driver.find_element_by_tag_name('h3').click()
-        self.assertEqual(self.check_for_element_existence(self.driver,
-                                                          self.warnings[
-                                                              "alreadyStudyingSubjectForClass"]),
-                         True)
-    def test09_delete_subject_positive(self):
-        """ Check whether subject can be deleted """
-
-        
+        self.assertEqual(self.check_for_element_existence(
+                            self.driver,
+                            self.warnings["alreadyStudyingSubjectForClass"]),
+                            True)
 
 
 if __name__ == "__main__":
