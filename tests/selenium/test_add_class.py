@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-""" 
-Tests for class addition on Selenium WebDriver 
+"""
+Tests for class addition on Selenium WebDriver
 """
 
 
@@ -8,12 +8,11 @@ import unittest
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
-from tpt import TestPrepTemplate
 
 
 class TestPreparations(unittest.TestCase):
-    """ 
-    Superclass with preparations for tests and initial data 
+    """
+    Superclass with preparations for tests and initial data
     """
 
     _baseurl = "http://django-smstest2.rhcloud.com/"
@@ -29,7 +28,7 @@ class TestPreparations(unittest.TestCase):
     }
 
     def setUp(self):
-        """ 
+        """
         Fixture that creates a initial data and records for tests,
         initial test steps
         """
@@ -37,7 +36,7 @@ class TestPreparations(unittest.TestCase):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
         self.driver.maximize_window()
-        self.driver.get(self._baseurl_team)
+        self.driver.get(self._baseurl)
         self.driver.find_element_by_xpath(self._xpaths['inputUsername']).\
                     send_keys(self._username)
 
@@ -49,28 +48,28 @@ class TestPreparations(unittest.TestCase):
 
 
     def tearDown(self):
-        """ 
-        Fixture that deletes all preparation for tests 
+        """
+        Fixture that deletes all preparation for tests
         """
         self.driver.quit()
 
 
 class ClassAddition(TestPreparations):
 
-    """ 
+    """
     Class with methods for testing class addition
     """
 
     def setUp(self):
-        """ 
-        Fixture that creates a initial data and records for tests 
+        """
+        Fixture that creates a initial data and records for tests
         """
         super(ClassAddition, self).setUp()
 
     def negative_test(self, form_id, form_number):
-    	""" 
-    	Function for checking some negative scenarios 
-    	"""
+        """
+        Function for checking some negative scenarios
+        """
         driver = self.driver
         driver.find_element_by_xpath(
                 "html/body/div[2]/div/div[2]/div/div/ul/li[" + str(form_id) +\
@@ -87,15 +86,15 @@ class ClassAddition(TestPreparations):
                         "//span[contains(.,'Некоректно введено назву')]"))
 
     def test01_profile_is_opened(self):
-        """ 
-        Test 1 Checks that profile is opened 
+        """
+        Test 1 Checks that profile is opened
         """
         driver = self.driver
         self.assertIn("/director/group_list/", driver.current_url)
 
     def test02_information_of_logged_user(self):
-        """ 
-        Test 2 Checks that profile contains information of logged user 
+        """
+        Test 2 Checks that profile contains information of logged user
         """
         driver = self.driver
         self.assertTrue("Завуч", driver.find_element_by_xpath(
@@ -105,8 +104,8 @@ class ClassAddition(TestPreparations):
                         "//p[contains(.,'Зощенко Іван Вікторович')]"))
 
     def test03_classes_navigation_tabs(self):
-        """ 
-        Test 3 Checks that profile has class navigation tabs for each class 
+        """
+        Test 3 Checks that profile has class navigation tabs for each class
         """
         driver = self.driver
         for index in range(1, 12):
@@ -115,8 +114,8 @@ class ClassAddition(TestPreparations):
                             str(index) + "]/a").text)
 
     def test04_links_for_class_addition(self):
-        """ 
-        Test 4 Checks that profile contains links for adding any class 
+        """
+        Test 4 Checks that profile contains links for adding any class
         """
         driver = self.driver
         for index in range(1, 12):
@@ -125,7 +124,7 @@ class ClassAddition(TestPreparations):
                             "//*[@id=" + str(index) + "]/a"))
 
     def test05_class_addition_frame_is_opened(self):
-        """ 
+        """
         Test 5 Checks that clicking on the link to add class opens the
         frame for class addition
         """
@@ -139,8 +138,8 @@ class ClassAddition(TestPreparations):
             driver.find_element_by_link_text("Відмінити").click()
 
     def test06_classes_grades_are_visible(self):
-        """ 
-        Test 6 Checks if all the classes grades are visible 
+        """
+        Test 6 Checks if all the classes grades are visible
         """
         driver = self.driver
         for index in range(1, 12):
@@ -150,8 +149,8 @@ class ClassAddition(TestPreparations):
                             str(index) + "]/a").text)
 
     def test07_class_valid_name_is_added(self):
-        """ 
-        Test 7 Checks if class with valid name is added 
+        """
+        Test 7 Checks if class with valid name is added
         """
         driver = self.driver
         driver.find_element_by_xpath(
@@ -169,8 +168,8 @@ class ClassAddition(TestPreparations):
                         "7А клас"))
 
     def test08_empty_class_name(self):
-        """ 
-        Test 8 Checks class addition with empty name 
+        """
+        Test 8 Checks class addition with empty name
         """
         driver = self.driver
         driver.find_element_by_xpath(
@@ -186,74 +185,74 @@ class ClassAddition(TestPreparations):
                         "//span[contains(.,'Некоректно введено назву')]"))
 
     def test09_class_with_latin_letter(self):
-        """ 
-        Test 9 Checks class addition with latin letter 
+        """
+        Test 9 Checks class addition with latin letter
         """
         self.negative_test(6, u"6A")
 
     def test10_class_with_small_letter(self):
-        """ 
-        Test 10 Checks class addition with small letter 
+        """
+        Test 10 Checks class addition with small letter
         """
         self.negative_test(6, u"6а")
 
     def test11_class_with_small_latin_letter(self):
-        """ 
-        Test 11 Checks class addition with small latin letter 
+        """
+        Test 11 Checks class addition with small latin letter
         """
         self.negative_test(6, u"6a")
 
     def test12_class_with_several_capital_letters(self):
-        """ 
-        Test 12 Checks class addition with several capital letters 
+        """
+        Test 12 Checks class addition with several capital letters
         """
         self.negative_test(6, u"6АБВ")
 
     def test13_class_with_several_small_letters(self):
-        """ 
-        Test 13 Checks class addition with several small letters 
+        """
+        Test 13 Checks class addition with several small letters
         """
         self.negative_test(6, u"6абв")
 
     def test14_class_without_letters(self):
-        """ 
-        Test 14 Checks class addition without letters 
+        """
+        Test 14 Checks class addition without letters
         """
         self.negative_test(6, u"6")
 
     def test15_class_with_numbers_letter(self):
-        """ 
-        Test 15 Checks class addition with several numbers and letter 
+        """
+        Test 15 Checks class addition with several numbers and letter
         """
         self.negative_test(6, u"631А")
 
     def test16_class_without_numbers(self):
-        """ 
-        Test 16 Checks class addition without numbers 
+        """
+        Test 16 Checks class addition without numbers
         """
         self.negative_test(6, u"А")
 
     def test17_class_with_space(self):
-        """ 
-        Test 17 Checks class addition with space 
+        """
+        Test 17 Checks class addition with space
         """
         self.negative_test(6, u"6 А")
 
     def test18_class_with_down_underline(self):
-        """ 
-        Test 18 Checks class addition with down underline 
+        """
+        Test 18 Checks class addition with down underline
         """
         self.negative_test(6, u"6_А")
 
     def test19_class_with_outer_spaces(self):
-        """ 
-        Test 19 Checks class addition with correct name but with outer spaces 
+        """
+        Test 19 Checks class addition with correct name but with outer spaces
         """
         self.negative_test(6, u" 6А ")
 
     def test20_class_with_special_symbols(self):
-        """ 
-        Test 20 Checks class addition with special symbols 
+        """
+        Test 20 Checks class addition with special symbols
         """
         special_symbols = ["=", "/", "\\", "|", "*", "(", ")", "-", ":", ";",\
                            "#", "%", "^", "?", "!", "[", "]"]
@@ -274,20 +273,20 @@ class ClassAddition(TestPreparations):
 
 
     def test21_class_with_latin_numbers(self):
-        """ 
-        Test 21 Checks class addition with latin numbers 
+        """
+        Test 21 Checks class addition with latin numbers
         """
         self.negative_test(11, u"IIА")
 
     def test22_class_with_inversed_letter_number(self):
-        """ 
-        Test 22 Checks class addition with inversed letter and number 
+        """
+        Test 22 Checks class addition with inversed letter and number
         """
         self.negative_test(2, u"А2")
 
     def test23_class_with_existed_name(self):
-        """ 
-        Test 23 Checks class addition with already existed name 
+        """
+        Test 23 Checks class addition with already existed name
         """
         driver = self.driver
         driver.find_element_by_xpath(
@@ -315,9 +314,9 @@ class ClassAddition(TestPreparations):
 
 
     def test24_class_addition_on_another_tab(self):
-        """ 
+        """
         Test 24 Checks class addition when 9th class is added using the
-        11 class tab 
+        11 class tab
         """
         driver = self.driver
         driver.find_element_by_xpath(
@@ -335,12 +334,10 @@ class ClassAddition(TestPreparations):
                        find_element_by_xpath("//a[contains(.,'9А клас')]"))
         driver.find_element_by_xpath(
                 "html/body/div[2]/div/div[2]/div/div/ul/li[11]/a").click()
-        #self.assertFalse(u"9А клас", driver.\
-                       #find_element_by_xpath("//a[contains(.,'9А клас')]"))
 
     def test25_class_with_correct_name_supervisor(self):
-        """ 
-        Test 25 Checks class addition with correct name and supervisor teacher 
+        """
+        Test 25 Checks class addition with correct name and supervisor teacher
         """
         driver = self.driver
         driver.find_element_by_xpath(
@@ -364,9 +361,9 @@ class ClassAddition(TestPreparations):
 
 
     def test26_class_with_correct_name_different_supervisors(self):
-        """ 
+        """
         Test 26 Checks class addition with same class name and different
-        supervisors 
+        supervisors
         """
         driver = self.driver
         driver.find_element_by_xpath(
@@ -377,7 +374,6 @@ class ClassAddition(TestPreparations):
         class_name = driver.find_element_by_id("inputName")
         class_name.clear()
         class_name.send_keys(u"4Р")
-        #Select(driver.find_element_by_id("selectTeacher")).select_by_value('2')
         driver.find_element_by_id("add_button").click()
         driver.find_element_by_xpath(
                 "html/body/div[2]/div/div[2]/div/div/ul/li[4]/a").click()
@@ -392,9 +388,9 @@ class ClassAddition(TestPreparations):
                         "//span[contains(.,'Клас з такою назвою вже існує')]"))
 
     def test27_frame_contains_fields_buttons(self):
-        """ 
+        """
         Test 27 Checks if the frame to add class contains fields and
-        buttons 
+        buttons
         """
         driver = self.driver
         driver.find_element_by_xpath(
@@ -409,19 +405,12 @@ class ClassAddition(TestPreparations):
         self.assertTrue("Відмінити", driver.find_element_by_xpath(
                             "html/body/div[3]/div/div/form/div[3]/a").text)
 
-
     def tearDown(self):
-        """ 
-        Fixture that deletes all preparation for tests and restores original 
+        """
+        Fixture that deletes all preparation for tests and restores original
         data
         """
         super(ClassAddition, self).tearDown()
 
 if __name__ == "__main__":
-    TestPrepTemplate.prepare_db()
-    try:
-        unittest.main(verbosity=2)
-    finally:
-        print(TestPrepTemplate.prepare_db(action='tearDown'))
-
-
+    unittest.main(verbosity=2)

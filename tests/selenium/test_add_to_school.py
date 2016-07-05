@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
-""" 
-Tests for addition teacher or director to school on Selenium WebDriver 
+"""
+Tests for addition teacher or director to school on Selenium WebDriver
 """
 
 import unittest
@@ -8,12 +8,11 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
-from tpt import TestPrepTemplate
 
 
 class TestAdditionToSchool(unittest.TestCase):
 
-    """ 
+    """
     Class with tests for testing the addition teacher or director to school
     """
 
@@ -29,37 +28,37 @@ class TestAdditionToSchool(unittest.TestCase):
     }
 
     def setUp(self):
-        """ 
-        Fixture that creates all the preparations for tests 
+        """
+        Fixture that creates all the preparations for tests
         """
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
         self.driver.maximize_window()
-        self.driver.get(self.baseurl_team)
+        self.driver.get(self.baseurl)
         self.driver.find_element_by_xpath(self.xpaths['inputUsername']).\
-                    send_keys(self.username)
+            send_keys(self.username)
 
         self.driver.find_element_by_xpath(self.xpaths['inputPassword']).\
-                    send_keys(self.password)
+            send_keys(self.password)
 
         self.driver.find_element_by_tag_name(
             self.xpaths['submitButtonLogin']).click()
 
     def tearDown(self):
-        """ 
-        Fixture that deletes all the preparations for tests 
+        """
+        Fixture that deletes all the preparations for tests
         """
         self.driver.quit()
 
     def test01_change_director_teacher_same_school(self):
-        """ 
+        """
         Test 1 Changes role from the director to the teacher of the same
-        school 
+        school
         """
         driver = self.driver
         driver.find_element_by_link_text(u'Викладачі').click()
         select_teacher1 = Select(driver.find_element_by_xpath(
-                                '//*[@id="9"]/td[3]/select'))
+                          '//*[@id="9"]/td[3]/select'))
         select_teacher1.select_by_value('3')
         select_teacher2_value = driver.find_element_by_xpath(
                                 '//*[@id="10"]/td[3]/select').\
@@ -72,9 +71,9 @@ class TestAdditionToSchool(unittest.TestCase):
                          get_attribute('value'), '')
 
     def test02_change_teacher_director_same_school(self):
-        """ 
+        """
         Test 2 Changes role from the teacher to the director of the same
-        school 
+        school
         """
         driver = self.driver
         driver.find_element_by_link_text(u'Викладачі').click()
@@ -92,9 +91,9 @@ class TestAdditionToSchool(unittest.TestCase):
                          u'Григорук Олег Степанович')
 
     def test03_change_teacher_director_same_school_with_another_director(self):
-        """ 
+        """
         Test 3 Changes role from the teacher to the director of the same
-        school when there exist another director (teachers_list page) 
+        school when there exist another director (teachers_list page)
         """
         driver = self.driver
         driver.find_element_by_link_text(u'Викладачі').click()
@@ -108,9 +107,9 @@ class TestAdditionToSchool(unittest.TestCase):
                          u'Аношко Петро Микитович')
 
     def test04_change_teacher_director_with_another_director(self):
-        """ 
+        """
         Test 4 Changes role to the director of the school when there
-        exist another director (schools_list page) 
+        exist another director (schools_list page)
         """
         driver = self.driver
         select_school = Select(driver.find_element_by_xpath(
@@ -127,9 +126,9 @@ class TestAdditionToSchool(unittest.TestCase):
                          get_attribute('value'), u'2')
 
     def test05_add_teacher_school_was_not_connected(self):
-        """ 
+        """
         Test 5 Add the teacher to school when he wasn't connected to any
-        school 
+        school
         """
         driver = self.driver
         driver.find_element_by_link_text(u'Викладачі').click()
@@ -139,13 +138,12 @@ class TestAdditionToSchool(unittest.TestCase):
         driver.find_element_by_link_text(u'Навчальні заклади').click()
         select_school = Select(driver.find_element_by_xpath(
                         '//*[@id="1"]/td[3]/select'))
-        #print [option.text for option in select_school.options]
         self.assertIn(u'Панасюк Ігор Микитович',
                      [option.text for option in select_school.options])
 
     def test06_change_school_when_director_in_another(self):
-        """ 
-        Test 6 Change school when he was the director in another 
+        """
+        Test 6 Change school when he was the director in another
         """
         driver = self.driver
         driver.find_element_by_link_text(u'Викладачі').click()
@@ -162,8 +160,8 @@ class TestAdditionToSchool(unittest.TestCase):
                      [option.text for option in select_school.options])
 
     def test07_change_director_to_absent(self):
-        """ 
-        Test 7 Change role from the director to Відсутній 
+        """
+        Test 7 Change role from the director to Відсутній
         """
         driver = self.driver
         select_school = Select(driver.find_element_by_xpath(
@@ -176,8 +174,8 @@ class TestAdditionToSchool(unittest.TestCase):
                          get_attribute('value'), u'3')
 
     def test08_create_teacher_add_form(self):
-        """ 
-        Test 8 Create the teacher to school using add form 
+        """
+        Test 8 Create the teacher to school using add form
         """
         driver = self.driver
         driver.find_element_by_link_text(u'Викладачі').click()
@@ -199,8 +197,8 @@ class TestAdditionToSchool(unittest.TestCase):
                      [option.text for option in select_school.options])
 
     def test09_change_school_for_teacher_in_another(self):
-        """ 
-        Test 9 Change school when he was the teacher in another 
+        """
+        Test 9 Change school when he was the teacher in another
         """
         driver = self.driver
         driver.find_element_by_link_text(u'Викладачі').click()
@@ -218,8 +216,5 @@ class TestAdditionToSchool(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    TestPrepTemplate.prepare_db()
-    try:
-        unittest.main(verbosity=2)
-    finally:
-        TestPrepTemplate.prepare_db(action='tearDown')
+    unittest.main(verbosity=2)
+
